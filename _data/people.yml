@@ -1,0 +1,79 @@
+patrick:
+    last_name: Stuedi
+    first_name: Patrick
+    display_name: "Patrick Stuedi"
+    webpage: "http://researcher.watson.ibm.com/researcher/view.php?person=zurich-stu"
+    #picture: img/patrick.jpg
+    role: active
+    #bio: |
+    #     I'm a member of the research staff at IBM research Zurich. My research interests are in distributed systems, networking and operating systems. I graduated with a PhD from ETH Zurich in 2008 and spent two years (2008-2010) as a Postdoc at Microsoft Research Silicon Valley.
+
+animesh:
+   last_name: Trivedi
+   first_name: Animesh
+   display_name: "Animesh Trivedi"
+   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-atr
+   role: active
+
+jonas:
+   last_name: Pfefferle
+   first_name: Jonas
+   display_name: "Jonas Pfefferle"
+   webpage:
+   role: active
+#   picture:
+#   bio:
+
+nikolas:
+   last_name: Ioannou
+   first_name: Nikolas
+   display_name: "Nikolas Ioannou"
+   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-NIO
+   role: active
+#   picture:
+#   bio:
+
+radu:
+   last_name: Stoica
+   first_name: Radu
+   display_name: "Radu Stoica"
+   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-RST
+   role: active
+#   picture:
+#   bio:
+
+ioannis:
+   last_name: Koltsidas
+   first_name: Ioannis
+   display_name: "Ioannis Koltsidas"
+   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-iko
+   role: active
+#   picture:
+#   bio:
+
+bernard:
+   last_name: Metzler
+   first_name: Bernard
+   display_name: "Bernard Metzler"
+   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-BMT
+   role: active
+#   picture:
+#   #   bio:
+
+thomas:
+   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-TWE
+   last_name: Weigold
+   first_name: Thomas
+   display_name: "Thomas Weigold"
+   role: active
+#  picture:
+#  bio:
+
+test:
+   webpage:
+   last_name: 
+   first_name: 
+   display_name: "Former intern"
+   role: alum
+#  picture:
+#  bio:
