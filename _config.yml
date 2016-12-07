@@ -1,5 +1,5 @@
 name: The Crail Project
-url: https://patrickstuedi.github.io/blog3
+url: https://zrlio.github.io/crail-project
 
 exclude: [bibble, README.md, Makefile, screenshot.png]
 
@@ -36,7 +36,7 @@ roles:
 front_page_news: 5
 
 # Base pathname for links.
-base: 'https://patrickstuedi.github.io/blog3'
+base: 'https://zrlio.github.io/crail-project'
 
 
 # gem dependencies
