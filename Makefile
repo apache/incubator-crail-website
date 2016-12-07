@@ -18,7 +18,7 @@ _site/index.html: $(wildcard *.html) _config.yml _layouts/default.html
 clean:
 	$(RM) -r _site 
 
-HOST := yourwebpage.com
+HOST := https://zrlio.github.io/crail-project
 PATHSVR := www/
 deploy: clean all
 	rsync --compress --recursive --checksum --itemize-changes --delete -e ssh _site/ $(HOST):$(PATHSVR)
