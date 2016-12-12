@@ -11,9 +11,7 @@ title: People
         {% for person in people %} 
              <dt class="person">
              {% if person.image %}
-                 <figure>
-                   <img class="img-circle" src="{{ site.base }}/{{ person.image }}" alt=" {{ person.name }} " style="height:100px;">
-                 </figure>
+                   <img class="img-circle" src="{{ site.base }}/{{ person.image }}" alt=" {{ person.name }} " style="height:75px;">
              {% endif %} 
              </dt>
              <dd class="person">
