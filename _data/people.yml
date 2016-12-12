@@ -5,8 +5,7 @@ patrick:
     webpage: "http://researcher.watson.ibm.com/researcher/view.php?person=zurich-stu"
     image: img/patrick.jpg
     role: active
-    bio: |
-         I'm a member of the research staff at IBM research Zurich. My research interests are in distributed systems, networking and operating systems. I graduated with a PhD from ETH Zurich in 2008 and spent two years (2008-2010) as a Postdoc at Microsoft Research Silicon Valley.
+#    bio: |
 
 animesh:
    last_name: Trivedi
