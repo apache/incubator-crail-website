@@ -11,7 +11,9 @@ title: People
         {% for person in people %} 
              <dt class="person">
              {% if person.image %}
+                   {% if person.webpage %} <a href="{{ person.webpage |escape }}"> {% endif %}
                    <img class="img-circle" src="{{ site.base }}/{{ person.image }}" alt=" {{ person.name }} " style="height:75px;">
+                   {% if person.webpage %} </a> {% endif %}
              {% endif %} 
              </dt>
              <dd class="person">
