@@ -7,27 +7,19 @@ title: People
     {% assign people = (site.data.people | where: "role", role.key) | sort: "last_name" %} 
     {% if people != empty %}
         <h3>{{ role.name }}</h3>
-        <dl class="people">
+        <dl class="people">         
         {% for person in people %} 
              <dt class="person">
-             {% if person.picture %}
+             {% if person.image %}
                  <figure>
-                   <img src="{{ site.base }}/{{ person.picture }}" alt=" {{ person.name }} " style="height:100px;">
-                   <figcaption>
+                   <img class="img-circle" src="{{ site.base }}/{{ person.image }}" alt=" {{ person.name }} " style="height:100px;">
+                 </figure>
              {% endif %} 
-             {% if person.webpage %}
-               <a href="{{ person.webpage |escape }}">
-             {% endif %}
-             {{ person.display_name }}
-             {% if person.webpage %}
-               </a>
-             {% endif %}
-             {% if person.picture %}
-               </figcaption>
-               </figure>
-             {% endif %}
              </dt>
              <dd class="person">
+                {% if person.webpage %} <a href="{{ person.webpage |escape }}"> {% endif %}
+                <h4> {{ person.display_name }} </h4>
+                {% if person.webpage %} </a> {% endif %}
                {% if person.bio %}
                   {{ person.bio | markdownify }}
                {% endif %}

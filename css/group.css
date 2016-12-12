@@ -99,30 +99,30 @@ body {
 }
 
 /* People list */
-/*
+
 dl.people dl {
   width: 100%;
-  overflow: hidden;
-  padding: 0;
-  margin: 0
-  margin-bottom: 5em;
+  clear: both;
+  overflow: hidden; 
 }
 
-dl.people dd {
+dl.people dt {
+  clear: both;
   float: left;
-  width: 80%;
+  content: " ";
+  width: 20%;
   padding: 0;
   margin-bottom: 1em;
 }
 
-dl.people dt {
-  float: left;
-  width: 20%;
-  padding: 0;
-  margin: 0
-  margin-bottom: 5em;
+dl.people dd {
+  width: 80%; 
+  margin-left: 0; 
+  min-height: 7.5em;
+  margin-bottom: 1em;
 }
-*/
+
+
 
 /* Front page news. */
 ul.news .date {
