@@ -165,11 +165,9 @@ ul.double-col li {
     height: auto;
     display: inline;
     vertical-align: middle;
-    width: 50%;
+    width: 100%;
     margin: .5rem 0rem;
     float: left;
-    /*display: table; */
-    /*display: table-cell; */
 }
 
 .col-md-8 {
