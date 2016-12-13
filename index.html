@@ -9,9 +9,10 @@ Crail is a open source user-level I/O architecture for the Apache data processin
   </p>
 </div>
 
-<h2>What is Crail?</h2>
+<h2>Overview</h2>
 
-Crail is a new userspace I/O architecture for the Apache data processing ecosystem (Spark, Hadoop, Flink, etc.) based on the Crail distributed file system. The Crail file system and its higher level components (e.g., shuffle engine, SQL operators, etc.) are designed from ground up for fast storage (DRAM, Flash/NVMe) and networking hardware (40-100Gbps, RDMA, etc).
+The bedrock of the Crail I/O architecture is CrailFS, a file system implemented across a set of RDMA interconnected storage resources such as DRAM, flash, GPU memory, etc. 
+
 
 <br><br>
 <div>
