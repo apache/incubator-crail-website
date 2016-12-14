@@ -11,7 +11,13 @@ Crail is a open source user-level I/O architecture for the Apache data processin
 
 <h2>Overview</h2>
 
-The bedrock of the Crail I/O architecture is CrailFS, a file system implemented across a set of RDMA interconnected storage resources such as DRAM, flash, GPU memory, etc. 
+The bedrock of the Crail I/O architecture is CrailFS, a high-performance distributed data store for temporary data in analytics workloads. CrailFS implements a multi-tiered file system interface across a cluster of RDMA interconnected storage resources such as DRAM, fash, GPU memory, etc. CrailFS has several unique properties that allow data processing frameworks to fully leverage the potential of modern storage and networking hardware:
+
+<ul>
+  <li>User-level I/O: overheads of the many software layers of today's big data processing stacks prevent the performance of modern I/O hardware to surface at the application level. CrailFS is built explictly for user-level I/O (RDMA, NVMef) allowing storage and networking hardware to directly access the I/O memory within the data processing runtime. Bypassing OS, JVM, etc. permits delivering bare-metal I/O performance to analytics workloads.</li>
+  <li>Byte-addressable: modern storage media such as flash or PCM offer fine grained byte-addressable storage access. In CrailFS, storage resources (DRAM, flash) are treated as byte-addressable memories, which results in very efficient random access performance.</li>
+  <li>Storage-tiering: modern network interconnects and fabrics offer microsecond latencies and dozens of Gb/s throughput within a cluster, breaking with the traditional assumptions about data locality. CrailFS exploits fast networks by implementing horizontal storage tiering. With horizontal tiering, higher performing storage resources are filled up across the entire cluster prior to using lower performing resources, resulting in a more effective usage of storage.</li>
+</ul>
 
 
 <br><br>
