@@ -9,20 +9,23 @@ Crail is a open source user-level I/O architecture for the Apache data processin
   </p>
 </div>
 
+<br><br>
 <div>
 <center>
 <img src="{{ site.base }}/img/crail_stack.png" align="middle" style="width: 350px; text-align:center;">
 </center>
 </div>
+<br>
 
-
-The bedrock of the Crail I/O architecture is CrailFS, a high-performance distributed data store for temporary data in analytics workloads. CrailFS implements a multi-tiered file system interface across a cluster of RDMA interconnected storage resources such as DRAM, fash, GPU memory, etc, incorporating several unique properties:
+The bedrock of the Crail I/O architecture is CrailFS, a high-performance distributed data store for temporary data in analytics workloads. CrailFS implements a multi-tiered file system interface across a cluster of RDMA interconnected storage resources such as DRAM, flash, GPU memory, etc, incorporating several unique properties:
 
 <ul style="list-style-type: disc">
   <li><b>User-level I/O</b>: CrailFS is built explictly for user-level I/O (RDMA, NVMef) allowing storage and networking hardware to directly access I/O memory within the data processing engine. Bypassing OS, JVM, etc. permits delivering bare-metal I/O performance to analytics workloads.</li>
   <li><b>Byte-addressable</b>: Storage resources (DRAM, flash) are treated as byte-addressable memories, which results in very efficient random access performance.</li>
   <li><b>Storage-tiering</b>: CrailFS exploits fast networks by implementing horizontal storage tiering. With horizontal tiering, higher performing storage resources are filled up across the entire cluster prior to using lower performing resources, resulting in a more effective usage of storage.</li>
 </ul>
+
+CrailFS can serve as a source/sink for input/output data of analytics workloads through its HDFS adaptor. CrailFS also serves as a high-performance data store for some of the performance critical data operations such as shuffle or broadcast data. Crail specific implementations of these operations are part of dedicated modules. As an example, Spark-IO implements a high-performance shuffle engine for Spark using Crail. 
 
 <h2>News</h2>
 <ul class="news list-unstyled">
