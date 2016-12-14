@@ -27,7 +27,9 @@ The backbone of the Crail I/O architecture is CrailFS, a high-performance distri
   <li><b>Horizontal tiering</b>: CrailFS exploits fast networks by implementing horizontal storage tiering. With horizontal tiering, higher performing storage resources are filled up across the entire cluster prior to using lower performing resources, resulting in a more effective usage of storage.</li>
 </ul>
 
+<p align="justify">
 CrailFS can serve as a source/sink for input/output data of analytics workloads through its HDFS adaptor. CrailFS also serves as a high-performance data store for some of the performance critical data operations such as shuffle or broadcast. Crail specific implementations of these operations are part of dedicated modules. As an example, Spark-IO implements a high-performance shuffle engine for Spark using Crail. 
+</p>
 
 <h2>News</h2>
 <ul class="news list-unstyled">
