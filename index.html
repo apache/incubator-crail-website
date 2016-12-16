@@ -4,32 +4,34 @@ title: Overview
 notitle: true
 ---
 <div class="jumbotron">
-  <p>
-Crail is an open source user-level I/O architecture for the Apache data processing ecosystem designed from ground up for high-performance storage and networking hardware (40-100Gbps RDMA, flash, GPUs, etc)
-  </p>
+<h4>"Crail is an open source user-level I/O architecture for the Apache data processing ecosystem designed from ground up for high-performance storage and networking hardware"</h4>
 </div>
 
 <br>
 <div>
 <center>
-<img src="{{ site.base }}/img/crail_stack.png" align="middle" style="width: 350px; text-align:center;">
+<img src="{{ site.base }}/img/crail_stack.png" align="middle" style="width: 370px; text-align:center;">
 </center>
 </div>
 <br>
 
-<p align="justify">
-The backbone of the Crail I/O architecture is CrailFS, a high-performance distributed data store for temporary data in analytics workloads. CrailFS implements a multi-tiered file system interface across a cluster of RDMA interconnected storage resources such as DRAM, flash, GPU memory, etc. It incorporates several unique properties:
-</p>
-
-<ul style="list-style-type: disc" align="justify">
-  <li><b>User-level I/O</b>: CrailFS is built explictly for user-level I/O (RDMA, NVMef) allowing storage and networking hardware to directly access I/O memory within the data processing engine. Bypassing OS, JVM, etc. permits delivering bare-metal I/O performance to analytics workloads.</li>
-  <li><b>Byte-addressable</b>: Storage resources (DRAM, flash) are treated as byte-addressable memories, which results in very efficient random access performance.</li>
-  <li><b>Horizontal tiering</b>: CrailFS exploits fast networks by implementing horizontal storage tiering. With horizontal tiering, higher performing storage resources are filled up across the entire cluster prior to using lower performing resources, resulting in a more effective usage of storage.</li>
-</ul>
-
-<p align="justify">
-CrailFS can serve as a source/sink for input/output data of analytics workloads through its HDFS adaptor. CrailFS also serves as a high-performance data store for some of the performance critical data operations such as shuffle or broadcast. Crail specific implementations of these operations are part of dedicated modules. As an example, Spark-IO implements a high-performance shuffle engine for Spark using Crail. 
-</p>
+<div class="row">
+<div class="col-lg-4">
+<h2>Open</h2>
+<p align="justify">Crail is open source and integrates seamlessly with the Apache ecosystem, such as Spark, Flink, Parquet, etc. Crail is based on CrailFS, a high-performance distributed data store for temporary data, and a series of modules interfacing with the compute engine. Crail modules provide standard interfaces (e.g. HDFS) or can be loaded transparently at runtime (e.g., CrailShuffle).</p>
+<p><a class="btn btn-default" href="overview.html#architecture">Learn more &raquo;</a></p>
+</div>
+<div class="col-lg-4">
+<h2>Fast</h2>
+<p align="justify">Crail is built explictly for user-level I/O (RDMA, NVMef) allowing storage and networking hardware to directly access I/O memory within the data processing engine. Bypassing OS, JVM, etc. permits delivering bare-metal I/O performance to analytics workloads. For instance, read and write throughput very close the 100Gb/s network line speed are possible with latencies in the order of 5-10 microseconds.</p>
+<p><a class="btn btn-default" href="overview.html#architecture">Learn more &raquo;</a></p>
+</div>
+<div class="col-lg-4">
+<h2>Heterogenous</h2>
+<p align="justify">Crail orchestrates I/O operations across different storage tiers including DRAM, flash or GPU memory. Aside from providing fine grained control as to which storage tier is used when storing data, Crail also supports horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware.</p>
+<p><a class="btn btn-default" href="overview.html#architecture">Learn more &raquo;</a></p>
+</div>
+</div>
 
 <h2>News</h2>
 <ul class="news list-unstyled">
