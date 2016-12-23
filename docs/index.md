@@ -1,8 +1,110 @@
 ---
 layout: default
-title: Crail overview
+title: I/O Challenges
 ---
 
-### An Exciting project
-Our research is awesome.
+<div style="text-align: justify"> 
+<p>
+Modern storage and network technologies such as 100Gb/s Ethernet, RDMA, NVMe flash, etc., present new opportunities for data processing systems to further reduce the response times of analytics queries on large data sets. Unfortunately, leveraging modern hardware in systems like Spark, Flink or Hadoop remains challenging, for multiple reasons:
+</p>
+</div>
 
+* Performance: today's data processing stacks employ many software layers, which is key to making the stacks modular and flexible to use. But the software layers also impose overheads during I/O operations that prevent applications from enjoying the full potential of the high-performance hardware. To eliminate these overheads, I/O operations must interact with the hardware directly from user-space using principles like RDMA, DPDK or SPDK.
+
+* New opportunities: the performance of modern network interconnects and storage hardware in terms of latency and throughput, opens door for new ways to orchestrate computation and I/O in a distributed data processing system. As an example, because of remote data access becoming 'cheaper', schedulers may want to relax on data locality. At one extreme, faster interconnects may permit storage resources to be disaggregated more effectively.
+
+* Heterogeneity: with modern hardware I/O has become more complex. Not only are there more options to store data (disk, flash, DRAM, disaggregated storage, etc.) but also it is getting increasingly important to use storage effectively. For  instance, some newer technologies such as PCM permit data access at the byte granularity. Mediating storage access through a block device interface is a bad fit in such a case. Then, with accelerators like GPUs or FPGAs extending the traditional compute layer, access to accelearator-local memory needs to be re-thought as well.
+
+In the [Blog](https://patrickstuedi.github.io/website/blog) section we discuss each of those challenges in more detail.
+
+## Crail Architecture
+
+<div style="text-align: justify"> 
+<p>
+Crail aims at providing a comprehensive solution to the above challenges in a form that is non-intrusive and compatible with the Apache data processing ecosystem. In particular, Crail is designed to be consumeable by different compute engines such as Spark, Flink, Solr, etc, with very little integration effort. 
+</p>
+</div>
+
+<h3>Overview</h3>
+
+<div style="text-align: justify">
+<p>
+The backbone of the Crail I/O architecture is the Crail Distributed File System (CrailFS), a high-performance multi-tiered data store for temporary data in analytics workloads. Data processing frameworks and workloads may directly interact with CrailFS for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use CrailFS the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. Spark2Crail is a Spark specific module implementing various I/O operations such as shuffle, broadcast, etc. Both CrailHDFS and Spark2Crail can be used transparently with no need to recompile either the application or the data processing framework. 
+</p>
+</div>
+<br>
+<img src="https://patrickstuedi.github.io/website/docs/architecture.png" width="500" align="middle">
+<br><br>
+<div style="text-align: justify">
+<p>
+Crail modules are thin layers on top of CrailFS and implementing new modules for a particular data processing framework or a specific I/O operation requires only a moderate amount of work. At the same time, modules inherit the full benefits of CrailFS in terms of user-level I/O, performance and storage tiering. In the Blog section we show that Spark2Crail permits all-to-all data shuffling very close to the speed of the 100Gb/s network fabric. 
+</p>
+</div>
+
+<h3>Crail Distributed File System</h3>
+
+<div style="text-align: justify">
+<p>
+CrailFS implements a file system namespace across a cluster of RDMA interconnected storage resources such as DRAM or flash. 
+Storage resources may be co-located with the compute nodes of the cluster, or disagreggated inside the data center, or a mix of both. Files in the Crail namespace consist of arrays of blocks distributed across storage resources in the cluster. Crail groups storage resources into different tiers (e.g, disk, flash, DRAM) and permits files to be created in specific tiers but also across tiers. For instance, by default Crail uses horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware.
+</p>
+</div>
+
+<br>
+<img src="https://patrickstuedi.github.io/website/docs/filesystem.png" width="700" align="middle">
+<br><br>
+
+<div style="text-align: justify">
+<p>
+Access to storage resources over the network -- as happening during file read/write operations -- are implemented using RDMA. For instance, accesses to blocks residing in the DRAM tier are implemented using one-sided read/write RDMA operations. With one-sided operations the storage nodes remain completely passive, thus, not are not wasting any CPU cycles for I/O. At the same time, the client benefits from zero-copy data placements, freeing CPU cycles that would otherwise be used for memory copying, context switching etc. One-sided operations are also very effective in reading or writing subranges of a storage block as they only ship over the network the actual data that is read or written, instead of shipping the entire block. 
+</p>
+<p>
+In Crail, storage tiers are actual plugins. A storage tier defines the type of storage and network hardware it supports. For instance, the disaggregated flash tier supports shared flash storage accessed through a iSER (iSCSI over RDMA), versus, the upcoming NVMef storage will be supporting NVMe flash access over RDMA fabrics. 
+</p>
+</div>
+<br>
+<img src="https://patrickstuedi.github.io/website/docs/tiering.png" width="650" align="middle">
+<br><br>
+<div style="text-align: justify">
+<p>
+Files in Crail are append-and-overwrite with a single-writer per file at a given time. File write ownership is granted in the form of leases that expire if not used. Generally, all the read/write operations are asynchronous, facilitating interleaving of computation and networking during data processing. Crail also exports functions to allocate dedicated I/O buffers from a resuseable pool. Aside from the standard file system operations, Crail provides extra semantics providing detailed control as to which storage tier and location preference should be used when allocating storage resources for files. A simple example of a Crail write operation is shown below:
+</p>
+</div>
+    CrailConfiguration conf = new CrailConfiguration();
+    CrailFS fs = CrailFS.newInstance(conf);
+    CrailFile file = fs.createFile(filename, 0, 0).get().syncDir();
+    CrailOutputStream outstream = file.getDirectOutputStream();
+    ByteBuffer dataBuf = fs.allocateBuffer();
+    Future<DataResult> future = outputStream.write(dataBuf);
+    ...
+    future.get();
+<div style="text-align: justify">
+<p>
+Crail not only exports a Java API but it is written entirely in Java, which makes it easy to use and allows for a better integration with data processing frameworks like Spark, Flink, Hadoop, etc. 
+</p>
+</div>
+
+<h3>Crail HDFS Adapter</h3>
+
+The Crail HDFS adapter has two advantages. First, administrators can interact with Crail using the standard HDFS shell:
+
+    ./bin/crail fs -mkdir /test
+    ./bin/crail fs -ls /
+    ./bin/crail fs -copyFromLocal <path-to-local-file> 
+    ./bin/crail fs -cat /test/<file-name>
+
+Second, regular HDFS-based application will transparently work on Crail when using fully qualified path names:
+
+    Configuration conf = new Configuration();
+    FileSystem fs = FileSystem.get(conf);
+    fs.create("crail://test/hello.txt");
+    
+ <h3>Spark on Crail</h3>   
+ 
+The Spark/Crail module includes a Crail based shuffle engine as well as a broadcast implementation. The shuffle engine maps rey ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
+
+<br>
+<img src="https://patrickstuedi.github.io/website/docs/shuffle.png" width="550" align="middle">
+<br><br>
+
+As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering benefits of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. Moreover, the shuffle engine is completely zero-copy, transferring data directly from the I/O memory of the mappers and to the I/O memory of the reducers. 
