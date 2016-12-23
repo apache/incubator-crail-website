@@ -100,11 +100,27 @@ Second, regular HDFS-based application will transparently work on Crail when usi
     fs.create("crail://test/hello.txt");
     
  <h3>Spark on Crail</h3>   
- 
+
+<div style="text-align: justify">
+<p>
 The Spark/Crail module includes a Crail based shuffle engine as well as a broadcast implementation. The shuffle engine maps rey ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
+</p>
+</div>
 
 <br>
 <img src="https://patrickstuedi.github.io/website/docs/shuffle.png" width="550" align="middle">
 <br><br>
 
-As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering benefits of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. Moreover, the shuffle engine is completely zero-copy, transferring data directly from the I/O memory of the mappers and to the I/O memory of the reducers. 
+<div style="text-align: justify">
+<p>
+As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering benefits of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers and to the I/O memory of the reducers. 
+</p>
+</div>
+
+<div style="text-align: justify">
+<p>
+The Crail-based Broadcast broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. 
+</p>
+</div>
+
+
