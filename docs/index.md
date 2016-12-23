@@ -80,7 +80,7 @@ Files in Crail are append-and-overwrite with a single-writer per file at a given
     future.get();
 <div style="text-align: justify">
 <p>
-Crail not only exports a Java API but it is written entirely in Java, which makes it easy to use and allows for a better integration with data processing frameworks like Spark, Flink, Hadoop, etc. 
+Crail not only exports a Java API but it is written entirely in Java, which makes it easy to use and allows for a better integration with data processing frameworks like Spark, Flink, Hadoop, etc. Crail is based on <a href="https://github.com/zrlio/disni">DiSNI</a>, a user-level network and storage stack for the Java virtual machine. 
 </p>
 </div>
 
