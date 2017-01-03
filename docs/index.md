@@ -108,7 +108,7 @@ The Spark/Crail module includes a Crail based shuffle engine as well as a broadc
 </div>
 
 <br>
-<img src="http://crail.io/shuffle.png" width="550" align="middle">
+<img src="http://crail.io/docs/shuffle.png" width="550" align="middle">
 <br><br>
 
 <div style="text-align: justify">
