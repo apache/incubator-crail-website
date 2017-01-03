@@ -15,7 +15,7 @@ Modern storage and network technologies such as 100Gb/s Ethernet, RDMA, NVMe fla
 
 * Heterogeneity: with modern hardware I/O has become more complex. Not only are there more options to store data (disk, flash, DRAM, disaggregated storage, etc.) but also it is getting increasingly important to use storage effectively. For  instance, some newer technologies such as PCM permit data access at the byte granularity. Mediating storage access through a block device interface is a bad fit in such a case. Then, with accelerators like GPUs or FPGAs extending the traditional compute layer, access to accelearator-local memory needs to be re-thought as well.
 
-In the [Blog](https://patrickstuedi.github.io/website/blog) section we discuss each of those challenges in more detail.
+In the [Blog](http://crail.io/blog) section we discuss each of those challenges in more detail.
 
 ## Crail Architecture
 
@@ -33,7 +33,7 @@ The backbone of the Crail I/O architecture is the Crail Distributed File System 
 </p>
 </div>
 <br>
-<img src="https://patrickstuedi.github.io/website/docs/architecture.png" width="500" align="middle">
+<img src="http://crail.io/docs/architecture.png" width="500" align="middle">
 <br><br>
 <div style="text-align: justify">
 <p>
@@ -51,7 +51,7 @@ Storage resources may be co-located with the compute nodes of the cluster, or di
 </div>
 
 <br>
-<img src="https://patrickstuedi.github.io/website/docs/filesystem.png" width="700" align="middle">
+<img src="http://crail.io/docs/filesystem.png" width="700" align="middle">
 <br><br>
 
 <div style="text-align: justify">
@@ -63,7 +63,7 @@ In Crail, storage tiers are actual plugins. A storage tier defines the type of s
 </p>
 </div>
 <br>
-<img src="https://patrickstuedi.github.io/website/docs/tiering.png" width="650" align="middle">
+<img src="http://crail.io/docs/tiering.png" width="650" align="middle">
 <br><br>
 <div style="text-align: justify">
 <p>
@@ -108,7 +108,7 @@ The Spark/Crail module includes a Crail based shuffle engine as well as a broadc
 </div>
 
 <br>
-<img src="https://patrickstuedi.github.io/website/docs/shuffle.png" width="550" align="middle">
+<img src="http://crail.io/shuffle.png" width="550" align="middle">
 <br><br>
 
 <div style="text-align: justify">
