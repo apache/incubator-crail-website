@@ -118,7 +118,7 @@ As with the Crail HDFS adaptor, the shuffle engine benefits from the performance
 </div>
 
 <br>
-<img src="http://crail.io/docs/serializer.png" width="550" align="middle">
+<img src="http://crail.io/docs/serializer.png" width="450" align="middle">
 <br><br>
 
 <div style="text-align: justify">
