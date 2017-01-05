@@ -29,7 +29,7 @@ Crail aims at providing a comprehensive solution to the above challenges in a fo
 
 <div style="text-align: justify">
 <p>
-The backbone of the Crail I/O architecture is the Crail Distributed File System (CrailFS), a high-performance multi-tiered data store for temporary data in analytics workloads. Data processing frameworks and workloads may directly interact with CrailFS for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use CrailFS the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. Spark2Crail is a Spark specific module implementing various I/O operations such as shuffle, broadcast, etc. Both CrailHDFS and Spark2Crail can be used transparently with no need to recompile either the application or the data processing framework. 
+The backbone of the Crail I/O architecture is the Crail Distributed File System (CrailFS), a high-performance multi-tiered data store for temporary data in analytics workloads. Data processing frameworks and workloads may directly interact with CrailFS for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use CrailFS the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. SparkCrail is a Spark specific module implementing various I/O operations such as shuffle, broadcast, etc. Both CrailHDFS and SparkCrail can be used transparently with no need to recompile either the application or the data processing framework. 
 </p>
 </div>
 <br>
@@ -99,11 +99,11 @@ Second, regular HDFS-based application will transparently work on Crail when usi
     FileSystem fs = FileSystem.get(conf);
     fs.create("crail://test/hello.txt");
     
- <h3>Spark on Crail</h3>   
+ <h3>SparkCrail Module</h3>   
 
 <div style="text-align: justify">
 <p>
-The Spark/Crail module includes a Crail based shuffle engine as well as a broadcast implementation. The shuffle engine maps rey ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
+The SparkCrail module includes a Crail based shuffle engine as well as a broadcast implementation. The shuffle engine maps rey ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
 </p>
 </div>
 
