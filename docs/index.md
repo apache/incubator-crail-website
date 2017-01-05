@@ -123,14 +123,16 @@ The Crail-based Broadcast broadcast plugin for Spark stores broadcast variables 
 </p>
 </div>
 
-<br>
-<img src="http://crail.io/docs/serializer.png" width="550" align="middle">
-<br><br>
-
 <div style="text-align: justify">
 <p>
-Both, broadcast and shuffle components require Spark data objects to be serialized into byte streams (that is case also for the default Spark broadcast and shuffle components). Even though the Crail components work with any of the Spark built-in serializers (e.g. Kryo), these serializer come with their own buffering, thus, introducing additional data copies. Moreover, these serializers are designed to serialize arbitrary data types.
+Both, broadcast and shuffle components require Spark data objects to be serialized into byte streams (that is case also for the default Spark broadcast and shuffle components). Even though the Crail components work fine with any of the Spark built-in serializers (e.g. Kryo), to achieve the best possible performance applications running on Crail are encouraged to provide serialization and deserialization methods for their data types explicitly. One reason for this is that the built-in Spark serializers assume byte streams of type java.io.(InputStream/OutputStream). These stream types are less powerful than Crail streams. For instance, streams of type InputStream/OutputStream export a synchronous API and are restricted to on-heap memory. Crail streams, on the other hand, export an asynchronous API and integrate well with off-heap memory to reduce data copies. 
 </p>
 </div>
+
+<br>
+<img src="http://crail.io/docs/serializer.png" width="500" align="middle">
+<br><br>
+
+
 
 
