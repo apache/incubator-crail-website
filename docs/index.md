@@ -117,13 +117,19 @@ As with the Crail HDFS adaptor, the shuffle engine benefits from the performance
 </p>
 </div>
 
+<div style="text-align: justify">
+<p>
+The Crail-based Broadcast broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. 
+</p>
+</div>
+
 <br>
-<img src="http://crail.io/docs/serializer.png" width="450" align="middle">
+<img src="http://crail.io/docs/serializer.png" width="550" align="middle">
 <br><br>
 
 <div style="text-align: justify">
 <p>
-The Crail-based Broadcast broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. 
+Both, broadcast and shuffle components require Spark data objects to be serialized into byte streams (that is case also for the default Spark broadcast and shuffle components). Even though the Crail components work with any of the Spark built-in serializers (e.g. Kryo), these serializer come with their own buffering, thus, introducing additional data copies. Moreover, these serializers are designed to serialize arbitrary data types.
 </p>
 </div>
 
