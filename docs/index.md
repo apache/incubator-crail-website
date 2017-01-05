@@ -124,7 +124,7 @@ The Crail-based Broadcast broadcast plugin for Spark stores broadcast variables 
 </div>
 
 <br>
-<img src="http://crail.io/docs/serializer.png" width="500" align="middle">
+<img src="http://crail.io/docs/serializer.png" width="490" align="middle">
 <br><br>
 
 <div style="text-align: justify">
