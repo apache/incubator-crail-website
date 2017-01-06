@@ -33,7 +33,7 @@ The backbone of the Crail I/O architecture is the Crail Distributed File System 
 </p>
 </div>
 <br>
-<img src="http://crail.io/docs/architecture.png" width="500" align="middle">
+<img src="architecture.png" width="500" align="middle">
 <br><br>
 <div style="text-align: justify">
 <p>
