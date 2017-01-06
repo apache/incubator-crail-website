@@ -51,7 +51,7 @@ Storage resources may be co-located with the compute nodes of the cluster, or di
 </div>
 
 <br>
-<img src="http://crail.io/docs/filesystem.png" width="700" align="middle">
+<img src="filesystem.png" width="700" align="middle">
 <br><br>
 
 <div style="text-align: justify">
@@ -63,7 +63,7 @@ In Crail, storage tiers are actual plugins. A storage tier defines the type of s
 </p>
 </div>
 <br>
-<img src="http://crail.io/docs/tiering.png" width="650" align="middle">
+<img src="tiering.png" width="650" align="middle">
 <br><br>
 <div style="text-align: justify">
 <p>
@@ -108,7 +108,7 @@ The SparkCrail module includes a Crail based shuffle engine as well as a broadca
 </div>
 
 <br>
-<img src="http://crail.io/docs/shuffle.png" width="550" align="middle">
+<img src="shuffle.png" width="550" align="middle">
 <br><br>
 
 <div style="text-align: justify">
@@ -133,7 +133,7 @@ Both, broadcast and shuffle require Spark data objects to be serialized into byt
 </div>
 
 <br>
-<img src="http://crail.io/docs/serializer.png" width="490" align="middle">
+<img src="serializer.png" width="490" align="middle">
 <br><br>
 
 <div style="text-align: justify">
