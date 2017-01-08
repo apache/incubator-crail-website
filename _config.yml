@@ -4,12 +4,12 @@ url: http://crail.io
 exclude: [bibble, README.md, Makefile, screenshot.png]
 
 # use this library to parse Markdown
-markdown: kramdown
-highlighter: rouge
-exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
-port: 8888
-permalink: /blog/:title
-wpm: 150
+#markdown: kramdown
+#highlighter: rouge
+#exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
+#port: 8888
+#permalink: /blog/:title
+#wpm: 150
 
 #redcarpet:
 #    extensions: [smart, tables]
