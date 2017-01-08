@@ -175,3 +175,6 @@ ul.double-col li {
 .col-md-4 {
 }
 
+table, th, td {
+    border: 1px solid black;
+}
