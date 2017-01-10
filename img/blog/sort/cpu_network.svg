@@ -76,23 +76,39 @@
 	<path stroke='black'  d='M160.5,180.1 L183.0,180.1 M936.9,180.1 L914.4,180.1  h0.01'/>	<g transform="translate(139.5,191.3)" style="stroke:none; fill:black; font-family:Verdana; font-size:30.00pt; text-anchor:end">
 		<text>100</text>
 	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M315.8,456.0 L315.8,42.1  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<path stroke='black'  d='M315.8,456.0 L315.8,433.5 M315.8,42.1 L315.8,64.6  h0.01'/>	<g transform="translate(315.8,512.2)" style="stroke:none; fill:black; font-family:Verdana; font-size:30.00pt; text-anchor:middle">
 		<text>1</text>
 	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M471.1,456.0 L471.1,154.6 M471.1,64.6 L471.1,42.1  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<path stroke='black'  d='M471.1,456.0 L471.1,433.5 M471.1,42.1 L471.1,64.6  h0.01'/>	<g transform="translate(471.1,512.2)" style="stroke:none; fill:black; font-family:Verdana; font-size:30.00pt; text-anchor:middle">
 		<text>10</text>
 	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M626.3,456.0 L626.3,154.6 M626.3,64.6 L626.3,42.1  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<path stroke='black'  d='M626.3,456.0 L626.3,433.5 M626.3,42.1 L626.3,64.6  h0.01'/>	<g transform="translate(626.3,512.2)" style="stroke:none; fill:black; font-family:Verdana; font-size:30.00pt; text-anchor:middle">
 		<text>40</text>
 	</g>
+</g>
+<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M781.6,456.0 L781.6,42.1  h0.01'/></g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<path stroke='black'  d='M781.6,456.0 L781.6,433.5 M781.6,42.1 L781.6,64.6  h0.01'/>	<g transform="translate(781.6,512.2)" style="stroke:none; fill:black; font-family:Verdana; font-size:30.00pt; text-anchor:middle">
 		<text>100</text>
 	</g>
 	<path stroke='black'  d='M160.5,42.1 L160.5,456.0 L936.9,456.0 L936.9,42.1 L160.5,42.1 Z  h0.01'/>	<g transform="translate(44.2,249.1) rotate(270)" style="stroke:none; fill:black; font-family:Verdana; font-size:30.00pt; text-anchor:middle">
-		<text>[%]</text>
+		<text>Time [%]</text>
 	</g>
 	<g transform="translate(548.7,579.7)" style="stroke:none; fill:black; font-family:Verdana; font-size:30.00pt; text-anchor:middle">
-		<text>Network Speed [Gbps]</text>
+		<text>Network Bandwidth [Gbps]</text>
 	</g>
 </g>
 	<g id="gnuplot_plot_1" ><title>gnuplot_plot_1</title>
