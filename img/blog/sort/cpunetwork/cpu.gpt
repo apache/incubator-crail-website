@@ -1,0 +1,41 @@
+#set terminal pdf monochrome size 3.15,2.5
+#set term pdf truecolor size 4.15,1.7 font "Times-Roman, 12"
+#set term svg size 2000,800 font 'Verdana,40'
+#set term png size 1000,400 font "Times-Roman,24" 
+set term svg size 300,200 font 'Verdana,12'
+set output "cpu_network.svg"
+
+#set multiplot
+#set size 1.0,0.5
+#set origin 0,0.5
+set yrange [0:180]
+#set xrange [0:5]
+#set ytics 10
+set ylabel "Time [%]"
+set xlabel "Network Bandwidth [Gbps]"
+#set format x ""
+set grid
+#set grid ytics mytic
+set key top center
+
+set style line 1 lc rgb "#e41a1c" lw 4
+set style line 2 lc rgb "#377eb8" lw 4
+#set style line 3 lc rgb "#4dafa4" lw 4
+#set style line 4 lc rgb "#984ea3" lw 4
+#set style line 5 lc rgb "#ff7f00" lw 4
+#set style line 6 lc rgb "#ffff33" lw 4
+
+set style increment user  
+
+set style histogram rowstacked
+
+set xtics ("1" 0, "10" 1, "40" 2, "100" 3)
+set ytics ("0" 0, "20" 20, "40" 40, "60" 60, "80" 80, "100" 100)
+
+
+set style data histograms
+set style histogram rowstacked
+set boxwidth 0.8
+set style fill solid 1.0 
+plot 'cpu.dat' using 2 t "Network", '' using 3 t "CPU"
+
