@@ -129,7 +129,7 @@
 		<text>[Gbit/s]</text>
 	</g>
 	<g transform="translate(356.5,209.2)" style="stroke:none; fill:black; font-family:Verdana; font-size:16.00pt; text-anchor:middle">
-		<text>Task ID</text>
+		<text>Reduce Task ID</text>
 	</g>
 </g>
 	<g id="gnuplot_plot_1" ><title>gnuplot_plot_1</title>
