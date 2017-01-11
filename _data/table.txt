@@ -8,3 +8,5 @@
 | Network            |   100Gbit/s   |  100Gbit/s    |       10Gbit/s         |       100Gbit/s          |
 | Sorting rate       |  7.8 TB/min   |  1.4 TB/min   |      4.27 TB/min       |         44.78 TB/min     |
 | Sorting rate/core  |  3.13 GB/min  |  0.58 GB/min  |      0.66 GB/min       |          4.4 GB/min      |
+
+The natural follow-up question from these results is about a further breakdown that shows what part of the gains come from the Crail I/O, serializer and sorter. Such a breakdown cannot easily be obtained as in the built-in Spark shuffler these different phases are executed interleaved. 
