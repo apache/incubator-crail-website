@@ -224,6 +224,7 @@ To build Crail execute the following steps:
     cd spark-io
     cp target/spark-io-1.0-dist/jars $SPARK_HOME/jars/
 ```
+
 ## Configuration
 
 To configure the crail shuffle plugin included in spark-io add the following line to spark-defaults.conf
