@@ -3,12 +3,19 @@ layout: default
 title: Download Crail
 ---
 
+We currently do not provide binary releases. This page describes how to build the Crail I/O stack from source, and how to configure and deploy it. Building the stack is done in two steps:
+
+1. Build the Crail File System. This also includes the HDFS adaptor. 
+2. Build the framework specific components. Currently only the Spark I/O plugins are available. 
+
 ## Requirements
 
 * Java 8 or higher
 * RDMA-based network, e.g., Infiniband, iWARP, RoCE. There are two options to run Crail without RDMA networking hardware: (a) use SoftiWARP, (b) us the TCP/DRAM storage tier
 
-## Building 
+# Crail Distributed File System
+
+## Compilation
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
