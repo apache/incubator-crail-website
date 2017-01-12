@@ -184,26 +184,28 @@ table tr:nth-child(even) {
 }
 
 table tr:first-child th {
-  border-top: 0;
+  border-top: 1;
 }
 
 table tr:last-child td {
-  border-bottom: 0;
+  border-bottom: 1;
 }
 
 table tr td:first-child, table tr th:first-child {
-  border-left: 0;
+  border-left: 1;
 }
 
 table tr td:last-child, table tr th:last-child {
-  border-right: 0;
+  border-right: 1;
 }
 table, th {
     background-color: #F5F5F5;
+    border-color: lightgrey;
 }
 
 th, td {
     border: 0.75px solid grey;
     padding: 7px;
-    line-height: 24px;    
+    line-height: 24px;
+    border-color: lightgrey;
 }
