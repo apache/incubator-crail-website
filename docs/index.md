@@ -25,7 +25,7 @@ Crail aims at providing a comprehensive solution to the above challenges in a fo
 </p>
 </div>
 
-<h3>Overview</h3>
+<h3 id="overview">Overview</h3>
 
 <div style="text-align: justify">
 <p>
@@ -41,7 +41,7 @@ Crail modules are thin layers on top of CrailFS and implementing new modules for
 </p>
 </div>
 
-<h3>Crail Distributed File System</h3>
+<h3 id="fs">Crail Distributed File System</h3>
 
 <div style="text-align: justify">
 <p>
@@ -99,7 +99,7 @@ Second, regular HDFS-based application will transparently work on Crail when usi
     FileSystem fs = FileSystem.get(conf);
     fs.create("crail://test/hello.txt");
     
- <h3>SparkCrail Module</h3>   
+ <h3 id="spark">SparkCrail Module</h3>   
 
 <div style="text-align: justify">
 <p>
