@@ -1,4 +1,8 @@
 /* Space out content a bit */
+ html {
+    overflow:scroll;    
+} 
+
 body {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -35,7 +39,7 @@ body {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 767px;
   }
 }
 .container-narrow > hr {
