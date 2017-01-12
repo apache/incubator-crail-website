@@ -13,8 +13,6 @@ We currently do not provide binary releases. This page describes how to build th
 * Java 8 or higher
 * RDMA-based network, e.g., Infiniband, iWARP, RoCE. 
 
-<br>
-
 # 1. Crail Distributed File System
 
 ## Compilation
