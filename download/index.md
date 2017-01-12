@@ -11,7 +11,7 @@ We currently do not provide binary releases. This page describes how to build th
 ## Requirements
 
 * Java 8 or higher
-* RDMA-based network, e.g., Infiniband, iWARP, RoCE. There are two options to run Crail without RDMA networking hardware: (a) use SoftiWARP, (b) us the TCP/DRAM storage tier
+* RDMA-based network, e.g., Infiniband, iWARP, RoCE. 
 
 # Crail Distributed File System
 
