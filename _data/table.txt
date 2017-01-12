@@ -2,10 +2,10 @@
 |                    | Spark/Crail   | Spark/Vanilla |    Spark/Winner2014    | Tencent/Winner2016       |
 |--------------------|---------------|---------------|------------------------|--------------------------|
 | Data Size          |   12.8 TB     |      12.8 TB  |         100 TB         |            100 TB        |
-| Elapsed Time       |    98s        |       527s    |        1406s           |         98.8s            |
+| Elapsed Time       |    98 s       |       527 s   |        1406 s          |         98.8 s           |
 | Cores              |     2560      |     2560      |        6592            |         10240            |
 | Nodes              |    128        |   128         |         206            |           512            |
-| Network            |   100Gbit/s   |  100Gbit/s    |       10Gbit/s         |       100Gbit/s          |
+| Network            |   100 Gbit/sec|  100 Gbit/s   |       10 Gbit/s        |       100 Gbit/s         |
 | Sorting rate       |  7.8 TB/min   |  1.4 TB/min   |      4.27 TB/min       |         44.78 TB/min     |
 | Sorting rate/core  |  3.13 GB/min  |  0.58 GB/min  |      0.66 GB/min       |          4.4 GB/min      |
 
