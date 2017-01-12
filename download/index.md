@@ -13,7 +13,9 @@ We currently do not provide binary releases. This page describes how to build th
 * Java 8 or higher
 * RDMA-based network, e.g., Infiniband, iWARP, RoCE. 
 
-# Crail Distributed File System
+<br>
+
+# 1. Crail Distributed File System
 
 ## Compilation
 
@@ -208,7 +210,9 @@ This command issues 102400 read operations of 1MB each.
 
 The tool also contains benchmarks to read files randomly, or to measure the performance of opening files, etc.
 
-# Spark I/O Plugins
+<br>
+
+# 2. Spark I/O Plugins
 
 ## Compilation
 
