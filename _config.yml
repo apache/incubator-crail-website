@@ -47,13 +47,13 @@ navigation:
     - title: Home
       link: /
     - title: Overview
-      link: /docs/
+      link: /overview/
     - title: Blog
       link: /blog/
     - title: People
       link: /people.html
     - title: Documentation
-      link: /download/
+      link: /documentation/
 
 # jekyll-paginate
 paginate: 5
