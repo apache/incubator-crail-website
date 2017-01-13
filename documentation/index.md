@@ -215,8 +215,8 @@ To build Crail execute the following steps:
 5. Copy spark-io-1.0.jar as well as its dependencies to the Spark jars folder
 
 ```
-    cd spark-io
-    cp target/spark-io-1.0-dist/jars $SPARK_HOME/jars/
+cd spark-io
+cp target/spark-io-1.0-dist/jars $SPARK_HOME/jars/
 ```
 
 ### Configuration
