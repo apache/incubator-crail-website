@@ -5,9 +5,9 @@ title: GitHub Repositories
 
 We currently do not provide binary releases. This page describes how to build the Crail I/O stack from source, and how to configure and deploy it. Building the stack is done in two steps:
 
-* CrailFS: Crail File System and HDFS adaptor. 
-* Spark-IO: Spark specific plugins. 
-* Benchmarks: Currently only the sorting benchmark is available.
+* [CrailFS](https://github.com/zrlio/crail): Crail File System and HDFS adaptor. 
+* [Spark-IO](https://github.com/zrlio/spark-io): Spark specific plugins. 
+* [Benchmarks](https://github.com/zrlio/crail-terasort): Currently only the sorting benchmark is available.
 
 ## Building the Crail Distributed File System
 
