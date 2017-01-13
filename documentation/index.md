@@ -1,23 +1,15 @@
 ---
 layout: default
-title: Documentation
+title: GitHub Repositories
 ---
 
 We currently do not provide binary releases. This page describes how to build the Crail I/O stack from source, and how to configure and deploy it. Building the stack is done in two steps:
 
-1. Build the Crail File System. This also includes the HDFS adaptor. 
-2. Build the framework specific components. Currently only the Spark I/O plugins are available. 
+* CrailFS: Crail File System and HDFS adaptor. 
+* Spark-IO: Spark specific plugins. 
+* Benchmarks: Currently only the sorting benchmark is available.
 
-## Requirements
-
-* Java 8 or higher
-* RDMA-based network, e.g., Infiniband, iWARP, RoCE. 
-
-<br>
-
-# 1. Crail Distributed File System
-
-## Compilation
+## Building the Crail Distributed File System
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
@@ -30,7 +22,7 @@ To build Crail execute the following steps:
 
 Note: later, when deploying Crail, make sure libdisni.so is part of your LD_LIBRARY_PATH. The easiest way to make it work is to copy libdisni.so into crail-1.0/lib 
 
-## Configuration
+### Configuration
 
 To configure Crail use crail-site.conf.template as a basis and modify it to match your environment. 
 
@@ -66,11 +58,11 @@ Crail supports optimized local operations via memcpy (instead of RDMA) in case a
     crail.datanode.rdma.localmap          true
     crail.datanode.rdma.indexpath         /index
 
-## Deploying
+### Deployment
 
 For all deployments, make sure you define CRAIL_HOME on each machine to point to the top level Crail directory.
 
-### Starting Crail manually
+#### Starting Crail manually
 
 The simplest way to run Crail is to start it manually on just a handful nodes. You will need to start the Crail namenode, plus at least one datanode. To start the namenode execute the following command on the host that is configured to be the namenode:
 
@@ -89,7 +81,7 @@ This would start the shared storage datanode. Note that configuration in crail-s
 
     crail.datanode.types                  com.ibm.crail.datanode.rdma.RdmaDataNode,com.ibm.crail.datanode.blkdev.BlkDevDataNode
 
-### Larger deployments
+#### Larger deployments
 
 To run larger deployments start Crail using 
 
@@ -107,7 +99,7 @@ For this to work include the list of machines to start datanodes in conf/slaves.
 
 In this example, we are configuring a Crail cluster with 2 physical hosts but 3 datanodes and two different storage tiers.
 
-## Crail Shell
+### Crail Shell
 
 Crail provides an contains an HDFS adaptor, thus, you can interact with Crail using the HDFS shell:
 
@@ -139,7 +131,7 @@ For the Crail shell to work properly, the HDFS configuration in crail-1.0/conf/c
 
 Note that the Crail HDFS interface currently cannot provide the full performance of Crail due to limitations of the HDFS API. In particular, the HDFS `FSDataOutputStream` API only support heap-based `byte[]` arrays which requires a data copy. Moreover, HDFS operations are synchronous preventing efficient pipelining of operations. Instead, applications that seek the best performance should use the Crail interface directly, as shown next.
 
-## Programming against Crail
+### Programming against Crail
 
 The best way to program against Crail is to use Maven. Make sure you have the Crail dependency specified in your application pom.xml file:
 
@@ -183,14 +175,14 @@ Once the stream has been obtained, there exist various ways to write a file. The
 
 Reading files works very similar to writing. There exist various examples in com.ibm.crail.tools.CrailBenchmark.
 
-## Storage Tiers
+### Storage Tiers
 
 Crail ships with the RDMA/DRAM storage tier. Currently there are two additional storage tiers available in separate repos:
 
 * [Crail-Blkdev](https://github.com/zrlio/crail-blkdev)  is a storage tier integrating shared volume block devices such as disaggregated flash. 
 * [Crail-Netty](https://github.com/zrlio/crail-netty) is a DRAM storage tier for Crail that uses TCP, you can use it to run Crail on non-RDMA hardware. Follow the instructions in these repos to build, deploy and use these storage tiers in your Crail environmnet. 
 
-## Benchmarks
+### Benchmarks
 
 Crail provides a set of benchmark tools to measure the performance. Type
 
@@ -212,9 +204,7 @@ The tool also contains benchmarks to read files randomly, or to measure the perf
 
 <br>
 
-# 2. Spark I/O Plugins
-
-## Compilation
+## Building Spark I/O Plugins
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
@@ -229,7 +219,7 @@ To build Crail execute the following steps:
     cp target/spark-io-1.0-dist/jars $SPARK_HOME/jars/
 ```
 
-## Configuration
+### Configuration
 
 To configure the crail shuffle plugin included in spark-io add the following line to spark-defaults.conf
 ```
@@ -237,7 +227,7 @@ To configure the crail shuffle plugin included in spark-io add the following lin
 ```
 Since spark version 2.0.0, broadcast is no longer an exchangeable plugin, unfortunately. To use the crail broadcast plugin in Spark it has to be manually added to Spark's BroadcastManager.scala.
 
-## Running
+### Running
 
 For the Crail shuffler to perform best, applications are encouraged to provide an implementation of the `CrailShuffleSerializer` interface, as well as an implementation of the `CrailShuffleSorter` interface. Defining its own custom serializer and sorter for the shuffle phase not only allows the application to serialize and sort faster, but allows applications to directly leverage the functionality provided by the Crail input/output streams such as zero-copy or asynchronous operations. Custom serializer and sorter can be specified in spark-defaults.xml. For instance, [crail-terasort](https://github.com/zrlio/crail-terasort) defines the shuffle serializer and sorter as follows:
 
