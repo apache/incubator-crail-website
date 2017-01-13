@@ -46,7 +46,7 @@ gems: [jekyll-paginate, jekyll-feed, jekyll-gist]
 navigation:
     - title: Home
       link: /
-    - title: Documentation
+    - title: Overview
       link: /docs/
     - title: Blog
       link: /blog/
