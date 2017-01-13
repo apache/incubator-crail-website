@@ -202,8 +202,6 @@ This command issues 102400 read operations of 1MB each.
 
 The tool also contains benchmarks to read files randomly, or to measure the performance of opening files, etc.
 
-<br>
-
 ## Building Spark I/O Plugins
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
