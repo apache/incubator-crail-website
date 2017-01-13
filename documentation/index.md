@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Download Crail
+title: Documentation
 ---
 
 We currently do not provide binary releases. This page describes how to build the Crail I/O stack from source, and how to configure and deploy it. Building the stack is done in two steps:
