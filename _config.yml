@@ -52,7 +52,7 @@ navigation:
       link: /blog/
     - title: People
       link: /people.html
-    - title: Download
+    - title: Documentation
       link: /download/
 
 # jekyll-paginate
