@@ -223,7 +223,7 @@ To build Crail execute the following steps:
 
 To configure the crail shuffle plugin included in spark-io add the following line to spark-defaults.conf
 ```
-    spark.shuffle.manager		org.apache.spark.shuffle.crail.CrailShuffleManager
+spark.shuffle.manager		org.apache.spark.shuffle.crail.CrailShuffleManager
 ```
 Since spark version 2.0.0, broadcast is no longer an exchangeable plugin, unfortunately. To use the crail broadcast plugin in Spark it has to be manually added to Spark's BroadcastManager.scala.
 
@@ -232,7 +232,7 @@ Since spark version 2.0.0, broadcast is no longer an exchangeable plugin, unfort
 For the Crail shuffler to perform best, applications are encouraged to provide an implementation of the `CrailShuffleSerializer` interface, as well as an implementation of the `CrailShuffleSorter` interface. Defining its own custom serializer and sorter for the shuffle phase not only allows the application to serialize and sort faster, but allows applications to directly leverage the functionality provided by the Crail input/output streams such as zero-copy or asynchronous operations. Custom serializer and sorter can be specified in spark-defaults.xml. For instance, [crail-terasort](https://github.com/zrlio/crail-terasort) defines the shuffle serializer and sorter as follows:
 
 ```
-    spark.crail.shuffle.sorter     com.ibm.crail.terasort.sorter.CrailShuffleNativeRadixSorter
-    spark.crail.shuffle.serializer com.ibm.crail.terasort.serializer.F22Serializer
+spark.crail.shuffle.sorter     com.ibm.crail.terasort.sorter.CrailShuffleNativeRadixSorter
+spark.crail.shuffle.serializer com.ibm.crail.terasort.serializer.F22Serializer
 ```
 
