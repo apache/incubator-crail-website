@@ -56,10 +56,10 @@ Storage resources may be co-located with the compute nodes of the cluster, or di
 
 <div style="text-align: justify">
 <p>
-Access to storage resources over the network -- as happening during file read/write operations -- are implemented using RDMA. For instance, accesses to blocks residing in the DRAM tier are implemented using one-sided read/write RDMA operations. With one-sided operations the storage nodes remain completely passive, thus, not are not wasting any CPU cycles for I/O. At the same time, the client benefits from zero-copy data placements, freeing CPU cycles that would otherwise be used for memory copying, context switching etc. One-sided operations are also very effective in reading or writing subranges of a storage block as they only ship over the network the actual data that is read or written, instead of shipping the entire block. 
+Access to storage resources over the network -- as happening during file read/write operations -- are implemented using RDMA. For instance, accesses to blocks residing in the DRAM tier are implemented using one-sided read/write RDMA operations. With one-sided operations the storage nodes remain completely passive, thus, are not wasting any CPU cycles for I/O. At the same time, the client benefits from zero-copy data placements, freeing CPU cycles that would otherwise be used for memory copying, context switching etc. One-sided operations are also very effective in reading or writing subranges of a storage block as they only ship over the network the actual data that is read or written, instead of shipping the entire block. 
 </p>
 <p>
-In Crail, storage tiers are actual plugins. A storage tier defines the type of storage and network hardware it supports. For instance, the disaggregated flash tier supports shared flash storage accessed through a iSER (iSCSI over RDMA), versus, the upcoming NVMef storage will be supporting NVMe flash access over RDMA fabrics. 
+In Crail, storage tiers are actual plugins. A storage tier defines the type of storage and network hardware it supports. For instance, the disaggregated flash tier supports shared flash storage accessed through iSER (iSCSI over RDMA), versus, the upcoming NVMef storage will be supporting NVMe flash access over RDMA fabrics. 
 </p>
 </div>
 <br>
@@ -67,7 +67,7 @@ In Crail, storage tiers are actual plugins. A storage tier defines the type of s
 <br><br>
 <div style="text-align: justify">
 <p>
-Files in Crail are append-and-overwrite with a single-writer per file at a given time. File write ownership is granted in the form of leases that expire if not used. Generally, all the read/write operations are asynchronous, facilitating interleaving of computation and networking during data processing. Crail also exports functions to allocate dedicated I/O buffers from a resuseable pool. Aside from the standard file system operations, Crail provides extra semantics providing detailed control as to which storage tier and location preference should be used when allocating storage resources for files. A simple example of a Crail write operation is shown below:
+Files in Crail are append-and-overwrite with a single-writer per file at a given time. File write ownership is granted in the form of leases that expire if not used. Generally, all the read/write operations are asynchronous, facilitating interleaving of computation and networking during data processing. Crail also exports functions to allocate dedicated I/O buffers from a reuseable pool. Aside from the standard file system operations, Crail provides extra semantics providing detailed control as to which storage tier and location preference should be used when allocating storage resources for files. A simple example of a Crail write operation is shown below:
 </p>
 </div>
     CrailConfiguration conf = new CrailConfiguration();
@@ -103,7 +103,7 @@ Second, regular HDFS-based application will transparently work on Crail when usi
 
 <div style="text-align: justify">
 <p>
-The SparkCrail module includes a Crail based shuffle engine as well as a broadcast implementation. The shuffle engine maps rey ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
+The SparkCrail module includes a Crail based shuffle engine as well as a broadcast implementation. The shuffle engine maps key ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
 </p>
 </div>
 
@@ -113,13 +113,13 @@ The SparkCrail module includes a Crail based shuffle engine as well as a broadca
 
 <div style="text-align: justify">
 <p>
-As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering benefits of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers and to the I/O memory of the reducers. 
+As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering advantages of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers and to the I/O memory of the reducers. 
 </p>
 </div>
 
 <div style="text-align: justify">
 <p>
-The Crail-based Broadcast broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. Crail Shuffle and broadcast components can be enabled in Spark by setting the following system properties in spark-defaults.conf:
+The Crail-based Broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. Crail Shuffle and broadcast components can be enabled in Spark by setting the following system properties in spark-defaults.conf:
 </p>
 </div>
 
