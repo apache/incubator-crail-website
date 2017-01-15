@@ -107,7 +107,7 @@ Second, regular HDFS-based applications will transparently work with Crail when 
 
 <div style="text-align: justify">
 <p>
-The SparkCrail module includes a Crail based shuffle engine as well as a broadcast implementation. The shuffle engine maps key ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
+The SparkCrail module includes a Crail based shuffle engine as well as a broadcast service. The shuffle engine maps key ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
 </p>
 </div>
 
@@ -117,7 +117,7 @@ The SparkCrail module includes a Crail based shuffle engine as well as a broadca
 
 <div style="text-align: justify">
 <p>
-As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering advantages of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers and to the I/O memory of the reducers. 
+As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering advantages of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers to the I/O memory of the reducers. 
 </p>
 </div>
 
