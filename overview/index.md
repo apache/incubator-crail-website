@@ -97,7 +97,7 @@ The Crail HDFS adapter has two advantages. First, administrators can interact wi
     ./bin/crail fs -copyFromLocal <path-to-local-file> 
     ./bin/crail fs -cat /test/<file-name>
 
-Second, regular HDFS-based application will transparently work on Crail when using fully qualified path names:
+Second, regular HDFS-based applications will transparently work with Crail when using fully qualified path names (or when specifying Crail as the default Hadoop file system):
 
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);
