@@ -37,7 +37,7 @@ The backbone of the Crail I/O architecture is the Crail Distributed File System 
 <br><br>
 <div style="text-align: justify">
 <p>
-Crail modules are thin layers on top of CrailFS and implementing new modules for a particular data processing framework or a specific I/O operation requires only a moderate amount of work. At the same time, modules inherit the full benefits of CrailFS in terms of user-level I/O, performance and storage tiering. In the Blog section we show that Spark2Crail permits all-to-all data shuffling very close to the speed of the 100Gb/s network fabric. 
+Crail modules are thin layers on top of CrailFS. Implementing new modules for a particular data processing framework or a specific I/O operation requires only a moderate amount of work. At the same time, modules inherit the full benefits of CrailFS in terms of user-level I/O, performance and storage tiering. In the Blog section we show that Spark2Crail permits all-to-all data shuffling very close to the speed of the 100Gb/s network fabric. 
 </p>
 </div>
 
