@@ -123,7 +123,7 @@ As with the Crail HDFS adaptor, the shuffle engine benefits from the performance
 
 <div style="text-align: justify">
 <p>
-The Crail-based Broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. Crail Shuffle and broadcast components can be enabled in Spark by setting the following system properties in spark-defaults.conf:
+The Crail-based Broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to the shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. Crail Shuffle and broadcast components can be enabled in Spark by setting the following system properties in spark-defaults.conf:
 </p>
 </div>
 
@@ -132,7 +132,7 @@ The Crail-based Broadcast plugin for Spark stores broadcast variables in Crail f
 
 <div style="text-align: justify">
 <p>
-Both, broadcast and shuffle require Spark data objects to be serialized into byte streams (that is case also for the default Spark broadcast and shuffle components). Even though both Crail components work fine with any of the Spark built-in serializers (e.g. Kryo), to achieve the best possible performance applications running on Crail are encouraged to provide serialization and deserialization methods for their data types explicitly. One reason for this is that the built-in Spark serializers assume byte streams of type java.io.(InputStream/OutputStream). These stream types are less powerful than Crail streams. For instance, streams of type InputStream/OutputStream export a synchronous API and are restricted to on-heap memory. Crail streams, on the other hand, export an asynchronous API and integrate well with off-heap memory to reduce data copies. By defining custom serialization/deserialization methods, applications can take full advantage of Crail during broadcast and shuffle operations. Moreover, serializers dedicated to one particular application type may further exploit information about the specific application data types to achieve a better performance. For instance, a custom serializer for a sorting application running on key/value objects of a fixed length byte array will not need to store serialization meta data, which reduces the final data size and simplifies the serialization process. 
+Both, broadcast and shuffle require Spark data objects to be serialized into byte streams (that is case also for the default Spark broadcast and shuffle components). Even though both Crail components work fine with any of the Spark built-in serializers (e.g. Kryo), to achieve the best possible performance applications running on Crail are encouraged to provide serialization and deserialization methods for their data types explicitly. One reason for this is that the built-in Spark serializers assume byte streams of type java.io.(InputStream/OutputStream). These stream types are less powerful than Crail streams. For instance, streams of type InputStream/OutputStream export a synchronous API and are restricted to on-heap memory. Crail streams, on the other hand, export an asynchronous API and integrate well with off-heap memory to reduce data copies. By defining custom serialization/deserialization methods, applications can take full advantage of Crail streams during broadcast and shuffle operations. Moreover, serializers dedicated to one particular application type may further exploit information about the specific application data types to achieve a better performance. As we show in the blog, a custom serializer for a sorting application running on key/value objects of a fixed length byte array will not need to store serialization meta data, which reduces the final data size and simplifies the serialization process. 
 </p>
 </div>
 
@@ -142,10 +142,10 @@ Both, broadcast and shuffle require Spark data objects to be serialized into byt
 
 <div style="text-align: justify">
 <p>
-Serialization is one important aspect for broadcast and shuffle operations, sorting another, even though specific to shuffling. Sorting directly follows the network fetch phase in a shuffle operation if a key ordering is given. Again, the Crail shuffle engine works fine with the Spark built-in sorter, but often the shuffle performance can be improved by an application specific sorter. For instance, an application may use the Crail GPU tier to store data. In that case, sorting can be pushed to the GPU, rather fetching the data into main memory and sorting it on the CPU. In other cases, the application may know the data types in advance and uses it to simplify sorting (e.g. use Radix sort instead TimSort).
+Serialization is one important aspect for broadcast and shuffle operations, sorting another, even though specific to shuffling. Sorting directly follows the network fetch phase in a shuffle operation if a key ordering is given. Again, the Crail shuffle engine works fine with the Spark built-in sorter, but often the shuffle performance can be improved by an application specific sorter. For instance, an application may use the Crail GPU tier to store data. In that case, sorting can be pushed to the GPU, rather than fetching the data into main memory and sorting it on the CPU. In other cases, the application may know the data types in advance and use the information to simplify sorting (e.g. use Radix sort instead TimSort).
 </p>
 <p>
-Application specific serializers and sorter can be defined by setting the following system properties in spark-defaults.conf:
+Application specific serializers and sorters can be defined by setting the following system properties in spark-defaults.conf:
 </p>
 </div>
 
