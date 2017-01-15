@@ -46,7 +46,7 @@ Crail modules are thin layers on top of CrailFS. Implementing new modules for a 
 <div style="text-align: justify">
 <p>
 CrailFS implements a file system namespace across a cluster of RDMA interconnected storage resources such as DRAM or flash. 
-Storage resources may be co-located with the compute nodes of the cluster, or disagreggated inside the data center, or a mix of both. Files in the Crail namespace consist of arrays of blocks distributed across storage resources in the cluster. Crail groups storage resources into different tiers (e.g, disk, flash, DRAM) and permits files to be created in specific tiers but also across tiers. For instance, by default Crail uses horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware.
+Storage resources may be co-located with the compute nodes of the cluster, or disagreggated inside the data center, or a mix of both. Files in the Crail namespace consist of arrays of blocks distributed across storage resources in the cluster. Crail groups storage resources into different tiers (e.g, disk, flash, DRAM) and permits files to be allocated in specific tiers but also across tiers. For instance, by default Crail uses horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware.
 </p>
 </div>
 
@@ -56,7 +56,7 @@ Storage resources may be co-located with the compute nodes of the cluster, or di
 
 <div style="text-align: justify">
 <p>
-Access to storage resources over the network -- as happening during file read/write operations -- are implemented using RDMA. For instance, accesses to blocks residing in the DRAM tier are implemented using one-sided read/write RDMA operations. With one-sided operations the storage nodes remain completely passive, thus, are not wasting any CPU cycles for I/O. At the same time, the client benefits from zero-copy data placements, freeing CPU cycles that would otherwise be used for memory copying, context switching etc. One-sided operations are also very effective in reading or writing subranges of a storage block as they only ship over the network the actual data that is read or written, instead of shipping the entire block. 
+Access to storage resources over the network -- as happening during file read/write operations -- are implemented using RDMA. For instance, accesses to blocks residing in the DRAM tier are implemented using one-sided read/write RDMA operations. With one-sided operations the storage nodes remain completely passive, thus, are not wasting any CPU cycles for I/O. At the same time, the client benefits from zero-copy data placements, freeing CPU cycles that would otherwise be used for memory copying, context switching etc. One-sided operations are also very effective for reading or writing subranges of storage blocks as only the relevant data is shiped over the network, instead of shipping the entire block. 
 </p>
 <p>
 In Crail, storage tiers are actual plugins. A storage tier defines the type of storage and network hardware it supports. For instance, the disaggregated flash tier supports shared flash storage accessed through iSER (iSCSI over RDMA), versus, the upcoming NVMef storage will be supporting NVMe flash access over RDMA fabrics. 
