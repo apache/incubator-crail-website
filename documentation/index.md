@@ -9,7 +9,7 @@ We currently do not provide binary releases. This page describes how to build th
 * [Spark-IO](https://github.com/zrlio/spark-io): Spark specific plugins. 
 * [Benchmarks](https://github.com/zrlio/crail-terasort): Currently only the sorting benchmark is available.
 
-## Building the Crail Distributed File System
+<h2 id="crail">Building the Crail Distributed File System</h2>
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
@@ -202,7 +202,7 @@ This command issues 102400 read operations of 1MB each.
 
 The tool also contains benchmarks to read files randomly, or to measure the performance of opening files, etc.
 
-## Building Spark I/O Plugins
+<h2 id="spark">Building Spark I/O Plugins</h2>
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
