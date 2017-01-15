@@ -68,7 +68,8 @@ In Crail, storage tiers are actual plugins. A storage tier defines the type of s
 <div style="text-align: justify">
 <p>
 Files in Crail are append-and-overwrite with a single-writer per file at a given time and file write ownership is granted in the form of leases. Generally, all the read/write operations are asynchronous, which facilitates interleaving of computation and I/O during data processing. Aside from the standard file system operations, Crail provides extra semantics geared towards its use case. For instance, Crail exports functions to allocate dedicated I/O buffers from a reuseable pool -- memory that is registered with the hardware if needed to support zero-copy I/O. Moreover, Crail provides detailed control as to which storage tier and location preference should be used when allocating file system resources. 
-
+</p>
+<p>
 Crail not only exports a Java API but it is written entirely in Java, which makes it easy to use and allows for a better integration with data processing frameworks like Spark, Flink, Hadoop, etc. A simple example of a Crail write operation is shown below:
 </p>
 </div>
