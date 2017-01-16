@@ -31,7 +31,7 @@ nikolas:
    display_name: "Nikolas Ioannou"
    webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-NIO
    role: active
-   bio: NVMef storage tier
+   bio: Flash wear leveling
    image: img/nikolas.jpg
 
 radu:
@@ -50,7 +50,7 @@ ioannis:
    webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-iko
    role: active
    image: img/ioannis.jpg
-   bio: Whole stack optimization
+   bio: Benchmarking
 
 bernard:
    last_name: Metzler
