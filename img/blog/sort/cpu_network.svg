@@ -43,31 +43,10 @@
 	</g>
 </g>
 <g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,128.4 L275.0,128.4  h0.01'/></g>
+	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,107.5 L275.0,107.5  h0.01'/></g>
 <g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='black'  d='M63.6,128.4 L72.6,128.4 M275.0,128.4 L266.0,128.4  h0.01'/>	<g transform="translate(55.3,132.9)" style="stroke:none; fill:black; font-family:Verdana; font-size:12.00pt; text-anchor:end">
-		<text>20</text>
-	</g>
-</g>
-<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,114.5 L275.0,114.5  h0.01'/></g>
-<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='black'  d='M63.6,114.5 L72.6,114.5 M275.0,114.5 L266.0,114.5  h0.01'/>	<g transform="translate(55.3,119.0)" style="stroke:none; fill:black; font-family:Verdana; font-size:12.00pt; text-anchor:end">
-		<text>40</text>
-	</g>
-</g>
-<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,100.5 L275.0,100.5  h0.01'/></g>
-<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='black'  d='M63.6,100.5 L72.6,100.5 M275.0,100.5 L266.0,100.5  h0.01'/>	<g transform="translate(55.3,105.0)" style="stroke:none; fill:black; font-family:Verdana; font-size:12.00pt; text-anchor:end">
-		<text>60</text>
-	</g>
-</g>
-<g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='gray' stroke-dasharray=' 2,4' class="gridline"  d='M63.6,86.5 L275.0,86.5  h0.01'/></g>
-<g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='black'  d='M63.6,86.5 L72.6,86.5 M275.0,86.5 L266.0,86.5  h0.01'/>	<g transform="translate(55.3,91.0)" style="stroke:none; fill:black; font-family:Verdana; font-size:12.00pt; text-anchor:end">
-		<text>80</text>
+	<path stroke='black'  d='M63.6,107.5 L72.6,107.5 M275.0,107.5 L266.0,107.5  h0.01'/>	<g transform="translate(55.3,112.0)" style="stroke:none; fill:black; font-family:Verdana; font-size:12.00pt; text-anchor:end">
+		<text>50</text>
 	</g>
 </g>
 <g style="fill:none; color:gray; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
