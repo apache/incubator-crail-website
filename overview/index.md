@@ -97,7 +97,7 @@ The Crail HDFS adaptor enables users to access Crail using the standard HDFS API
     ./bin/crail fs -copyFromLocal <path-to-local-file> 
     ./bin/crail fs -cat /test/<file-name>
 
-Moreoever, regular HDFS-based applications will transparently work with Crail when using fully qualified path names (or when specifying Crail as the default Hadoop file system):
+Moreover, regular HDFS-based applications will transparently work with Crail when using fully qualified path names (or when specifying Crail as the default Hadoop file system):
 
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);
