@@ -70,7 +70,7 @@ In Crail, storage tiers are actual plugins. A storage tier defines the type of s
 Files in Crail are append-and-overwrite with a single-writer per file at a given time and file write ownership is granted in the form of leases. Generally, all the read/write operations are asynchronous, which facilitates interleaving of computation and I/O during data processing. Aside from the standard file system operations, Crail provides extra semantics geared towards its use case. For instance, Crail exports functions to allocate dedicated I/O buffers from a reuseable pool -- memory that is registered with the hardware if needed to support zero-copy I/O. Moreover, Crail provides detailed control as to which storage tier and location preference should be used when allocating file system resources. 
 </p>
 <p>
-Crail not only exports a Java API but it is written entirely in Java, which makes it easy to use and allows for a better integration with data processing frameworks like Spark, Flink, Hadoop, etc. A simple example of a Crail write operation is shown below:
+Crail not only exports a Java API but also is written entirely in Java, which makes it easy to use and allows for a better integration with data processing frameworks like Spark, Flink, Hadoop, etc. A simple example of a Crail write operation is shown below:
 </p>
 </div>
     CrailConfiguration conf = new CrailConfiguration();
@@ -84,20 +84,20 @@ Crail not only exports a Java API but it is written entirely in Java, which make
 <div style="text-align: justify">
 <p>
 
-Crail is based on <a href="https://github.com/zrlio/disni">DiSNI</a>, a user-level network and storage stack for the Java virtual machine. DiSNI allows data to be exchanged in a zero-copy fashion between Java I/O memory and remote RDMA or NVMe resources. 
+Crail uses <a href="https://github.com/zrlio/disni">DiSNI</a>, a user-level network and storage stack for the Java virtual machine. DiSNI allows data to be exchanged in a zero-copy fashion between Java I/O memory and remote storage resources over RDMA. 
 </p>
 </div>
 
 <h3>Crail HDFS Adapter</h3>
 
-The Crail HDFS adapter has two advantages. First, administrators can interact with Crail using the standard HDFS shell:
+The Crail HDFS adaptor enables users to access Crail using the standard HDFS API. For instance, administrators can interact with Crail using the standard HDFS shell:
 
     ./bin/crail fs -mkdir /test
     ./bin/crail fs -ls /
     ./bin/crail fs -copyFromLocal <path-to-local-file> 
     ./bin/crail fs -cat /test/<file-name>
 
-Second, regular HDFS-based applications will transparently work with Crail when using fully qualified path names (or when specifying Crail as the default Hadoop file system):
+Moreoever, regular HDFS-based applications will transparently work with Crail when using fully qualified path names (or when specifying Crail as the default Hadoop file system):
 
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);
@@ -117,7 +117,7 @@ The SparkCrail module includes a Crail based shuffle engine as well as a broadca
 
 <div style="text-align: justify">
 <p>
-As with the Crail HDFS adaptor, the shuffle engine benefits from the performance and tiering advantages of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers to the I/O memory of the reducers. 
+As is the case with the Crail HDFS adapter, the shuffle engine benefits from the performance and tiering advantages of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are growing into the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers to the I/O memory of the reducers. 
 </p>
 </div>
 
