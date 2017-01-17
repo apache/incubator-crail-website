@@ -21,7 +21,7 @@ In the [Blog](http://crail.io/blog) section we discuss each of those challenges 
 
 <div style="text-align: justify"> 
 <p>
-Crail aims at providing a comprehensive solution to the above challenges in a form that is non-intrusive and compatible with the Apache data processing ecosystem. In particular, Crail is designed to be consumeable by different compute engines such as Spark, Flink, Solr, etc, with very little integration effort. 
+Crail aims at providing a comprehensive solution to the above challenges in a form that is non-intrusive and compatible with the Apache data processing ecosystem. In particular, Crail is designed to be consumeable by different compute engines such as Spark, Flink, Solr, etc., with very little integration effort. 
 </p>
 </div>
 
@@ -29,7 +29,7 @@ Crail aims at providing a comprehensive solution to the above challenges in a fo
 
 <div style="text-align: justify">
 <p>
-The backbone of the Crail I/O architecture is the Crail Distributed File System (CrailFS), a high-performance multi-tiered data store for temporary data in analytics workloads. Data processing frameworks and workloads may directly interact with CrailFS for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use CrailFS the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. SparkCrail is a Spark specific module implementing various I/O operations such as shuffle, broadcast, etc. Both CrailHDFS and SparkCrail can be used transparently with no need to recompile either the application or the data processing framework. 
+The backbone of the Crail I/O architecture is the Crail Distributed File System (CrailFS), a high-performance multi-tiered data store for temporary data in analytics workloads. Data processing frameworks and applications may directly interact with CrailFS for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use CrailFS the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. SparkCrail is a Spark specific module which implements various I/O intensive Spark operations such as shuffle, broadcast, etc. Both CrailHDFS and SparkCrail can be used transparently with no need to recompile either the application or the data processing framework. 
 </p>
 </div>
 <br>
@@ -46,7 +46,7 @@ Crail modules are thin layers on top of CrailFS. Implementing new modules for a 
 <div style="text-align: justify">
 <p>
 CrailFS implements a file system namespace across a cluster of RDMA interconnected storage resources such as DRAM or flash. 
-Storage resources may be co-located with the compute nodes of the cluster, or disagreggated inside the data center, or a mix of both. Files in the Crail namespace consist of arrays of blocks distributed across storage resources in the cluster. Crail groups storage resources into different tiers (e.g, disk, flash, DRAM) and permits files to be allocated in specific tiers but also across tiers. For instance, by default Crail uses horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware.
+Storage resources may be co-located with the compute nodes of the cluster, or disagreggated inside the data center, or a mix of both. Files in the Crail namespace consist of arrays of blocks distributed across storage resources in the cluster. Crail groups storage resources into different tiers (e.g, DRAM, flash, disk) and permits file segments (blocks) to be allocated in specific tiers but also across tiers. For instance, by default Crail uses horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware.
 </p>
 </div>
 
@@ -56,10 +56,10 @@ Storage resources may be co-located with the compute nodes of the cluster, or di
 
 <div style="text-align: justify">
 <p>
-Access to storage resources over the network -- as happening during file read/write operations -- are implemented using RDMA. For instance, accesses to blocks residing in the DRAM tier are implemented using one-sided read/write RDMA operations. With one-sided operations the storage nodes remain completely passive, thus, are not wasting any CPU cycles for I/O. At the same time, the client benefits from zero-copy data placements, freeing CPU cycles that would otherwise be used for memory copying, context switching etc. One-sided operations are also very effective for reading or writing subranges of storage blocks as only the relevant data is shipped over the network, instead of shipping the entire block. 
+Access to storage resources over the network -- as happening during file read/write operations -- are implemented using RDMA. For instance, accesses to blocks residing in the DRAM tier are implemented using one-sided read/write RDMA operations. With one-sided operations the storage nodes remain completely passive and, thus, are not wasting any CPU cycles for I/O. At the same time, the client benefits from zero-copy data placements, freeing CPU cycles that would otherwise be used for memory copying, context switching, etc. One-sided operations are also very effective for reading or writing subranges of storage blocks as only the relevant data is shipped over the network, as opposed to shipping the entire block. 
 </p>
 <p>
-In Crail, storage tiers are actual plugins. A storage tier defines the type of storage and network hardware it supports. For instance, the disaggregated flash tier supports shared flash storage accessed through iSER (iSCSI over RDMA), versus, the upcoming NVMef storage will be supporting NVMe flash access over RDMA fabrics. 
+In Crail, storage tiers are actual plugins. A storage tier defines the type of storage protocol and network hardware it supports. For instance, the disaggregated flash tier supports shared flash storage accessed through SRP (SCSI RDMA protocol), versus, the upcoming NVMef storage will be supporting NVMe flash access over RDMA fabrics. 
 </p>
 </div>
 <br>
