@@ -61,6 +61,15 @@ bernard:
    image: img/bernard.jpg
    bio: Flash integration
 
+thomas:
+   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-TWE
+   last_name: Weigold
+   first_name: Thomas
+   display_name: "Thomas Weigold"
+   role: active
+   image: img/thomas.jpg
+   bio: Business development
+
 #test:
 #   webpage:
 #   last_name: 
