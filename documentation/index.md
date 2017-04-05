@@ -40,7 +40,7 @@ There are a general file system properties and specific properties for the diffe
 
 In this configuration the namenode is configured to run using port 9060 on host 'namenode', which must be a valid host in the cluster. We further configure a single storage tier, in this case the RDMA-based DRAM tier. Cachepath points to a directory that is used by the file system to allocate memory for the client cache. Up to cachelimit size, all the memory that is used by Crail will be allocated via mmap from this location. Ideally, the directory specified in cachepath points to a hugetlbfs mountpoint. Aside from the general properties, each storage tier needs to be configured separately.
 
-### RDMA/DRAM Storage Tier
+#### RDMA/DRAM Storage Tier
 
 For the RDMA/DRAM tier we need to specify the interface that should be used by the storage nodes.
 
@@ -60,7 +60,7 @@ Crail supports optimized local operations via memcpy (instead of RDMA) in case a
     crail.storage.rdma.localmap           true
     crail.storage.rdma.indexpath          /index
     
-### NVMf/Flash Storage Tier
+#### NVMf/Flash Storage Tier
 
 For the NVMf storage tier we need to configure the server IP that is used when listening for new connections. We also need to configure the PCI address of the flash device we want to use, as well as the huge page mount point to be used for allocating memory. 
 
