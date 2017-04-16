@@ -1,7 +1,7 @@
 name: The Crail Project
 url: http://crail.io
 
-exclude: [bibble, README.md, Makefile, screenshot.png]
+exclude: [bibble, README.md, Makefile]
 
 # use this library to parse Markdown
 #markdown: kramdown
