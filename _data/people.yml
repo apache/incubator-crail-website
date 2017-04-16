@@ -3,7 +3,7 @@ patrick:
     first_name: Patrick
     display_name: "Patrick Stuedi"
     webpage: "http://researcher.watson.ibm.com/researcher/view.php?person=zurich-stu"
-    image: img/patrick.jpg
+    image: people/patrick.jpg
     role: active
     bio: CrailFS, Spark shuffle
 
@@ -12,7 +12,7 @@ animesh:
    first_name: Animesh
    display_name: "Animesh Trivedi"
    webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-atr
-   image: img/animesh.jpg
+   image: people/animesh.jpg
    role: active
    bio: Whole stack optimization
 
@@ -23,7 +23,7 @@ jonas:
    webpage:
    role: active
    bio: NVMef storage tier
-   image: img/jonas.jpg
+   image: people/jonas.jpg
 
 nikolas:
    last_name: Ioannou
@@ -32,7 +32,7 @@ nikolas:
    webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-NIO
    role: active
    bio: Flash integration
-   image: img/nikolas.jpg
+   image: people/nikolas.jpg
 
 radu:
    last_name: Stoica
@@ -40,7 +40,7 @@ radu:
    display_name: "Radu Stoica"
    webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-RST
    role: active
-   image: img/radu.jpg
+   image: people/radu.jpg
    bio: SQL optimization
 
 ioannis:
@@ -49,7 +49,7 @@ ioannis:
    display_name: "Ioannis Koltsidas"
    webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-iko
    role: active
-   image: img/ioannis.jpg
+   image: people/ioannis.jpg
    bio: Benchmarking
 
 bernard:
@@ -58,7 +58,7 @@ bernard:
    display_name: "Bernard Metzler"
    webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-BMT
    role: active
-   image: img/bernard.jpg
+   image: people/bernard.jpg
    bio: Flash integration
 
 thomas:
@@ -67,8 +67,8 @@ thomas:
    first_name: Thomas
    display_name: "Thomas Weigold"
    role: active
-   image: img/thomas.jpg
-   bio: Ecosystem
+   image: people/thomas.jpg
+   bio: Framework integration
 
 #test:
 #   webpage:
