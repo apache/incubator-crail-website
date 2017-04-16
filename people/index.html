@@ -1,0 +1,39 @@
+---
+layout: default
+title: People
+---
+
+<div class="row"> 
+{% for role in site.roles %}
+   {% assign people = (site.data.people | where: "role", role.key) | sort: "last_name" %} 
+   {% if people != empty %}
+        <div class="col-md-{% if grp contains 'grad' %}8{% else %}8{% endif %}">
+            <h3>{{ role.name }}</h3>
+            <ul class="double-col">
+            {% for person in people %}
+                <li>                  
+                  {% if person.image %}
+                    {% if person.webpage %} <a href="{{ person.webpage |escape }}"> {% endif %}
+                    <img class="img-circle" src="{{ site.base }}/{{ person.image }}" alt=" {{ person.name }} " style="height:75px; float:left; margin: 0em 1em 1em 1em">
+                    {% if person.webpage %} </a> {% endif %}
+                  {% endif %}
+                    <div class="bio">
+                    {% if person.webpage %}<a href="{{ person.webpage | escape }}">{% endif %}
+                    <h4>{{person.display_name}}</h4>
+                    {% if person.webpage %}</a>{% endif %}
+                  {% if person.bio %}<p class="bio">{{person.bio}}</p>{% endif %}
+                   </div>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+   {% endif %}
+{% endfor %}
+</div> 
+
+<h2> Contact </h2>
+<div>
+If you have questions or suggestions, feel free to post at: 
+<br><br> <a href="https://groups.google.com/forum/#!forum/zrlio-users">https://groups.google.com/forum/#!forum/zrlio-users</a>
+<br> <br> or email: <a href="mailto:zrlio-users@googlegroups.com">zrlio-users@googlegroups.com</a>
+</div>
