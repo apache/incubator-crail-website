@@ -44,5 +44,5 @@ set label "2 NICs"  at 6.2,88
 plot "hdfs+.dat" using ($1):($3/1000):(0.2) with boxes axis x1y1 title "HDFS+" fs solid 0.9,\
 "tachyon.dat" using ($1+0.2):($3/1000):(0.2) with boxes axis x1y1 title "Tachyon" fs solid 0.9,\
 "tachyon+.dat" using ($1+0.4):($3/1000):(0.2) with boxes axis x1y1 title "Tachyon+" fs solid 0.9,\
-"port5.dat" using ($1+0.6):($3/1000):(0.2) with boxes axis x1y1 title "Port5" fs solid 0.9
+"crail.dat" using ($1+0.6):($3/1000):(0.2) with boxes axis x1y1 title "Crail" fs solid 0.9
 
