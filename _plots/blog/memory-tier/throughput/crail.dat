@@ -1,4 +1,4 @@
-#index		size		write-direct
+#index		size		write-direct	read-direct
 1		131072		59078.8    	59325.3
 2		262144      	72011.4		70581.4
 3		524288      	81852.0		78537.66
