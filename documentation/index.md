@@ -5,7 +5,7 @@ title: GitHub Repositories
 
 The Crail I/O stack consists of a set of components. Typically only a subset of the components are required for a particular use case (e.g., Spark, Hadoop, Hive, etc.) or hardware setup (e.g., RDMA, TCP, Flash, etc.). Here is a list of the components together with their GitHub repository. 
 
-* [Crail Storage](https://github.com/zrlio/crail): The backbone for all I/O operations across distributed storage resource. Includes both the RDMA/DRAM and the NVMf/Flash storage tier.
+* [Crail Store](https://github.com/zrlio/crail): The backbone for all I/O operations across distributed storage resource. Includes both the RDMA/DRAM and the NVMf/Flash storage tier.
 * [Crail-Blkdev](https://github.com/zrlio/crail-blkdev): A Crail storage tier for shared volume storage.
 * [Crail-Netty](https://github.com/zrlio/crail-netty): A Crail TCP/DRAM storage tier built on top of Netty.
 * [Spark-IO](https://github.com/zrlio/spark-io): A Spark specific I/O module including Shuffle, Broadcast and Off-Heap storage.
@@ -66,6 +66,11 @@ Crail supports optimized local operations via memcpy (instead of RDMA) in case a
     
 #### NVMf/Flash Storage Tier
 
+Crail is a multi-tiered storage system. Additinoal tiers can be enabled by adding them to the configuration as follows.
+
+    crail.datanode.types                  com.ibm.crail.storage.rdma.RdmaStorageTier,com.ibm.crail.storage.nvmf.NvmfStorageTier
+
+
 For the NVMf storage tier we need to configure the server IP that is used when listening for new connections. We also need to configure the PCI address of the flash device we want to use, as well as the huge page mount point to be used for allocating memory. 
 
     crail.storage.nvmf.bindip		10.40.0.XX
@@ -92,9 +97,7 @@ Now you should have a small deployment up with just one datanode. In this case t
 
     ./bin/crail datanode -t com.ibm.crail.storage.nvmf.NvmfStorageTier
 
-This would start the shared storage datanode. Note that configuration in crail-site.conf needs to have the specific properties set of this type of datanode, in order for this to work. Also, in order for the storage tier to become visible to clients, it has to be enlisted in the list of datanode types as follows:
-
-    crail.datanode.types                  com.ibm.crail.storage.rdma.RdmaStorageTier,com.ibm.crail.storage.nvmf.NvmfStorageTier
+This would start the shared storage datanode. Note that configuration in crail-site.conf needs to have the specific properties set of this type of datanode, in order for this to work. 
 
 #### Larger deployments
 
