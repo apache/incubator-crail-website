@@ -62,7 +62,7 @@ bernard:
    bio: Flash integration
 
 thomas:
-   #webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-TWE
+   webpage: https://www.zurich.ibm.com/cci/analytics/crail.html
    last_name: Kaufmann
    first_name: Michael
    display_name: "Michael Kaufmann"
