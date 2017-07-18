@@ -11,11 +11,11 @@ set ylabel "throughput [Gbit/s]"
 set key left top
 #set nokey
 
-set xrange [0.5:7]
-set yrange [0:80]
+#set xrange [0.5:7]
+set yrange [0:100]
 
-set xtics ("128K" 1, "256K" 2, "512K" 3, "1MB" 4, "" 5, "            1MB" 5, "             1MB" 6)
-set ytics 0,20,80
+set xtics ("128B" 0, "256B" 1, "512B" 2, "1K" 3, "128K" 4, "256K" 5, "512K" 6, "1MB" 7)
+set ytics 0,20,100
 
 set style line 1 lc rgb "#4dafa4" lw 4
 set style line 2 lc rgb "#ff7f00" lw 4
@@ -23,26 +23,13 @@ set style line 3 lc rgb "#e41a1c" lw 4
 set style line 4 lc rgb "#377eb8" lw 4
 
 set style increment user  
-
 set grid ytics mytic
 
 set style arrow 1 heads filled size screen 0.03,15 ls 2
 set style arrow 2 heads size screen 0.008,90 ls 7
 set style arrow 3 heads size screen 0.008,90 ls 7
 set style arrow 4 nohead size screen 0.008,90 ls 7
-#set arrow from 0.5,-31 to 5,-31 as 2
-#set arrow from 5,-31 to 6,-31 as 3
-#set arrow from 6,-31 to 7,-31 as 3
 
-set arrow from 5,0 to 5,88 as 4
-set arrow from 6,0 to 6,88 as 4
-
-set label "synchronous"  at 2,88
-set label "async"  at 5.2,88
-set label "2 NICs"  at 6.2,88
-
-plot "hdfs+.dat" using ($1):($3/1000):(0.2) with boxes axis x1y1 title "HDFS+" fs solid 0.9,\
-"tachyon.dat" using ($1+0.2):($3/1000):(0.2) with boxes axis x1y1 title "Tachyon" fs solid 0.9,\
-"tachyon+.dat" using ($1+0.4):($3/1000):(0.2) with boxes axis x1y1 title "Tachyon+" fs solid 0.9,\
-"crail.dat" using ($1+0.6):($3/1000):(0.2) with boxes axis x1y1 title "Crail" fs solid 0.9
+plot "crail.dat" using ($0):($4/1000):(0.2) with boxes axis x1y1 title "Write" fs solid 0.9,\
+"crail.dat" using ($0+0.2):($5/1000):(0.2) with boxes axis x1y1 title "Read" fs solid 0.9
 
