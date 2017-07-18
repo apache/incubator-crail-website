@@ -62,13 +62,13 @@ bernard:
    bio: Flash integration
 
 thomas:
-   webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-TWE
-   last_name: Weigold
-   first_name: Thomas
-   display_name: "Thomas Weigold"
+   #webpage: http://researcher.watson.ibm.com/researcher/view.php?person=zurich-TWE
+   last_name: Kaufmann
+   first_name: Michael
+   display_name: "Michael Kaufmann"
    role: active
-   image: people/thomas.jpg
-   bio: Framework integration
+   image: people/michael.jpg
+   bio: Machine Learning
 
 #test:
 #   webpage:
