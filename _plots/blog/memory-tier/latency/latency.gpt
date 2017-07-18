@@ -2,10 +2,10 @@
 set term pdf truecolor size 4.15,2.0 font "Times-Roman, 12"
 set output "latency.pdf"
 
-set yrange [1:1000000]
-set ytics add ("1us" 1, "10us" 10, "100us" 100, "1ms" 1000, "10ms" 10000, "" 100000, "" 1000000, "10s" 10000000, "100s" 100000000, "" 1000000000, "" 1e10)
+set yrange [0:50]
+#set ytics add ("1us" 1, "10us" 10, "100us" 100, "1ms" 1000, "10ms" 10000, "" 100000, "" 1000000, "10s" 10000000, "100s" 100000000, "" 1000000000, "" 1e10)
 set ylabel "latency [us]"
-set xlabel "file size"
+set xlabel "key size"
 set grid ytics mytic
 set key left
 
@@ -24,12 +24,12 @@ set style line 7 lc rgb "#377e00" lw 4
 
 set style increment user
 
-set xtics ("128B" 0, "1K" 1, "4K" 2, "8K" 3, "16K" 4, "32K" 5)
-set logscale y
+set xtics ("4B" 0, "1K" 1, "4K" 2, "16K" 3, "64K" 4, "256K" 5, "1MB" 6)
+#set logscale y
 
 
 plot "ramcloud.dat" using ($0):($2):(0.2)  title "RAMCloud/read" with boxes fill solid 0.4 axes x1y1,\
-"port5.dat" using ($0+0.2):($3):(0.2)  title "Crail (lookup & read)" with boxes fill solid 0.4 axes x1y1,\
-"port5.dat" using ($0+0.2):($2):(0.13) title "Crail (lookup only)" with boxes fill solid 1 axes x1y1
+"crail.dat" using ($0+0.2):($3):(0.2)  title "Crail (lookup & read)" with boxes fill solid 0.4 axes x1y1,\
+"crail.dat" using ($0+0.2):($2):(0.13) title "Crail (lookup only)" with boxes fill solid 1 axes x1y1
 
 
