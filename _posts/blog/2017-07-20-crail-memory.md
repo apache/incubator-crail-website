@@ -49,7 +49,7 @@ while(stream.available() > 0){
 ```    
 <div style="text-align: justify"> 
 <p>
-One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking in sequential read/write operations, Crail interleaves metadata and block I/O operations as shown in Figure below.
+One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking in sequential read/write operations, Crail interleaves metadata operations and actual data transfers as shown in the figure below.
 </p>
 </div>
 <br>
@@ -57,8 +57,7 @@ One challenge with file read/write operations is to avoid blocking in case block
 <br>
 <div style="text-align: justify"> 
 <p>
-Each read operation always triggers the lookup of block metadata for the next block immediately after issuing the RDMA read operation for the current block. Note that the asynchronous nature of RDMA allows both operations to be executed in the
-process context of the application, without any additional background threads. The figure also illustrates the efficiency of Crail for small operations. During the last operation, with only a few bytes left to be read, the byte-granular nature of Crail's block access protocol makes sure that only the relevant bytes are transmitted over the network, as opposed to transmitting the entire block.
+Each read operation always triggers the lookup of block metadata for the next block immediately after issuing the RDMA read operation for the current block. Note that the asynchronous and non-blocking nature of RDMA allows both operations to be executed in the process context of the application, without context switching or any additional background threads. The figure also illustrates the efficiency of Crail for small operations. During the last operation, with only a few bytes left to be read, the byte-granular nature of Crail's block access protocol makes sure that only the relevant bytes are transmitted over the network, as opposed to transmitting the entire block.
 </p>
 </div>
 
