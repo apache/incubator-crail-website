@@ -49,7 +49,7 @@ while(stream.available() > 0){
 ```    
 <div style="text-align: justify"> 
 <p>
-One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking in sequential read/write operations, Crail interleaves metadata operations and actual data transfers as shown in the figure below.
+One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking in sequential read/write operations, Crail interleaves metadata operations and actual data transfers.
 </p>
 </div>
 <br>
