@@ -13,3 +13,18 @@ This is the first of three blog posts illustrating Crail's raw storage performan
 </div>
 <br>
 
+### Hardware Configuration
+
+The specific cluster configuration used for the experiments in this blog:
+
+* Cluster
+  * 8 node OpenPower cluster
+* Node configuration
+  * CPU: 2x OpenPOWER Power8 10-core @2.9Ghz
+  * DRAM: 512GB DDR4
+  * Network: 1x100Gbit/s Ethernet Mellanox ConnectX-4 EN (RoCE)
+             1x100Gbit/s Infiniband Mellanox ConnectX-4 EN
+* Software
+  * RedHat 7.2 with Linux kernel version 4.10.13
+  * Crail 1.0, internal version 2842
+
