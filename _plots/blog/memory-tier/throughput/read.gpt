@@ -31,5 +31,5 @@ set style arrow 3 heads size screen 0.008,90 ls 7
 set style arrow 4 nohead size screen 0.008,90 ls 7
 
 plot "crail.dat" using ($0):($5/1000):(0.2) with boxes axis x1y1 title "Crail" fs solid 0.9,\
-"alluxio.dat" using ($0+0.2):($3/1000):(0.2) with boxes axis x1y1 title "Alluxio" fs solid 0.9
+"alluxio.dat" using ($0+0.235):($3/1000):(0.2) with boxes axis x1y1 title "Alluxio" fs solid 0.9
 
