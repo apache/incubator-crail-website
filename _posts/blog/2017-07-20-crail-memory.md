@@ -27,3 +27,28 @@ The specific cluster configuration used for the experiments in this blog:
   * RedHat 7.2 with Linux kernel version 4.10.13
   * Crail 1.0, internal version 2842
 
+### Anatomy of a Crail Data Operation
+
+<div style="text-align: justify"> 
+<p>
+Data operations in Crail -- such as the reading or writing of files -- are internally composed of metadata operations and actual data transfers. Let's look at a simple Crail application that opens a file and reads the file sequentially:
+</p>
+</div>
+```
+CrailConfiguration conf = new CrailConfiguration();
+CrailFS fs = CrailFS.newInstance(conf);
+//create file without affinity
+CrailFile file = fs.lookup(filename).get().asFile();
+CrailInputStream stream = file.getDirectInputStream();
+while(stream.available() > 0){
+    Future<Buffer> future = stream.read(buf);
+    //Do something useful
+    ...
+    //Await completion of operation
+    future.get();
+}
+```    
+<div style="text-align: justify"> 
+<p>
+</p>
+</div>
