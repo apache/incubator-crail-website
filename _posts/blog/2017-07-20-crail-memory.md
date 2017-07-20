@@ -54,7 +54,7 @@ One challenge with file read/write operations is to avoid blocking in case block
 </div>
 <br>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.png" width="470"></div>
-<br><br>
+<br>
 <div style="text-align: justify"> 
 <p>
 Each read operation always triggers the lookup of block metadata for the next block immediately after issuing the RDMA read operation for the current block. Note that the asynchronous nature of RDMA allows both operations to be executed in the
