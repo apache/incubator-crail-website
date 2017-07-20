@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Crail Storage Performance -- Part I: DRAM"
+title: "Crail Storage Performance -- Part I: DRAM (Draft)"
 author: Patrick Stuedi
 category: blog
 comments: true
