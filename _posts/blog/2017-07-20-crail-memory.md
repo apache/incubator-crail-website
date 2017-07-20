@@ -11,7 +11,6 @@ comments: true
 This is the first of three blog posts illustrating Crail's raw storage performance. In part I we cover Crail's DRAM storage tier, part II will be about Crail's NVMe flash storage tier, and part III will be about Crail's metadata performance. 
 </p>
 </div>
-<br>
 
 ### Hardware Configuration
 
