@@ -1,12 +1,13 @@
 #set terminal pdf monochrome size 4.15,1.6 font "Times-Roman, 12"
-set term pdf truecolor size 4.15,2 font "Times-Roman, 12"
+#set term pdf truecolor size 4.15,2 font "Times-Roman, 12"
+set term svg size 640,300 font "Times-Roman, 12"
 
 set rmargin 1
 #set bmargin 6
 set tmargin 2
-set output "read.pdf"
-set xlabel "buffer size"
-set ylabel "throughput [Gbit/s]"
+set output "read.svg"
+set xlabel "Buffer size"
+set ylabel "Throughput [Gbit/s]"
 
 set key left top
 #set nokey
