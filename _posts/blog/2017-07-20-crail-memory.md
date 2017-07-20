@@ -37,7 +37,6 @@ Data operations in Crail -- such as the reading or writing of files -- are inter
 ```
 CrailConfiguration conf = new CrailConfiguration();
 CrailFS fs = CrailFS.newInstance(conf);
-//create file without affinity
 CrailFile file = fs.lookup(filename).get().asFile();
 CrailInputStream stream = file.getDirectInputStream();
 while(stream.available() > 0){
@@ -50,5 +49,9 @@ while(stream.available() > 0){
 ```    
 <div style="text-align: justify"> 
 <p>
+Internally, this code would lead to the following interactions with the Crail metadata server and the storage servers:
 </p>
 </div>
+<br>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.svg"></div>
+<br><br>
