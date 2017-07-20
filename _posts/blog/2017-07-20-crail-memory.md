@@ -53,5 +53,6 @@ Internally, this code would lead to the following interactions with the Crail me
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.svg"></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.png" width="470"></div>
 <br><br>
+
