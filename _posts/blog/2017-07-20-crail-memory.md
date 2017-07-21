@@ -65,12 +65,22 @@ Each read operation always triggers the lookup of block metadata for the next bl
 
 <div style="text-align: justify"> 
 <p>
-Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Here is an example for a sequential read experiments issuing 100M read operations of size 1K against a 100GB file. We further use 32 warmup read operations which are excluded from the measurements.
+Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Below  is an example for a sequential write experiment issuing 100M write operations of size 1K to produce a file of roughly 100GB size. We further use 32 warmup operations which are excluded from the measurements.
 </p>
 </div>
 ```
 ./bin/crail iobench -t writeClusterHeap -s 1024 -k 100000000 -w 32 -f /tmp.dat
 ```    
+<div style="text-align: justify"> 
+<p>
+The figure below illustrates the sequential write performance of Crail (DRAM tier) for different buffer size values and shows a comparison to other systems. As of now, we only show a comparison with Alluxio, an in-memory file system for caching data in Spark or Hadoop applications. We are, however, working on including results for other storage systems such as Apache Ignite and ClusterFS and we plan to update the blog post accordingly soon. If there is a particular storage system that is not included but you would like to see included as a comparison, please write us. Also, if you find that the results we show for a particular storage system does not match your experience, please write to us too.
+</p>
+</div>
 <br>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/write.svg" width="550"/></div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/read.svg" width="550"/></div>
 <br><br>
+<div style="text-align: justify"> 
+<p>
+</p>
+</div>
