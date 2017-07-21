@@ -8,7 +8,10 @@ comments: true
 
 <div style="text-align: justify"> 
 <p>
-It's summer and there is some time to blog about things. I recently read the <a href="https://www.usenix.org/conference/atc17/technical-sessions/presentation/lu">Octopus file system</a> Usenix'17 paper, where the authors show Crail performance numbers that do not match the performance we measure on our clusters. This blog post is the first in a series of three posts where we illustrate Crail's raw storage performance on our 100Gbps cluster. In part I we cover Crail's DRAM storage tier, part II will be about Crail's NVMe flash storage tier, and part III will be about Crail's metadata performance. 
+It's summer and there is some time to blog about things. This blog post is the first in a series of three posts where we illustrate Crail's raw storage performance on our 100Gbps cluster. In part I we cover Crail's DRAM storage tier, part II will be about Crail's NVMe flash storage tier, and part III will be about Crail's metadata performance. 
+</p>
+<p>
+I recently read the <a href="https://www.usenix.org/conference/atc17/technical-sessions/presentation/lu">Octopus file system</a> Usenix'17 paper, where the authors show Crail performance numbers that do not match the performance we measure on our clusters. Like many other distributed systems, Crail also requires a careful system configuration and wrong or mismatching configuration settings can easily lead to poor performance. Therefore, in this blog we try to point out the key parameter settings that are necessary to obtain proper performance numbers with Crail. 
 </p>
 </div>
 
