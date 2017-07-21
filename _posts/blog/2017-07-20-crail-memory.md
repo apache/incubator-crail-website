@@ -61,7 +61,7 @@ One challenge with file read/write operations is to avoid blocking in case block
 <br>
 <div style="text-align: justify"> 
 <p>
-As a side note, it's also worth mentioning that Crail does not actually use RPCs for the data transfers but uses RDMA one-sided read/write operations instead. Moreover, Crail is fundamentally designed for byte-addressable storage and memory. For instance, files in Crail are essentially a sequence of virtual memory windows on different hosts which allows for a very effective handling of small data operations. As shown in the figure, during the last operation, with only a few bytes left to be read, the byte-granular nature of Crail's block access protocol makes sure that only the relevant bytes are transmitted over the network, as opposed to transmitting the entire block. 
+As a side note, it's also worth mentioning that Crail does not actually use RPCs for the data transfers but uses RDMA one-sided read/write operations instead. Moreover, Crail is designed from ground up for byte-addressable storage and memory. For instance, files in Crail are essentially a sequence of virtual memory windows on different hosts which allows for a very effective handling of small data operations. As shown in the figure, during the last operation, with only a few bytes left to be read, the byte-granular nature of Crail's block access protocol makes sure that only the relevant bytes are transmitted over the network, as opposed to transmitting the entire block. 
 </p>
 <p>
 The basic read/write logic shown in the figure above is common to all storage tiers in Crail, including the NVMe flash tier. In the remainder of this post, we specificially look at the performance of Crail's DRAM storage tier though. 
