@@ -81,6 +81,6 @@ The figure below illustrates the sequential write (top) and read (bottom) perfor
 <br><br>
 <div style="text-align: justify"> 
 <p>
-One first observation from the figure is that there is almost no difference in performance for write and read operations. Second, at a buffer size of around 1K Crail reaches a bandwidth of close to 95Gbit/s, which is very close to the network hardware limit of 100Gbps. 
+One first observation from the figure is that there is almost no difference in performance for write and read operations. Second, at a buffer size of around 1K Crail reaches a bandwidth of close to 95Gbit/s (for read), which is very close to the network hardware limit of 100Gbps. 
 </p>
 </div>
