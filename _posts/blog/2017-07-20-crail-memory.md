@@ -25,6 +25,8 @@ The specific cluster configuration used for the experiments in this blog:
 * Software
   * RedHat 7.2 with Linux kernel version 4.10.13
   * Crail 1.0, internal version 2842
+  * Alluxio 1.4
+  * RAMCloud commit f53202398b4720f20b0cdc42732edf48b928b8d7
 
 ### Anatomy of a Crail Data Operation
 
