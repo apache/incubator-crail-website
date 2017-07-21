@@ -64,7 +64,7 @@ Each read operation always triggers the lookup of block metadata for the next bl
 
 <div style="text-align: justify"> 
 <p>
-Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Below  is an example for a sequential write experiment issuing 100M write operations of size 1K to produce a file of roughly 100GB size. We further use 32 warmup operations which are excluded from the measurements.
+Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Below  is an example for a sequential write experiment issuing 100M write operations of size 1K to produce a file of roughly 100GB size. We further use 32 warmup operations which are excluded from the measurements. Crail offers direct I/O streams as well as buffered streams. For sequential operations it is important to use the buffered streams. Even though the buffered streams impose one extra copy (from the Crail stream to the application buffer) they are typically more effective for sequential access as they make sure that at least one network operation is in-flight at any time. 
 </p>
 </div>
 ```
