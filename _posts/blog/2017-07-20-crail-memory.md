@@ -60,7 +60,7 @@ Each read operation always triggers the lookup of block metadata for the next bl
 </p>
 </div>
 
-### Sequential Read/Write Performance
+### Sequential Read/Write Throughput
 
 <div style="text-align: justify"> 
 <p>
@@ -82,5 +82,12 @@ The figure below illustrates the sequential write (top) and read (bottom) perfor
 <div style="text-align: justify"> 
 <p>
 One first observation from the figure is that there is almost no difference in performance for write and read operations. Second, at a buffer size of around 1K Crail reaches a bandwidth close to 95Gbit/s (for read), which is approaching the network hardware limit of 100Gbps. And third, Crail performs significantly faster than other in-memory storage systems, in this case Alluxio. This because Crail is built on of user-level networking and thereby avoids the overheads of both the Linux network stack (memory copies, context switches, etc.) and the Java runtime. 
+</p>
+</div>
+
+### Random Read Latency
+
+<div style="text-align: justify"> 
+<p>
 </p>
 </div>
