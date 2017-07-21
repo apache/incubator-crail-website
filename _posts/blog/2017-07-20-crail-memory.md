@@ -95,3 +95,4 @@ Typically, distributed storage systems are either built for sequential access to
 ```
 ./bin/crail iobench -t keyget -s 4 -k 1000000 -f /tmp.dat -w 32
 ```    
+The figure below illustrates the latencies of get() operations for different key/value sizes and compares them to the latencies we obtain with RAMCloud for the same type of operations. 
