@@ -79,7 +79,7 @@ Crail offers direct I/O streams as well as buffered streams. For sequential oper
 </div>
 
 ```
-crail.buffersize			      1048576
+crail.buffersize			     1048576
 crail.slicesize          524288
 ```  
 
