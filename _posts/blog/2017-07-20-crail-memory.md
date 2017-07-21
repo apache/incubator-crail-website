@@ -89,5 +89,9 @@ One first observation from the figure is that there is almost no difference in p
 
 <div style="text-align: justify"> 
 <p>
+Typically, distributed storage systems are either built for sequential access to large data sets (e.g., HDFS) or they are optimized for random access to small data sets (e.g., key/value stores). We have already shown that Crail performs well for large sequentially accessed data sets, let's now look at the latencies of small random read operations. For this, we mimic the behavior of a key/value store by storing key/value pairs in Crail files with the key being the filename. We then measure the time it takes to open the file and read its content. Again, the benchmark can easily be executed from the command line. The following example issues 1M get() operations on a small file filled with a 4 byte value. 
 </p>
 </div>
+```
+./bin/crail iobench -t keyget -s 4 -k 1000000 -f /tmp.dat -w 32
+```    
