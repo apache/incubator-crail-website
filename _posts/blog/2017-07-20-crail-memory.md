@@ -21,8 +21,7 @@ The specific cluster configuration used for the experiments in this blog:
 * Node configuration
   * CPU: 2x OpenPOWER Power8 10-core @2.9Ghz
   * DRAM: 512GB DDR4
-  * Network: 1x100Gbit/s Ethernet Mellanox ConnectX-4 EN (RoCE)
-             1x100Gbit/s Infiniband Mellanox ConnectX-4 EN
+  * Network: 1x100Gbit/s Ethernet Mellanox ConnectX-4 EN (Ethernet/RoCE)
 * Software
   * RedHat 7.2 with Linux kernel version 4.10.13
   * Crail 1.0, internal version 2842
@@ -82,5 +81,6 @@ The figure below illustrates the sequential write (top) and read (bottom) perfor
 <br><br>
 <div style="text-align: justify"> 
 <p>
+One first observation from the figure is that there is almost no difference in performance for write and read operations. Second, at a buffer size of around 1K Crail reaches a bandwidth of close to 95Gbit/s, which is very close to the network hardware limit of 100Gbps. 
 </p>
 </div>
