@@ -73,7 +73,7 @@ Let's start by looking at sequential read/write performance. These benchmarks ca
 ```    
 <div style="text-align: justify"> 
 <p>
-The figure below illustrates the sequential write performance of Crail (DRAM tier) for different buffer size values and shows a comparison to other systems. As of now, we only show a comparison with Alluxio, an in-memory file system for caching data in Spark or Hadoop applications. We are, however, working on including results for other storage systems such as Apache Ignite and ClusterFS and we plan to update the blog post accordingly soon. If there is a particular storage system that is not included but you would like to see included as a comparison, please write us. And important: if you find that the results we show for a particular storage system do not match your experience, please write to us too, we are happy to revisit the configuration.
+The figure below illustrates the sequential write (top) and read (bottom) performance of Crail (DRAM tier) for different buffer size values and shows a comparison to other systems. As of now, we only show a comparison with Alluxio, an in-memory file system for caching data in Spark or Hadoop applications. We are, however, working on including results for other storage systems such as Apache Ignite and ClusterFS and we plan to update the blog post accordingly soon. If there is a particular storage system that is not included but you would like to see included as a comparison, please write us. And important: if you find that the results we show for a particular storage system do not match your experience, please write to us too, we are happy to revisit the configuration.
 </p>
 </div>
 <br>
