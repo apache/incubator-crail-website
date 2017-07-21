@@ -53,16 +53,13 @@ while(stream.available() > 0){
 ```    
 <div style="text-align: justify"> 
 <p>
-One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking for sequential read/write operations, Crail interleaves metadata operations and actual data transfers.
+One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking for sequential read/write operations, Crail interleaves metadata operations and actual data transfers. Each read operation always triggers the lookup of block metadata for the next block immediately after issuing the RDMA read operation for the current block. The asynchronous and non-blocking nature of RDMA allows both operations to be executed in the process context of the application, without context switching or any additional background threads. The figure illustrates the case of one outstanding operation a time. The asynchronous Crail storage API, however, permits any number of outstanding operations. 
 </p>
 </div>
 <br>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.png" width="420"></div>
 <br>
 <div style="text-align: justify"> 
-<p>
-Each read operation always triggers the lookup of block metadata for the next block immediately after issuing the RDMA read operation for the current block. The asynchronous and non-blocking nature of RDMA allows both operations to be executed in the process context of the application, without context switching or any additional background threads. The figure illustrates the case of one outstanding operation a time. The asynchronous Crail storage API, however, permits any number of outstanding operations. 
-</p>
 <p>
 As a site not it's also worth mentioning that -- unlike reported in <a href="https://www.usenix.org/conference/atc17/technical-sessions/presentation/lu">Octopus</a>, Crail does not actually use RPCs for the data transfers but uses RDMA one-sided read/write operations instead as shown in the figure. Moreover, also unlikely reported in <a href="https://www.usenix.org/conference/atc17/technical-sessions/presentation/lu">Octopus</a>, Crail is fundamentally designed for byte-addressable storage and memory. For instance, files in Crail are essentially a sequence of virtual memory windows on different hosts. As a result, Crail can implement small data operations very effectively. As shown in the figure above, during the last operation, with only a few bytes left to be read, the byte-granular nature of Crail's block access protocol makes sure that only the relevant bytes are transmitted over the network, as opposed to transmitting the entire block. 
 </p>
