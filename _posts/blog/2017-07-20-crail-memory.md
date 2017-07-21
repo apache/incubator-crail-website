@@ -53,7 +53,7 @@ One challenge with file read/write operations is to avoid blocking in case block
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.png" width="470"></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.png" width="400"></div>
 <br>
 <div style="text-align: justify"> 
 <p>
