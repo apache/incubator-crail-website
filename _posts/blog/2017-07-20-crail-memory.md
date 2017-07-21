@@ -49,7 +49,7 @@ while(stream.available() > 0){
 ```    
 <div style="text-align: justify"> 
 <p>
-One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking in sequential read/write operations, Crail interleaves metadata operations and actual data transfers.
+One challenge with file read/write operations is to avoid blocking in case block metadata information is missing. Crail caches block metadata at the client, but caching is ineffective for both random reads and write-once read-once data. To avoid blocking for sequential read/write operations, Crail interleaves metadata operations and actual data transfers.
 </p>
 </div>
 <br>
@@ -57,7 +57,20 @@ One challenge with file read/write operations is to avoid blocking in case block
 <br>
 <div style="text-align: justify"> 
 <p>
-Each read operation always triggers the lookup of block metadata for the next block immediately after issuing the RDMA read operation for the current block. Note that the asynchronous and non-blocking nature of RDMA allows both operations to be executed in the process context of the application, without context switching or any additional background threads. The figure also illustrates the efficiency of Crail for small operations. During the last operation, with only a few bytes left to be read, the byte-granular nature of Crail's block access protocol makes sure that only the relevant bytes are transmitted over the network, as opposed to transmitting the entire block.
+Each read operation always triggers the lookup of block metadata for the next block immediately after issuing the RDMA read operation for the current block. Note that the asynchronous and non-blocking nature of RDMA allows both operations to be executed in the process context of the application, without context switching or any additional background threads. The figure also illustrates the efficiency of Crail for small operations. During the last operation, with only a few bytes left to be read, the byte-granular nature of Crail's block access protocol makes sure that only the relevant bytes are transmitted over the network, as opposed to transmitting the entire block. This basic read/write logic is common to all storage tiers in Crail. In the remainder of this post, we specificially look at the performance of Crail's DRAM storage tier.
 </p>
 </div>
 
+### Sequential Read/Write Performance
+
+<div style="text-align: justify"> 
+<p>
+Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Here is an example for a sequential read experiments issuing 100M read operations of size 1K against a 100GB file. We further use 32 warmup read operations which are excluded from the measurements.
+</p>
+</div>
+```
+./bin/crail iobench -t writeClusterHeap -s 1024 -k 100000000 -w 32 -f /tmp.dat
+```    
+<br>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/read.svg" /></div>
+<br><br>
