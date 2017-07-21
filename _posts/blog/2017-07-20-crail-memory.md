@@ -66,12 +66,23 @@ Each read operation always triggers the lookup of block metadata for the next bl
 
 <div style="text-align: justify"> 
 <p>
-Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Below  is an example for a sequential write experiment issuing 100M write operations of size 1K to produce a file of roughly 100GB size. We further use 32 warmup operations which are excluded from the measurements. Crail offers direct I/O streams as well as buffered streams. For sequential operations it is important to use the buffered streams. Even though the buffered streams impose one extra copy (from the Crail stream to the application buffer) they are typically more effective for sequential access as they make sure that at least one network operation is in-flight at any time. 
+Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Below  is an example for a sequential write experiment issuing 100M write operations of size 1K to produce a file of roughly 100GB size. The -w switch indicates that we are using 32 warmup operations. 
 </p>
 </div>
 ```
 ./bin/crail iobench -t writeClusterHeap -s 1024 -k 100000000 -w 32 -f /tmp.dat
 ```    
+<div style="text-align: justify"> 
+<p>
+Crail offers direct I/O streams as well as buffered streams. For sequential operations it is important to use the buffered streams. Even though the buffered streams impose one extra copy (from the Crail stream to the application buffer) they are typically more effective for sequential access as they make sure that at least one network operation is in-flight at any time. The buffer size in a Crail buffered stream and the number of oustanding operations can be controlled by setting the buffersize and the slicesize properties in crail-site.conf. For our experiments we used a 1MB buffer per stream sliced up into two slices of 512K each which eventually leads to two operations in flight. 
+</p>
+</div>
+
+```
+crail.buffersize			      1048576
+crail.slicesize          524288
+```  
+
 <div style="text-align: justify"> 
 <p>
 The figure below illustrates the sequential write (top) and read (bottom) performance of Crail (DRAM tier) for different buffer size values and shows a comparison to other systems. As of now, we only show a comparison with Alluxio, an in-memory file system for caching data in Spark or Hadoop applications. We are, however, working on including results for other storage systems such as Apache Ignite and ClusterFS and we plan to update the blog post accordingly soon. If there is a particular storage system that is not included but you would like to see included as a comparison, please write us. And <b>important</b>: if you find that the results we show for a particular storage system do not match your experience, please write to us too, we are happy to revisit the configuration.
