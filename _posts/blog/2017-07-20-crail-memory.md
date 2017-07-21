@@ -72,5 +72,5 @@ Let's start by looking at sequential read/write performance. These benchmarks ca
 ./bin/crail iobench -t writeClusterHeap -s 1024 -k 100000000 -w 32 -f /tmp.dat
 ```    
 <br>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/read.svg" width="400"/></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/read.svg" width="550"/></div>
 <br><br>
