@@ -97,9 +97,10 @@ Typically, distributed storage systems are either built for sequential access to
 ```   
 <div style="text-align: justify"> 
 <p>
-The figure below illustrates the latencies of get() operations for different key/value sizes and compares them to the latencies we obtain with RAMCloud for the same type of operations. RAMCloud is RDMA-based and offers multiple client APIs including a Java API which we used in the benchmark. Unfortunately, we didn't yet manage to compile RAMCloud for the PPC architecture, therefore, the numbers shown are from our X86 cluster that uses 56 Gbps Infiniband. We are working on the PPC build, as well as on including other low-latency open source key/value stores such as HERD. Again, if there is particular key/value store you would like us to include, please write us.
+The figure below illustrates the latencies of get() operations for different key/value sizes and compares them to the latencies we obtained with RAMCloud for the same type of operations. RAMCloud is RDMA-based and offers multiple client APIs including a Java API which we used in the benchmark. Unfortunately, we didn't yet manage to compile RAMCloud for the PPC architecture, therefore, the numbers shown are from our X86 cluster that uses 56 Gbps Infiniband. We are working on the PPC build, as well as on including other low-latency open source key/value stores such as HERD. Again, if there is particular key/value store you would like us to include, please write us.
 </p>
 </div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/latency.svg" width="550"/></div>
 
+As can be seen from the figure, Crail's latencies for reading small files ranges from 10-20us depending for files smaller than 256K. These latency numbers are very close to the RAMCloud get() latencies for similar data sizes. Once the file size reaches 256K, the actual data transmit time starts to become a factor and the latencies increases to 35us. All in all, these experiments show that -- despite Crail offering full file system semantics and high-performance operations on large data sets -- the latencies for looking up and reading small data sets are in the same ballpark as the lookup latencies of the fastest key/value stores out there.
 
