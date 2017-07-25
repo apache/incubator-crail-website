@@ -106,6 +106,9 @@
 	<g transform="translate(351.7,291.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
 		<text>Buffer size</text>
 	</g>
+	<g transform="translate(351.7,13.6)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
+		<text>Single-client (1 core) Throughput</text>
+	</g>
 </g>
 	<g id="gnuplot_plot_1" ><title>gnuplot_plot_1</title>
 <g style="fill:none; color:white; stroke:black; stroke-width:4.00; stroke-linecap:butt; stroke-linejoin:miter">

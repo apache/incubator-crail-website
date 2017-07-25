@@ -8,6 +8,7 @@ set tmargin 2
 set output "read.svg"
 set xlabel "Buffer size"
 set ylabel "Throughput [Gbit/s]"
+set title "Single-client (1 core) Throughput"
 
 set key left top
 #set nokey
