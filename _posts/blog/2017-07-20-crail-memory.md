@@ -107,7 +107,8 @@ Note that both figures show single-client performance numbers. With Crail being 
 </p>
 </div>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/group-by.png" width="420"></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/crail-groupby.svg" width="550"/></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/spark-groupby.svg" width="550"/></div>
 
 ### Random Read Latency
 
