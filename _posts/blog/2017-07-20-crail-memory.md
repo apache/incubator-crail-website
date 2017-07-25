@@ -102,7 +102,12 @@ The figure below illustrates the sequential write (top) and read (bottom) perfor
 <p>
 One first observation from the figure is that there is almost no difference in performance for write and read operations. Second, at a buffer size of around 1K Crail reaches a bandwidth close to 95Gbit/s (for read), which is approaching the network hardware limit of 100Gbps. And third, Crail performs significantly faster than other in-memory storage systems, in this case Alluxio. This because Crail is built on of user-level networking and thereby avoids the overheads of both the Linux network stack (memory copies, context switches, etc.) and the Java runtime. 
 </p>
+<p>
+Note that both figures show single-client performance numbers. With Crail being a user-level storage system executing I/O operations directly within the application context this means the entire benchmark is truly runninig on one single core. Often, systems that perform poorly in single-client experiments are being defended saying that nobody cares about the single-client performance. Especially throughput problems can easily be fixed by adding more cores. This is, however, not at all cloudy to say the least. At the level hardware is multiplexed and priced in today's cloud computing data centers every core counts. The figure below shows a simple Spark group-by experiment on the same 8-node cluster. As can be seen, with Crail the benchmark executes faster using a single core per machine than with default Spark using 8 cores per machine, which is a direct consequence from Crail's superb single-core I/O performance. 
+</p>
 </div>
+
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/group-by.png" width="420"></div>
 
 ### Random Read Latency
 
