@@ -1,5 +1,6 @@
-set terminal pdf color font "Times-Roman, 20"  
-set output "cdf-broadcast-128-read.pdf"
+#set terminal pdf color font "Times-Roman, 20"  
+set term svg size 640,300 font "Times-Roman, 12"
+set output "cdf-broadcast-128-read.svg"
 set yrange [0:100]
 set ylabel "CDF"
 
