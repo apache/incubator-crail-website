@@ -1,5 +1,6 @@
-set term svg size 1000,400 font 'Verdana,22'
+#set term svg size 1000,400 font 'Verdana,22'
 #set term svg size 1000,400 font 'Verdana,20'
+set term svg size 640,300 font "Times-Roman, 12"
 
 set style line 1 lc rgb "#e41a1c" lw 6
 set style line 2 lc rgb "#377eb8" lw 6
@@ -10,6 +11,7 @@ set style line 6 lc rgb "#ffff33" lw 6
 
 set style increment user
 
+set title "Groupby Vanilla Spark"
 set auto x
 set xtics nomirror
 #set xtic rotate by -45 scale 0
