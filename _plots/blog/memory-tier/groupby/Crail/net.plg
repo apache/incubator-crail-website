@@ -3,7 +3,7 @@ set ylabel "Throughput (Gbit/s)"
 set key right
 set yrange[0:100]
 set xrange[0:120]
-set out "net.svg"
+set out "crail-groupby.svg"
 set xtics 0,10,1000
 plot './collectl_1_zhcc015.log' using (($14)/1000/1000*8) ti '1 core', './collectl_4_zhcc013.log' using (($14)/1000/1000*8) ti '4 cores', './collectl_8_zhcc013.log' using (($14)/1000/1000*8) ti '8 cores'
 #set out "net_vanilla.svg"
