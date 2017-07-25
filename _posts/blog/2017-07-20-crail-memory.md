@@ -135,5 +135,5 @@ As can be seen from the figure, Crail's latencies for reading small files range 
 The figure below shows a Spark broadcast experiment and illustrates how the latency benefits of Crail materialize at the application level. Broadcast objects in Spark are typically small read-only variables that are shared across the cluster. The Crail broadcast module for Spark uses Crail as a storage backend to make broadcast variables accessible by the different tasks. As can be seen, using Crail broadcast objects can be access in just a few microseconds, while the same operation in default Spark takes milliseconds.
 </p>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/read.svg" width="550"/></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/cdf-broadcast-128-read.svg" width="550"/></div>
 
