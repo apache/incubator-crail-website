@@ -72,11 +72,10 @@ The direct stream benchmark:
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput2.svg" width="550"/></div>
 
 ### Random Read Latency
-Random read latency is limited by flash technology and we currently see around 70microseconds when performing sector size accesses to the device with Crail. Remote DRAM latencies with Crail are around 7-8x faster than our NVMf tier however we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10microseconds. Considering that there is an overhead of around 10microseconds to access a drive remotely with Crail using such a device would put random read latencies somewhere around 20microseconds which is only half the performance of our DRAM tier.
+Random read latency is limited by flash technology and we currently see around 70microseconds when performing sector size accesses to the device with Crail. Remote DRAM latencies with Crail are around 7-8x faster than our NVMf tier however we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10microseconds. Considering that there is an overhead of around 10microseconds to access a drive with Crail using such a device would put random read latencies somewhere around 20microseconds which is only half the performance of our DRAM tier.
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency2.svg" width="550"/></div>
 
 ### Tiering DRAM - NVMf
-
-
+In this paragraph we show how Crail can leverage flash memory when there is too little or no DRAM to hold all your data available while only seeing a minor performance decrease in (most) real world applications. If you have multiple tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier. Crail first uses up all available resources of the faster tier even if it is a remote resource because the faster tier accessed remotely is typically still faster than the slower tier's local resource. This is what we call horizontal tiering. In the following experiment we gradually artificially limit DRAM resources to leverage more and more flash memory in a Spark/Crail Terasort application. We sort 200GB of data and reduce memory in 20% steps from all data in memory to all data in flash. The plot shows that by putting all the data in flash we only reduce the sorting time by around 48%. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
 
