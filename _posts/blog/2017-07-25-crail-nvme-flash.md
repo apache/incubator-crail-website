@@ -53,14 +53,21 @@ The second plot shows sequential read and write throughput with a transfer size 
 ```
 and SPDK:
 ```
-./perf -q 128 -s <size> -w read -r 'trtype:RDMA adrfam:IPv4 traddr:<ip> trsvcid:<port>' -t <time in seconds>
+./perf -q 128 -s 65536 -w read -r 'trtype:RDMA adrfam:IPv4 traddr:<ip> trsvcid:<port>' -t <time in seconds>
 ```
 Here the metadata information can be easliy prefetch due to the sequential access and a single operation is long enough to allow the metadata prefetch to finish before the next operation begins. This allows our NVMf storage tier to reach the same throughput as the native SPDK benchmark (device limit).
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
 
 ### Sequential Throughput
-
+Let us look at the sequential read and write throughput for buffered and direct streams and compare them to a buffered Crail stream on DRAM. All benchmarks are performed on 8 storage tiers with 4 drives each, cf. configuration above. In this benchmark we use 32 outstanding operations for the NVMf storage tier experiments with the buffered stream by using a buffer size of 16MB and a slice size of 512KB, cf. <a href="http://www.crail.io/blog/2017/07/crail-memory.html">part I</a>. The buffered stream reaches line speed at a transfer size of around 1KB and shows only slightly slower performance when compared to the DRAM tier buffered stream. However we are only using 2 outstanding operations with the DRAM tier to achieve these results. Basically for sizes smaller than 1KB the buffered stream is limited by the copy speed to fill the application buffer. The direct stream reaches line speed at around 128KB with 128 outstanding operations. Here no copy operation is performed for transfer size greater than 512Byte (sector size). The commands to run the Crail buffered stream benchmark:
+```
+./bin/crail iobench -t readSequentialHeap -s <size> -k <iterations> -w 32 -f /tmp.dat
+```
+The direct benchmark:
+```
+./bin/crail iobench -t readAsync -s <size> -k <iterations> -b 128 -w 32 -f /tmp.dat
+```
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput2.svg" width="550"/></div>
 
