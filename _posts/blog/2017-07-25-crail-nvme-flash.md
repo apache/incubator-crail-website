@@ -56,7 +56,7 @@ and SPDK:
 ```
 <div style="text-align: justify"> 
 <p>
-The main take away from this plot is that the time it takes to perform the actual data operation (not considering the time it takes to perform the metadata operation) our NVMf storage tier implementation is very close to the native SPDK performance and only adds a few 100ns of overhead. Remember, Crail is written in Java and every data operation is a JNI operation leaving the JVM to call the appropriate SPDK function. Also keep in mind that this an extrem case where no metadata is cached and in typical applications metadata is prefetched.
+The main take away from this plot is that the time it takes to perform a random read operation on a NVMe-backed file in Crail takes only about 7 microseconds more time than fetching the same amount of data over a point-to-point SPDK connection. This is impressive because it shows that using Crail a bunch of NVMe drives can be turned into a fully distributed storage space at almost no extra cost. The 7 microseconds are due to Crail having to look up the specific NVMe storage node that holdes the data which requires one extra network roundtrip (client to namenode). The experiment represents an extreme case where no metadata is cached at the client. In practice, file blocks are often accessed multiple times in which case the read latency is further reduced. Also note that unlike SPDK which is native library, Crail delivers data directly into Java off-heap memory. 
 </p>
 </div>
 
