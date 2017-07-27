@@ -21,7 +21,7 @@ The specific cluster configuration used for the experiments in this blog:
 * Node configuration
   * CPU: 2x OpenPOWER Power8 10-core @2.9Ghz
   * DRAM: 512GB DDR4
-  * 4x 512 GB Samsung 960Pro NVMe SSDs
+  * 4x 512 GB Samsung 960Pro NVMe SSDs (512Byte sector size, no metadata)
   * Network: 1x100Gbit/s Mellanox ConnectX-4 IB
 * Software
   * RedHat 7.3 with Linux kernel version 3.10
@@ -35,8 +35,12 @@ Due to the modular design of Crail implementing a new storage tier is fairly eas
 One downside of using a raw storage interface like NVMe is that they do not allow for byte level access but instead you have to issue data operations on drive sectors which are typically 512Byte or 4KB large. As we wanted to use the standard NVMf protocol (and Crail has a client driven philosophy) we needed to implement byte level access on the client side. For reads this can be implemented in a straight forward way by reading the whole sector and copying out the needed part. For writes that modify a sector which has already been written before we need to do a read modify write operation.
 
 ### Performance comparison to native SPDK NVMf
+We performed latency and throughput measurement of our Crail NVMf storage tier against a native SPDK NVMf benchmark. The first plot shows random read latency on a single 512GB Samsung 960Pro accessed remotely through SPDK. For Crail we also show the time it takes to perform a metadata operations. The main take away from this plot is that the time it takes to perform the actual data operation (not considering the time it takes to perform the metadata operation) our NVMf storage tier implementation is very close to the native SPDK performance and only adds a few 100ns of overhead. Remember, Crail is written in Java and every data operation is a JNI operation leaving the JVM to call the appropriate SPDK function. Also keep in mind that this an extrem case where no metadata is cached and in typical applications metadata is prefetched.
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency.svg" width="550"/></div>
+
+The second plot shows sequential read and write throughput with a transfer size of 64KB and 128 outstanding operations. Here the metadata information can be easliy prefetch due to the sequential access and a single operation is long enough to allow the metadata prefetch to finish before the next operation begins thus allowing our NVMf storage tier to reach the same throughput as the native SPDK benchmark (device limit).
+
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
 
 ### Sequential Throughput
@@ -46,4 +50,8 @@ One downside of using a raw storage interface like NVMe is that they do not allo
 ### Random Read Latency
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency2.svg" width="550"/></div>
+
+### Tiering DRAM-NVMf
+
+
 
