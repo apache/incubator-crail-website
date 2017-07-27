@@ -30,12 +30,23 @@ The specific cluster configuration used for the experiments in this blog:
   * DPDK git commit bb7927fd2179d7482de58d87352ecc50c69da427
 
 ### Anatomy of a Crail NVM Operation
-Due to the modular design of Crail implementing a new storage tier is fairly easy. All metadata operations as explained in <a href="http://www.crail.io/blog/2017/07/crail-memory.html">part I</a> of this series are taken care of by the namenode resp. its (plugable) RPC implementation. As a storage tier we are responsible in a) donating regions of our memory resource to the namenode and b) performing data operations on them. In our NVMf storage tier each server process manages exactly one NVMe drive and is responsible for a) and the server side of b). To achieve the best performance we wanted to use a user-level implemention to access the NVMe drives and transfer the data over the network. We opted for the <a href="http://www.spdk.io">Storage Performance Developer Kit (SPDK)</a> as it is a widely used open-source project. The server side of our NVMf storage tier sets up a NVMf target through SPDK and donates memory regions (basically splits up the NVMe namespaces into smaller blocks) to the namenode which are identified by ip, port, key and an offset. The namenode then splits up all regions into blocks, the smallest entity in Crail which composes every file. Whenever a data operation is performed the client fetches the metadata information for a particular block from the namenode which contains the identifier. With this information our NVMf storage tier client implementation is able to connect to the appropriate NVMf target and performs data operations on it through SPDK.
 
+<div style="text-align: justify"> 
+<p>
+Due to the modular design of Crail implementing a new storage tier is fairly easy. All metadata operations as explained in <a href="http://www.crail.io/blog/2017/07/crail-memory.html">part I</a> of this series are taken care of by the namenode resp. its (plugable) RPC implementation. As a storage tier we are responsible in a) donating regions of our memory resource to the namenode and b) performing data operations on them. In our NVMf storage tier each server process manages exactly one NVMe drive. To achieve the best performance we wanted to use a user-level implemention to access the NVMe drives and transfer the data over the network. We opted for the <a href="http://www.spdk.io">Storage Performance Developer Kit (SPDK)</a> as it is a widely used open-source project. The server side of our NVMf storage tier sets up a NVMf target through SPDK and donates memory regions (basically splits up the NVMe namespaces into smaller blocks) to the namenode which are identified by ip address, port, key and an offset. The namenode then splits those NVMe regions into smaller units called blocks which are used to form files in Crail. Whenever a data operation is performed the client fetches the metadata information for a particular block from the namenode which contains the identifier. With this information our NVMf storage tier client implementation is able to connect to the appropriate NVMf target and performs data operations on it through SPDK.
+</p>
+<p>
 One downside of using a raw storage interface like NVMe is that they do not allow for byte level access but instead you have to issue data operations on drive sectors which are typically 512Byte or 4KB large. As we wanted to use the standard NVMf protocol (and Crail has a client driven philosophy) we needed to implement byte level access on the client side. For reads this can be implemented in a straight forward way by reading the whole sector and copying out the needed part. For writes that modify a sector which has already been written before we need to do a read modify write operation.
+</p>
+</div>
 
 ### Performance comparison to native SPDK NVMf
+
+<div style="text-align: justify"> 
+<p>
 We perform latency and throughput measurement of our Crail NVMf storage tier against a native SPDK NVMf benchmark to determine how much overhead our implementation adds. The first plot shows random read latency on a single 512GB Samsung 960Pro accessed remotely through SPDK. For Crail we also show the time it takes to perform a metadata operations. You can run the Crail benchmark from the command line like this:
+</p>
+</div>
 ```
 ./bin/crail iobench -t readRandomDirect -s <size> -k <iterations> -w 32 -f /tmp.dat
 ```
@@ -43,7 +54,11 @@ and SPDK:
 ```
 ./perf -q 1 -s <size> -w randread -r 'trtype:RDMA adrfam:IPv4 traddr:<ip> trsvcid:<port>' -t <time in seconds>
 ```
+<div style="text-align: justify"> 
+<p>
 The main take away from this plot is that the time it takes to perform the actual data operation (not considering the time it takes to perform the metadata operation) our NVMf storage tier implementation is very close to the native SPDK performance and only adds a few 100ns of overhead. Remember, Crail is written in Java and every data operation is a JNI operation leaving the JVM to call the appropriate SPDK function. Also keep in mind that this an extrem case where no metadata is cached and in typical applications metadata is prefetched.
+</p>
+</div>
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency.svg" width="550"/></div>
 
