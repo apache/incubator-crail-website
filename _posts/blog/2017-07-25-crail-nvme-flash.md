@@ -39,7 +39,7 @@ We perform latency and throughput measurement of our Crail NVMf storage tier aga
 ```
 ./bin/crail iobench -t readRandomDirect -s <size> -k <iterations> -w 32 -f /tmp.dat
 ```
-and SPDK like this:
+and SPDK:
 ```
 ./perf -q 1 -s <size> -w randread -r 'trtype:RDMA adrfam:IPv4 traddr:<ip> trsvcid:<port>' -t <time in seconds>
 ```
@@ -47,7 +47,15 @@ The main take away from this plot is that the time it takes to perform the actua
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency.svg" width="550"/></div>
 
-The second plot shows sequential read and write throughput with a transfer size of 64KB and 128 outstanding operations. Here the metadata information can be easliy prefetch due to the sequential access and a single operation is long enough to allow the metadata prefetch to finish before the next operation begins. This allows our NVMf storage tier to reach the same throughput as the native SPDK benchmark (device limit).
+The second plot shows sequential read and write throughput with a transfer size of 64KB and 128 outstanding operations. The Crail throughput benchmark can be run like this:
+```
+./bin/crail iobench -t readAsync -s 65536 -k <iterations> -b 128 -w 32 -f /tmp.dat
+```
+and SPDK:
+```
+./perf -q 128 -s <size> -w read -r 'trtype:RDMA adrfam:IPv4 traddr:<ip> trsvcid:<port>' -t <time in seconds>
+```
+Here the metadata information can be easliy prefetch due to the sequential access and a single operation is long enough to allow the metadata prefetch to finish before the next operation begins. This allows our NVMf storage tier to reach the same throughput as the native SPDK benchmark (device limit).
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
 
