@@ -75,7 +75,12 @@ Here the metadata information can be easliy prefetch due to the sequential acces
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
 
 ### Sequential Throughput
+
+<div style="text-align: justify"> 
+<p>
 Let us look at the sequential read and write throughput for buffered and direct streams and compare them to a buffered Crail stream on DRAM. All benchmarks are single thread/client performed on 8 storage tiers with 4 drives each, cf. configuration above. In this benchmark we use 32 outstanding operations for the NVMf storage tier buffered stream experiments by using a buffer size of 16MB and a slice size of 512KB, cf. <a href="http://www.crail.io/blog/2017/07/crail-memory.html">part I</a>. The buffered stream reaches line speed at a transfer size of around 1KB and shows only slightly slower performance when compared to the DRAM tier buffered stream. However we are only using 2 outstanding operations with the DRAM tier to achieve these results. Basically for sizes smaller than 1KB the buffered stream is limited by the copy speed to fill the application buffer. The direct stream reaches line speed at around 128KB with 128 outstanding operations. Here no copy operation is performed for transfer size greater than 512Byte (sector size). The command to run the Crail buffered stream benchmark:
+</p>
+</div>
 ```
 ./bin/crail iobench -t readSequentialHeap -s <size> -k <iterations> -w 32 -f /tmp.dat
 ```
@@ -87,16 +92,30 @@ The direct stream benchmark:
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput2.svg" width="550"/></div>
 
 ### Random Read Latency
+
+<div style="text-align: justify"> 
+<p>
 Random read latency is limited by flash technology and we currently see around 70microseconds when performing sector size accesses to the device with Crail. Remote DRAM latencies with Crail are around 7-8x faster than our NVMf tier however we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10microseconds. Considering that there is an overhead of around 10microseconds to access a drive with Crail using such a device would put random read latencies somewhere around 20microseconds which is only half the performance of our DRAM tier.
+</p>
+</div>
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency2.svg" width="550"/></div>
 
 ### Tiering DRAM - NVMf
+
+<div style="text-align: justify"> 
+<p>
 In this paragraph we show how Crail can leverage flash memory when there is too little or no DRAM to hold all your data available while only seeing a minor performance decrease in (most) real world applications. If you have multiple tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier. Crail first uses up all available resources of the faster tier even if it is a remote resource because the faster tier accessed remotely is typically still faster than the slower tier's local resource. This is what we call horizontal tiering.
+</p>
+</div>
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="450"/></div>
 <br>
+<div style="text-align: justify"> 
+<p>
 In the following experiment we gradually artificially limit DRAM resources to leverage more and more flash memory in a Spark/Crail Terasort application. We sort 200GB of data and reduce memory in 20% steps from all data in memory to all data in flash. The plot shows that by putting all the data in flash we only reduce the sorting time by around 48%. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
+</p>
+</div>
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/tiering.svg" width="550"/></div>
 
