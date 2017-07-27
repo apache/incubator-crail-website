@@ -36,17 +36,13 @@ One downside of using a raw storage interface like NVMe is that they do not allo
 
 ### Performance comparison to native SPDK NVMf
 We perform latency and throughput measurement of our Crail NVMf storage tier against a native SPDK NVMf benchmark to determine how much overhead our implementation adds. The first plot shows random read latency on a single 512GB Samsung 960Pro accessed remotely through SPDK. For Crail we also show the time it takes to perform a metadata operations. You can run the Crail benchmark from the command line like this:
-</div>
 ```
 ./bin/crail iobench -t readRandomDirect -s <size> -k <iterations> -w 32 -f /tmp.dat
 ```
-<div style="text-align: justify">
 and SPDK like this:
-</div>
 ```
 ./perf -q 1 -s <size> -w randread -r 'trtype:RDMA adrfam:IPv4 traddr:<ip> trsvcid:<port>' -t <time in seconds>
 ```
-<div style="text-align: justify"> `
 The main take away from this plot is that the time it takes to perform the actual data operation (not considering the time it takes to perform the metadata operation) our NVMf storage tier implementation is very close to the native SPDK performance and only adds a few 100ns of overhead. Remember, Crail is written in Java and every data operation is a JNI operation leaving the JVM to call the appropriate SPDK function. Also keep in mind that this an extrem case where no metadata is cached and in typical applications metadata is prefetched.
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency.svg" width="550"/></div>
