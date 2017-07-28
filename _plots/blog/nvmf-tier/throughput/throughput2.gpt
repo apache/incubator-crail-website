@@ -1,12 +1,12 @@
 #set terminal pdf monochrome size 4.15,1.6 font "Times-Roman, 12"
-set term svg size 480,300 font "Times-Roman, 12"
+set term svg size 480,260 font "Times-Roman, 11"
 
 set output "throughput2.svg"
 
 set auto x
 set xtics nomirror
 set xtic rotate by -45 scale 0
-set xlabel "Size (byte)"
+#set xlabel "Size (byte)"
 set ylabel "Throughput (GB/s)"
 set yrange[0:13]
 set ytics nomirror
