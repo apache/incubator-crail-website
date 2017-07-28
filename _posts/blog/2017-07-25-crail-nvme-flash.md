@@ -61,6 +61,7 @@ The main take away from this plot is that the time it takes to perform a random 
 </div>
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency.svg" width="550"/></div>
+<br>
 
 The second plot shows sequential read and write throughput with a transfer size of 64KB and 128 outstanding operations. The Crail throughput benchmark can be run like this:
 ```
