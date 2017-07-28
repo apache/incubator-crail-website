@@ -24,6 +24,7 @@ set style line 4 lc rgb "#377eb8" lw 4
 
 set style increment user
 set grid ytics
+set ytics 1,1
 #set title "Crail NVMf throughput"
 
 set style arrow 1 heads filled size screen 0.03,15 ls 2
