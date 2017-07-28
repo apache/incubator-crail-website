@@ -8,11 +8,11 @@ set output "throughput.svg"
 #set xlabel "Size"
 set ylabel "Throughput [GB/s]"
 
-set key left top
+set key right top
 #set nokey
 
 #set xrange [0.5:7]
-set yrange [0:4.5]
+set yrange [0:4]
 
 set xtics ("Read" 0, "Write" 1)
 #set ytics 0,20,100
@@ -24,6 +24,7 @@ set style line 4 lc rgb "#377eb8" lw 4
 
 set style increment user
 set grid ytics
+set title "Crail NVMf throughput"
 
 set style arrow 1 heads filled size screen 0.03,15 ls 2
 set style arrow 2 heads size screen 0.008,90 ls 7
