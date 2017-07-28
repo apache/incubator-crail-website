@@ -15,12 +15,22 @@ set key right top
 set yrange [0:4]
 
 set xtics ("Read" 0, "Write" 1)
+set ytics ("  0" 0, "  1" 1, "  2" 2, "  3" 3, "  4" 4)
 #set ytics 0,20,100
 
 set style line 1 lc rgb "#4dafa4" lw 4
 set style line 2 lc rgb "#ff7f00" lw 4
 set style line 3 lc rgb "#e41a1c" lw 4
 set style line 4 lc rgb "#377eb8" lw 4
+set style line 5 lc rgb "#377eb8" lw 4
+set style line 6 lc rgb "#377eb8" lw 4
+set style line 7 lc rgb "#377e00" lw 4
+#set style line 2 lc rgb "#e41a1c" lw 4
+#set style line 4 lc rgb "#4dafa4" lw 4
+#set style line 5 lc rgb "#984ea3" lw 4
+#set style line 6 lc rgb "#ff7f00" lw 4
+#set style line 7 lc rgb "#ffff33" lw 4
+
 
 set style increment user
 set grid ytics
@@ -32,6 +42,6 @@ set style arrow 2 heads size screen 0.008,90 ls 7
 set style arrow 3 heads size screen 0.008,90 ls 7
 set style arrow 4 nohead size screen 0.008,90 ls 7
 
-plot "crail.dat" using ($0):($2/1000):(0.2) with boxes axis x1y1 title "SPDK" fs solid 1,\
-"crail.dat" using ($0+0.2):($3/1000):(0.2) with boxes axis x1y1 title "Crail" fs solid 1
+plot "crail.dat" using ($0):($2/1000):(0.2) with boxes axis x1y1 title "SPDK" fs solid 0.4,\
+"crail.dat" using ($0+0.2):($3/1000):(0.2) with boxes axis x1y1 title "Crail" fs solid 0.4
 
