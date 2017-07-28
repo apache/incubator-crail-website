@@ -1,0 +1,25 @@
+#set terminal pdf monochrome size 4.15,1.6 font "Times-Roman, 12"
+set term svg size 480,300 font "Times-Roman, 12"
+
+set output "throughput2.svg"
+
+set auto x
+set xtics nomirror
+set xtic rotate by -45 scale 0
+set xlabel "Size (byte)"
+set ylabel "Throughput (GB/s)"
+set yrange[0:13]
+set ytics nomirror
+set grid
+set style data linespoints
+set key right bottom
+
+set style line 1 lc rgb "#4dafa4" lw 4
+set style line 2 lc rgb "#ff7f00" lw 4
+set style line 3 lc rgb "#e41a1c" lw 4
+set style line 4 lc rgb "#377eb8" lw 4
+
+plot "crail_nvmf.dat" using ($2/1000.0):xtic(1) title "NVMf - direct",\
+"crail_nvmf.dat" using ($3/1000.0) title "NVMf - buffered",\
+"crail_dram.dat" using ($2/8/1000.0) title "DRAM - buffered"
+
