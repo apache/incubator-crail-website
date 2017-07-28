@@ -1,5 +1,5 @@
 #set terminal pdf monochrome size 4.15,1.6 font "Times-Roman, 12"
-set term svg size 480,300 font "Times-Roman, 12"
+set term svg size 480,240 font "Times-Roman, 12"
 
 set rmargin 1
 #set bmargin 6
@@ -24,7 +24,7 @@ set style line 4 lc rgb "#377eb8" lw 4
 
 set style increment user
 set grid ytics
-set title "Crail NVMf throughput"
+#set title "Crail NVMf throughput"
 
 set style arrow 1 heads filled size screen 0.03,15 ls 2
 set style arrow 2 heads size screen 0.008,90 ls 7
