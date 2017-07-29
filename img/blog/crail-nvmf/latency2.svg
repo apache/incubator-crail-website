@@ -76,13 +76,13 @@
 	<path stroke='black'  d='M71.9,25.1 L80.9,25.1 M455.0,25.1 L446.0,25.1  h0.01'/>	<g transform="translate(63.6,29.6)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:end">
 		<text> 100</text>
 	</g>
-	<path stroke='black'  d='M131.0,192.4 L131.0,183.4 M131.0,16.7 L131.0,25.7  h0.01'/>	<g transform="translate(131.0,214.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M131.8,192.4 L131.8,183.4 M131.8,16.7 L131.8,25.7  h0.01'/>	<g transform="translate(131.8,214.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
 		<text>4B</text>
 	</g>
-	<path stroke='black'  d='M249.3,192.4 L249.3,183.4 M249.3,16.7 L249.3,25.7  h0.01'/>	<g transform="translate(249.3,214.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M251.5,192.4 L251.5,183.4 M251.5,16.7 L251.5,25.7  h0.01'/>	<g transform="translate(251.5,214.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
 		<text>512B</text>
 	</g>
-	<path stroke='black'  d='M367.5,192.4 L367.5,183.4 M367.5,16.7 L367.5,25.7  h0.01'/>	<g transform="translate(367.5,214.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M371.2,192.4 L371.2,183.4 M371.2,16.7 L371.2,25.7  h0.01'/>	<g transform="translate(371.2,214.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
 		<text>4K</text>
 	</g>
 	<path stroke='black'  d='M71.9,16.7 L71.9,192.4 L455.0,192.4 L455.0,16.7 L71.9,16.7 Z  h0.01'/>	<g transform="translate(17.6,104.6) rotate(270)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
@@ -103,15 +103,15 @@
 		<polygon fill = 'rgb( 77, 175, 164)' fill-opacity = '0.400000' points = '188.1,39.2 230.3,39.2 230.3,30.2 188.1,30.2 '/>
 	</g>
 	<path stroke='rgb( 77, 175, 164)'  d='M188.1,39.2 L230.3,39.2 L230.3,30.2 L188.1,30.2 L188.1,39.2 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
-		<polygon fill = 'rgb( 77, 175, 164)' fill-opacity = '0.400000' points = '119.2,192.4 142.9,192.4 142.9,74.5 119.2,74.5 '/>
+		<polygon fill = 'rgb( 77, 175, 164)' fill-opacity = '0.400000' points = '119.8,192.4 143.8,192.4 143.8,74.5 119.8,74.5 '/>
 	</g>
-	<path stroke='rgb( 77, 175, 164)'  d='M119.2,192.4 L119.2,74.6 L142.8,74.6 L142.8,192.4 L119.2,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
-		<polygon fill = 'rgb( 77, 175, 164)' fill-opacity = '0.400000' points = '237.4,192.4 261.2,192.4 261.2,73.2 237.4,73.2 '/>
+	<path stroke='rgb( 77, 175, 164)'  d='M119.8,192.4 L119.8,74.6 L143.7,74.6 L143.7,192.4 L119.8,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'rgb( 77, 175, 164)' fill-opacity = '0.400000' points = '239.5,192.4 263.6,192.4 263.6,73.2 239.5,73.2 '/>
 	</g>
-	<path stroke='rgb( 77, 175, 164)'  d='M237.4,192.4 L237.4,73.3 L261.1,73.3 L261.1,192.4 L237.4,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
-		<polygon fill = 'rgb( 77, 175, 164)' fill-opacity = '0.400000' points = '355.7,192.4 379.4,192.4 379.4,64.9 355.7,64.9 '/>
+	<path stroke='rgb( 77, 175, 164)'  d='M239.5,192.4 L239.5,73.3 L263.5,73.3 L263.5,192.4 L239.5,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'rgb( 77, 175, 164)' fill-opacity = '0.400000' points = '359.2,192.4 383.3,192.4 383.3,64.9 359.2,64.9 '/>
 	</g>
-	<path stroke='rgb( 77, 175, 164)'  d='M355.7,192.4 L355.7,65.0 L379.3,65.0 L379.3,192.4 L355.7,192.4 Z  h0.01'/></g>
+	<path stroke='rgb( 77, 175, 164)'  d='M359.2,192.4 L359.2,65.0 L383.2,65.0 L383.2,192.4 L359.2,192.4 Z  h0.01'/></g>
 	</g>
 	<g id="gnuplot_plot_2" ><title>gnuplot_plot_2</title>
 <g style="fill:none; color:green; stroke:currentColor; stroke-width:4.00; stroke-linecap:butt; stroke-linejoin:miter">
@@ -122,15 +122,15 @@
 		<polygon fill = 'rgb(255, 127,   0)' fill-opacity = '0.400000' points = '188.1,57.2 230.3,57.2 230.3,48.2 188.1,48.2 '/>
 	</g>
 	<path stroke='rgb(255, 127,   0)'  d='M188.1,57.2 L230.3,57.2 L230.3,48.2 L188.1,48.2 L188.1,57.2 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
-		<polygon fill = 'rgb(255, 127,   0)' fill-opacity = '0.400000' points = '147.6,192.4 171.3,192.4 171.3,173.4 147.6,173.4 '/>
+		<polygon fill = 'rgb(255, 127,   0)' fill-opacity = '0.400000' points = '143.7,192.4 167.8,192.4 167.8,173.4 143.7,173.4 '/>
 	</g>
-	<path stroke='rgb(255, 127,   0)'  d='M147.6,192.4 L147.6,173.5 L171.2,173.5 L171.2,192.4 L147.6,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
-		<polygon fill = 'rgb(255, 127,   0)' fill-opacity = '0.400000' points = '265.8,192.4 289.6,192.4 289.6,173.0 265.8,173.0 '/>
+	<path stroke='rgb(255, 127,   0)'  d='M143.7,192.4 L143.7,173.5 L167.7,173.5 L167.7,192.4 L143.7,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'rgb(255, 127,   0)' fill-opacity = '0.400000' points = '263.5,192.4 287.5,192.4 287.5,173.0 263.5,173.0 '/>
 	</g>
-	<path stroke='rgb(255, 127,   0)'  d='M265.8,192.4 L265.8,173.1 L289.5,173.1 L289.5,192.4 L265.8,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
-		<polygon fill = 'rgb(255, 127,   0)' fill-opacity = '0.400000' points = '384.1,192.4 407.8,192.4 407.8,170.6 384.1,170.6 '/>
+	<path stroke='rgb(255, 127,   0)'  d='M263.5,192.4 L263.5,173.1 L287.4,173.1 L287.4,192.4 L263.5,192.4 Z  h0.01'/>	<g style = 'stroke:none; shape-rendering:crispEdges'>
+		<polygon fill = 'rgb(255, 127,   0)' fill-opacity = '0.400000' points = '383.2,192.4 407.2,192.4 407.2,170.6 383.2,170.6 '/>
 	</g>
-	<path stroke='rgb(255, 127,   0)'  d='M384.1,192.4 L384.1,170.7 L407.7,170.7 L407.7,192.4 L384.1,192.4 Z  h0.01'/></g>
+	<path stroke='rgb(255, 127,   0)'  d='M383.2,192.4 L383.2,170.7 L407.1,170.7 L407.1,192.4 L383.2,192.4 Z  h0.01'/></g>
 	</g>
 <g style="fill:none; color:white; stroke:rgb(255, 127,   0); stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 </g>
