@@ -4,7 +4,7 @@ set term svg size 480,250 font "Times-Roman, 11"
 set output "throughput2.svg"
 
 #set auto x
-set xtics ("129" 0, "256" 1, "512" 2, "1K" 3, "4K" 4, "8K" 5, "16K" 6, "32K" 7, "64K" 8, "128K" 9, "256K" 10, "512K" 11, "" 12)
+set xtics ("128" 0, "256" 1, "512" 2, "1K" 3, "4K" 4, "8K" 5, "16K" 6, "32K" 7, "64K" 8, "128K" 9, "256K" 10, "512K" 11, "" 12)
 #set xtics nomirror
 set xtic rotate by -45 scale 0
 #set xlabel "Size (byte)"
