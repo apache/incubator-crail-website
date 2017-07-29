@@ -30,7 +30,7 @@ set xtics ("4B" 0, "512B" 1, "4K" 2)
 #set logscale y
 
 
-plot "crail_nvmf.dat" using ($0):($2):(0.2)  title "Crail - NVMf" with boxes fill solid 1 axes x1y1,\
-"crail_dram.dat" using ($0+0.24):($3):(0.2)  title "Crail - DRAM" with boxes fill solid 1 axes x1y1
+plot "crail_nvmf.dat" using ($0):($2):(0.2)  title "Crail - NVMf" with boxes fill solid 0.4 axes x1y1,\
+"crail_dram.dat" using ($0+0.24):($3):(0.2)  title "Crail - DRAM" with boxes fill solid 0.4 axes x1y1
 
 

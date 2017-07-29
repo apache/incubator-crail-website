@@ -19,6 +19,20 @@ set style line 1 lc rgb "#4dafa4" lw 4
 set style line 2 lc rgb "#ff7f00" lw 4
 set style line 3 lc rgb "#e41a1c" lw 4
 set style line 4 lc rgb "#377eb8" lw 4
+set style line 5 lc rgb "#377eb8" lw 4
+set style line 6 lc rgb "#377eb8" lw 4
+set style line 7 lc rgb "#377e00" lw 4
+#set style line 2 lc rgb "#e41a1c" lw 4
+#set style line 4 lc rgb "#4dafa4" lw 4
+#set style line 5 lc rgb "#984ea3" lw 4
+#set style line 6 lc rgb "#ff7f00" lw 4
+#set style line 7 lc rgb "#ffff33" lw 4
+
+
+#set style line 1 lc rgb "#4dafa4" lw 4
+#set style line 2 lc rgb "#ff7f00" lw 4
+#set style line 3 lc rgb "#e41a1c" lw 4
+#set style line 4 lc rgb "#377eb8" lw 4
 
 plot "crail_nvmf.dat" using ($2/1000.0) title "NVMf - direct",\
 "crail_nvmf.dat" using ($3/1000.0) title "NVMf - buffered",\
