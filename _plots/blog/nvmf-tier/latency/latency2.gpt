@@ -7,7 +7,7 @@ set output "latency2.svg"
 set yrange [0:105]
 #set ytics add ("1us" 1, "10us" 10, "100us" 100, "1ms" 1000, "10ms" 10000, "" 100000, "" 1000000, "10s" 10000000, "100s" 100000000, "" 1000000000, "" 1e10)
 set ylabel "Latency [us]"
-set xlabel "Size"
+#set xlabel "Size"
 set grid ytics mytic
 set key left
 
