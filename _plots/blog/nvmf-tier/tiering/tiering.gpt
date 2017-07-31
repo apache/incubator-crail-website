@@ -30,7 +30,7 @@ set xtics ("100/0" 0, "80/20" 1, "60/40" 2, "40/60" 3, "20/80" 4, "0/100" 5)
 #set logscale y
 
 
-plot "crail.dat" using ($0):($1+$2):(0.3)  title "Reduce" with boxes fill solid 1 axes x1y1,\
-"crail.dat" using ($0):($2):(0.3) title "Map" with boxes fill solid 1 axes x1y1
+plot "crail.dat" using ($0):($1+$2):(0.3)  title "Reduce" with boxes fill solid 0.4,\
+"crail.dat" using ($0):($2):(0.3) title "Map" with boxes fill solid 0.4
 
 
