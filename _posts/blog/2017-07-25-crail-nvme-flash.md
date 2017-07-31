@@ -119,6 +119,6 @@ In the following experiment we gradually limit DRAM resources to leverage more a
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/tiering.svg" width="550"/></div>
 
-To summarize, in this blog we have shown that Crail/NVMf -- due to its user-level approach -- offers latencies and throughput very close to the hardware speed. The Crail NVMf tier can be used conveniently in combination with the Crail DRAM tier to either save cost or to handle situationsn where the available DRAM is not sufficient to store the working set of a data processing workload. 
+To summarize, in this blog we have shown that the NVMf flash storage backend for Crail -- due to its efficient user-level implementation -- offers latencies and throughput very close to the hardware speed. The Crail NVMf storage tier can be used conveniently in combination with the Crail DRAM tier to either save cost or to handle situations where the available DRAM is not sufficient to store the working set of a data processing workload. 
 
 
