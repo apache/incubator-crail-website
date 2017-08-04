@@ -30,8 +30,9 @@ set xtics ("4B" 0, "1K" 1, "4K" 2, "16K" 3, "64K" 4, "256K" 5, "1MB" 6)
 #set logscale y
 
 
-plot "ramcloud.dat" using ($0):($2):(0.2)  title "RAMCloud/read/Java* (56Gbps IB)" with boxes fill solid 0.4 axes x1y1,\
-"crail.dat" using ($0+0.2):($3):(0.2)  title "Crail (lookup & read)" with boxes fill solid 0.4 axes x1y1,\
-"crail.dat" using ($0+0.2):($2):(0.13) title "Crail (lookup only)" with boxes fill solid 1 axes x1y1
+plot "ramcloud.dat" using ($0):($2):(0.2)  title "RAMCloud/read/C (56Gbps IB)" with boxes fill solid 0.4 axes x1y1,\
+"ramcloud.dat" using ($0+0.2):($3):(0.2)  title "RAMCloud/read/Java (56Gbps IB)" with boxes fill solid 0.4 axes x1y1,\
+"crail.dat" using ($0+0.4):($3):(0.2)  title "Crail (lookup & read)" with boxes fill solid 0.4 axes x1y1,\
+"crail.dat" using ($0+0.4):($2):(0.13) title "Crail (lookup only)" with boxes fill solid 1 axes x1y1
 
 

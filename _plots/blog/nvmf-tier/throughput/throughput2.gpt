@@ -1,10 +1,11 @@
 #set terminal pdf monochrome size 4.15,1.6 font "Times-Roman, 12"
-set term svg size 480,250 font "Times-Roman, 11"
+set term svg size 480,240 font "Times-Roman, 11"
 
 set output "throughput2.svg"
 
-set auto x
-set xtics nomirror
+#set auto x
+set xtics ("128" 0, "256" 1, "512" 2, "1K" 3, "4K" 4, "8K" 5, "16K" 6, "32K" 7, "64K" 8, "128K" 9, "256K" 10, "512K" 11, "" 12)
+#set xtics nomirror
 set xtic rotate by -45 scale 0
 #set xlabel "Size (byte)"
 set ylabel "Throughput (GB/s)"
@@ -18,8 +19,22 @@ set style line 1 lc rgb "#4dafa4" lw 4
 set style line 2 lc rgb "#ff7f00" lw 4
 set style line 3 lc rgb "#e41a1c" lw 4
 set style line 4 lc rgb "#377eb8" lw 4
+set style line 5 lc rgb "#377eb8" lw 4
+set style line 6 lc rgb "#377eb8" lw 4
+set style line 7 lc rgb "#377e00" lw 4
+#set style line 2 lc rgb "#e41a1c" lw 4
+#set style line 4 lc rgb "#4dafa4" lw 4
+#set style line 5 lc rgb "#984ea3" lw 4
+#set style line 6 lc rgb "#ff7f00" lw 4
+#set style line 7 lc rgb "#ffff33" lw 4
 
-plot "crail_nvmf.dat" using ($2/1000.0):xtic(1) title "NVMf - direct",\
+
+#set style line 1 lc rgb "#4dafa4" lw 4
+#set style line 2 lc rgb "#ff7f00" lw 4
+#set style line 3 lc rgb "#e41a1c" lw 4
+#set style line 4 lc rgb "#377eb8" lw 4
+
+plot "crail_nvmf.dat" using ($2/1000.0) title "NVMf - direct",\
 "crail_nvmf.dat" using ($3/1000.0) title "NVMf - buffered",\
 "crail_dram.dat" using ($2/8/1000.0) title "DRAM - buffered"
 
