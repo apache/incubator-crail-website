@@ -76,7 +76,7 @@ Let's start by looking at sequential read/write performance. These benchmarks ca
 </p>
 </div>
 ```
-./bin/crail iobench -t writeClusterHeap -s 1024 -k 100000000 -w 32 -f /tmp.dat
+./bin/crail iobench -t write -s 1024 -k 100000000 -w 32 -f /tmp.dat
 ```    
 <div style="text-align: justify"> 
 <p>
@@ -118,7 +118,7 @@ Typically, distributed storage systems are either built for sequential access to
 </p>
 </div>
 ```
-./bin/crail iobench -t keyget -s 4 -k 1000000 -f /tmp.dat -w 32
+./bin/crail iobench -t getkey -s 4 -k 1000000 -f /tmp.dat -w 32
 ```   
 <div style="text-align: justify"> 
 <p>
