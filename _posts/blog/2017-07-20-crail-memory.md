@@ -122,7 +122,7 @@ Typically, distributed storage systems are either built for sequential access to
 ```   
 <div style="text-align: justify"> 
 <p>
-The figure below illustrates the latencies of get() operations for different key/value sizes and compares them to the latencies we obtained with RAMCloud for the same type of operations. RAMCloud is RDMA-based and offers multiple client APIs including a Java API which we used in the benchmark. Unfortunately, we didn't yet manage to compile RAMCloud for the PPC architecture, therefore, the numbers shown are from our X86 cluster that uses 56 Gbps Infiniband. We are working on the PPC build, as well as on including other low-latency open source key/value stores such as HERD. Again, if there is particular key/value store you would like us to include, please write us.
+The figure below illustrates the latencies of get() operations for different key/value sizes and compares them to the latencies we obtained with RAMCloud for the same type of operations. RAMCloud is a low-latency key/value store implemented using RDMA. RAMCloud actually provides durable storage by asynchronously replicating data on backup storage. However, at any point in time all the data is held in DRAM and read requests will be served from DRAM directly. Up to our knowledge, RAMCloud is the fastest key/value store that is (a) available open source and (b) can be deployed in practice as a storage platform for applications. Other similar RDMA-based storage systems we looked at like FARM or HERD are either not open source or they do not provide a clean separation between storage system, API and clients. 
 </p>
 </div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/latency.svg" width="550"/></div>
