@@ -20,9 +20,10 @@ I recently read the <a href="https://www.usenix.org/conference/atc17/technical-s
 The specific cluster configuration used for the experiments in this blog:
 
 * Cluster
-  * 8 node OpenPower cluster
-* Node configuration
-  * CPU: 2x OpenPOWER Power8 10-core @2.9Ghz
+  * 8 node OpenPower cluster (for Crail)
+  * 2 node X86 cluster (for RAMCloud)
+* OpenPower Node configuration
+  * CPU: 2x OpenPOWER Power8 10-core @2.9Ghz 
   * DRAM: 512GB DDR4
   * Network: 1x100Gbit/s Ethernet Mellanox ConnectX-4 EN (Ethernet/RoCE)
 * Software
