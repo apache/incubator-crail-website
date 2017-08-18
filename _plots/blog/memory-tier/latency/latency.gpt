@@ -29,6 +29,10 @@ set style increment user
 set xtics ("4B" 0, "1K" 1, "4K" 2, "16K" 3, "64K" 4, "256K" 5, "1MB" 6)
 #set logscale y
 
+#set arrow from 6,40 to 6,30 nohead 
+#set arrow from 4.8,45 to 5.1,45 nohead linestyle 1 lw 7
+set arrow from 4.8,45 to 5.1,45 lw 2
+set label "124"  at 4.4,45
 
 plot "ramcloud.dat" using ($0):($2):(0.2)  title "RAMCloud/read/C" with boxes fill solid 0.4 axes x1y1,\
 "ramcloud.dat" using ($0+0.2):($3):(0.2)  title "RAMCloud/read/Java" with boxes fill solid 0.4 axes x1y1,\

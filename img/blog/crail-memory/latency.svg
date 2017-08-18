@@ -100,6 +100,13 @@
 	<g transform="translate(337.1,291.9)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:middle">
 		<text>key size</text>
 	</g>
+	<g transform="translate(482.4,43.8)" style="stroke:none; fill:black; font-family:Times-Roman; font-size:12.00pt; text-anchor:start">
+		<text>124</text>
+	</g>
+</g>
+<g style="fill:none; color:black; stroke:currentColor; stroke-width:2.00; stroke-linecap:butt; stroke-linejoin:miter">
+	<path stroke='black'  d='M534.8,41.2 L542.2,39.3 L534.8,37.4 M516.6,39.3 L542.2,39.3  h0.01'/></g>
+<g style="fill:none; color:black; stroke:black; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 </g>
 	<g id="gnuplot_plot_1" ><title>gnuplot_plot_1</title>
 <g style="fill:none; color:white; stroke:black; stroke-width:4.00; stroke-linecap:butt; stroke-linejoin:miter">
