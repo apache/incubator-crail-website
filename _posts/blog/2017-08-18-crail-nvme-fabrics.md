@@ -29,11 +29,25 @@ The specific cluster configuration used for the experiments in this blog:
   * SPDK git commit 5109f56ea5e85b99207556c4ff1d48aa638e7ceb with patches for POWER support
   * DPDK git commit bb7927fd2179d7482de58d87352ecc50c69da427
 
-### Anatomy of a Crail NVM Operation
+### The Crail NVMf Storage Tier
 
 <div style="text-align: justify"> 
 <p>
-Due to the modular design of Crail implementing a new storage tier is fairly easy. All metadata operations as explained in <a href="http://www.crail.io/blog/2017/07/crail-memory.html">part I</a> of this series are taken care of by the namenode resp. its (plugable) RPC implementation. As a storage tier we are responsible in a) donating regions of our memory resource to the namenode and b) performing data operations on them. In our NVMf storage tier each server process manages exactly one NVMe drive. To achieve the best performance we wanted to use a user-level implemention to access the NVMe drives and transfer the data over the network. We opted for the <a href="http://www.spdk.io">Storage Performance Developer Kit (SPDK)</a> as it is a widely used open-source project. The server side of our NVMf storage tier sets up a NVMf target through SPDK and donates memory regions (basically splits up the NVMe namespaces into smaller blocks) to the namenode which are identified by ip address, port, key and an offset. The namenode then splits those NVMe regions into smaller units called blocks that make up files in Crail. Whenever a data operation is performed the client fetches the metadata information for a particular block from the namenode which contains the identifier. With this information our NVMf storage tier client implementation is able to connect to the appropriate NVMf target and performs data operations on it through SPDK.
+Crail is a framework that allows arbitrary storage backends to be added by implementing the Crail storage interface. A storage backend manages the point-to-point data transfers on a per block granularity between a Crail client and a set of storage servers. The Crail storage interface essentially consists of three virtual functions, which simplified look like this:
+</p>
+</div>
+```
+//Server-side interface: donate storage resources into Crail
+StorageResource allocateResource();
+//Client-side interface: read/write remote/local storage resources
+writeBlock(BlockInfo, ByteBuffer);
+readBlock(BlockInfo, ByteBuffer);
+```
+<div style="text-align: justify"> 
+<p>
+A specific implementation of this interface provides an efficient mapping of Crail storage operations to the actual storage and network hardware the backend is exporting. Crail comes with two native storage backends, an RDMA-based DRAM backend and an RDMA-based NVMe backend, but other storage backends are available as well (e.g., Netty) and we plan to provide more custom backends in the future as new storage and network technologies are emerging. 
+</p>
+In the NVMf storage backend we evaluate in this blog, each server process manages exactly one NVMe drive. To achieve the best performance we wanted to use a user-level implemention to access the NVMe drives and transfer the data over the network. We opted for the <a href="http://www.spdk.io">Storage Performance Developer Kit (SPDK)</a> as it is a widely used open-source project. The server side of our NVMf storage tier sets up a NVMf target through SPDK and donates memory regions (basically splits up the NVMe namespaces into smaller blocks) to the namenode which are identified by ip address, port, key and an offset. The namenode then splits those NVMe regions into smaller units called blocks that make up files in Crail. Whenever a data operation is performed the client fetches the metadata information for a particular block from the namenode which contains the identifier. With this information our NVMf storage tier client implementation is able to connect to the appropriate NVMf target and performs data operations on it through SPDK.
 </p>
 <p>
 One downside of using a raw storage interface like NVMe is that they do not allow for byte level access but instead you have to issue data operations on drive sectors which are typically 512Byte or 4KB large (we used 512Byte sector size in all the experiments shown in this blog). As we wanted to use the standard NVMf protocol (and Crail has a client driven philosophy) we needed to implement byte level access on the client side. For reads this can be implemented in a straight forward way by reading the whole sector and copying out the needed part. For writes that modify a sector which has already been written before we need to do a read modify write operation.
