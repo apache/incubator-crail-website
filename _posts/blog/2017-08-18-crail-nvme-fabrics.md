@@ -69,7 +69,7 @@ We perform latency and throughput measurement of our Crail NVMf storage tier aga
 </p>
 </div>
 ```
-./bin/crail iobench -t readRandomDirect -s <size> -k <iterations> -w 32 -f /tmp.dat
+./bin/crail iobench -t readRandom -b false -s <size> -k <iterations> -w 32 -f /tmp.dat
 ```
 and SPDK:
 ```
@@ -104,7 +104,7 @@ Let us look at the sequential read and write throughput for buffered and direct 
 </p>
 </div>
 ```
-./bin/crail iobench -t readSequentialHeap -s <size> -k <iterations> -w 32 -f /tmp.dat
+./bin/crail iobench -t read -s <size> -k <iterations> -w 32 -f /tmp.dat
 ```
 The direct stream benchmark:
 ```
