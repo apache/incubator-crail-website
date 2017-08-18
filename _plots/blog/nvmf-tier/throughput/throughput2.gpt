@@ -1,5 +1,5 @@
 #set terminal pdf monochrome size 4.15,1.6 font "Times-Roman, 12"
-set term svg size 480,240 font "Times-Roman, 11"
+set term svg size 640,280 font "Times-Roman, 12"
 
 set output "throughput2.svg"
 

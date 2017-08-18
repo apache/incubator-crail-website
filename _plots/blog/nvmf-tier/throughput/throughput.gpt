@@ -1,9 +1,9 @@
 #set terminal pdf monochrome size 4.15,1.6 font "Times-Roman, 12"
-set term svg size 480,250 font "Times-Roman, 11"
+set term svg size 640,280 font "Times-Roman, 12"
 
 set rmargin 1
 #set bmargin 6
-set tmargin 2
+#set tmargin 2
 set output "throughput.svg"
 #set xlabel "Size"
 set ylabel "Throughput [GB/s]"
