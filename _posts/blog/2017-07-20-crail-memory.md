@@ -26,7 +26,7 @@ The specific cluster configuration used for the experiments in this blog:
   * CPU: 2x OpenPOWER Power8 10-core @2.9Ghz 
   * DRAM: 512GB DDR4
   * Network: 1x100Gbit/s Ethernet Mellanox ConnectX-4 EN (Ethernet/RoCE)
-    * RDMA send/recv latency, ib_send_lat (RTT): 2.5us
+    * RDMA send/recv latency, ib_send_lat (RTT): 3.1us
     * RDMA read latency, ib_read_lat (RTT): 2.3us
 * Software
   * RedHat 7.2 with Linux kernel version 4.10.13
