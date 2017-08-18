@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Crail Storage Performance -- Part II: NVMe over Fabrics"
+title: "Crail Storage Performance -- Part II: NVMf"
 author: Jonas Pfefferle
 category: blog
 comments: true
