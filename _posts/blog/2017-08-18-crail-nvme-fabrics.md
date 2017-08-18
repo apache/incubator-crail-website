@@ -131,7 +131,7 @@ In this paragraph we show how Crail can leverage flash memory when there is too 
 
 </p>
 </div>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="350" hspace="20"/></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="400" hspace="100"/></div>
 <br>
 <div style="text-align: justify"> 
 <p>
