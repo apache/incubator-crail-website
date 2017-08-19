@@ -48,7 +48,7 @@ readBlock(BlockInfo, ByteBuffer);
 A specific implementation of this interface provides an efficient mapping of Crail storage operations to the actual storage and network hardware the backend is exporting. Crail comes with two native storage backends, an RDMA-based DRAM backend and an RDMA-based NVMe backend, but other storage backends are available as well (e.g., Netty) and we plan to provide more custom backends in the future as new storage and network technologies are emerging. 
 </p>
 <p>
-The Crail NVMf storage backend we evaluate in this blog provides user-level access to local and remote flash through the NVMe over Fabrics protocol. Crail NVMf backend is implemented using <a href="https://github.com/zrlio/disni">DiSNI</a>, a user-level network and storage interface for Java offering both RDMA and NVMf APIs. DiSNI itself is based on <a href="http://www.spdk.io">SPDK</a> for its NVMf APIs. 
+The Crail NVMf storage backend we evaluate in this blog provides user-level access to local and remote flash through the NVMe over Fabrics protocol. Crail NVMf is implemented using <a href="https://github.com/zrlio/disni">DiSNI</a>, a user-level network and storage interface for Java offering both RDMA and NVMf APIs. DiSNI itself is based on <a href="http://www.spdk.io">SPDK</a> for its NVMf APIs. 
 </p>
 <p>
 The server side of the NVMf backend is designed in a way that each server process manages exactly one NVMe drive. On hosts with multiple NVMe drives one may start several Crail NVMf servers. A server is setting up an NVMf target through DiSNI and implements the allocateResource() storage interface by allocating storage regions from the NVMe drive (basically splits up the NVMe namespace into smaller segments). The Crail storage runtime makes information about storage regions available to the Crail namenode, from where regions are further broken down into smaller units called blocks that make up files in Crail.
@@ -130,11 +130,11 @@ Random read latency is limited by flash technology and we currently see around 7
 In this paragraph we show how Crail can leverage flash memory when there is too little or no DRAM to hold all your data available while only seeing a minor performance decrease in (most) real world applications. If you have multiple tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier. Crail first uses up all available resources of the faster tier even if it is a remote resource because the faster tier accessed remotely is typically still faster than the slower tier's local resource. This is what we call horizontal tiering.
 </p>
 </div>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="400" vspace="10"/></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10"/></div>
 <br>
 <div style="text-align: justify"> 
 <p>
-In the following experiment we gradually limit DRAM resources to leverage more and more flash memory in a Spark/Crail Terasort application. We sort 200GB of data and reduce memory in 20% steps from all data in memory to all data in flash. The plot shows that by putting all the data in flash we only reduce the sorting time by around 48%. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
+In the following experiment we gradually limit DRAM resources to leverage more and more flash memory in a Spark/Crail Terasort application. We sort 200GB of data and reduce memory in 20% steps from all data in memory to all data in flash. The plot shows that by putting all the data in flash we only increase the sorting time by around 48%. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
 </p>
 </div>
 
