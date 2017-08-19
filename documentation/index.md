@@ -13,7 +13,7 @@ The Crail I/O stack consists of a set of components. Typically only a subset of 
 
 We currently do not provide binary releases. This page describes how to build the Crail I/O stack from source, and how to configure and deploy it. 
 
-<h2 id="crail">Building the Crail Distributed File System</h2>
+<h2 id="crail">Building Crail Store</h2>
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
@@ -208,13 +208,13 @@ Crail provides a set of benchmark tools to measure the performance. Type
 
 to get an overview of the available benchmarks. For instance, to benchmark the sequential write performance, type
 
-    ./bin/crail iobench -t writeClusterDirect -s 1048576 -k 102400 -f /tmp.dat
+    ./bin/crail iobench -t write -s 1048576 -k 102400 -f /tmp.dat
 
 This will create a file of size 100G, written sequentially in a sequence of 1MB operations. 
 
 To read a file sequentially, type
 
-    ./bin/crail iobench -t readSequentialDirect -s 1048576 -k 102400 -f /tmp.dat
+    ./bin/crail iobench -t read -s 1048576 -k 102400 -f /tmp.dat
 
 This command issues 102400 read operations of 1MB each.
 
