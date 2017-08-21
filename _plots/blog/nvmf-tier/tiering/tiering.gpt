@@ -29,7 +29,7 @@ set style increment user
 set xtics ("100/0" 0, "100/0" 1, "80/20" 2, "60/40" 3, "40/60" 4, "20/80" 5, "0/100" 6)
 #set logscale y
 
-set label "Vanilla Spark (100\% Memory)" at 0.5,90
+set label "Vanilla Spark \n (100\% Memory)" at 0.5,90
 set arrow from 0.48,89 to 0.25,89
 
 
