@@ -124,7 +124,7 @@ The direct stream benchmark:
 
 <div style="text-align: justify"> 
 <p>
-Random read latency is limited by flash technology and we currently see around 70microseconds when performing sector size accesses to the device with Crail. Remote DRAM latencies with Crail are around 7-8x faster than our NVMf tier however we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10microseconds. Considering that there is an overhead of around 10microseconds to access a drive with Crail using such a device would put random read latencies somewhere around 20microseconds which is only half the performance of our DRAM tier.
+Random read latency is limited by the flash technology and we currently see around 70us when performing sector size accesses to the device with Crail. Remote DRAM latencies with Crail are around 7-8x faster than our NVMf tier. However, we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10us. Considering that there is an overhead of around 10us to access a drive with Crail, using such a device would put random read latencies somewhere around 20us which is only half the performance of our DRAM tier.
 </p>
 </div>
 
@@ -134,19 +134,19 @@ Random read latency is limited by flash technology and we currently see around 7
 
 <div style="text-align: justify"> 
 <p>
-In this paragraph we show how Crail can leverage flash memory when there is too little or no DRAM to hold all your data available while only seeing a minor performance decrease in (most) real world applications. If you have multiple tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier. Crail first uses up all available resources of the faster tier even if it is a remote resource because the faster tier accessed remotely is typically still faster than the slower tier's local resource. This is what we call horizontal tiering.
+In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM to hold all the data. If you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail first uses up all available resources of the faster tier even. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash). This is what we call horizontal tiering.
 </p>
 </div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10"/></div>
 <br>
 <div style="text-align: justify"> 
 <p>
-In the following experiment we gradually limit DRAM resources to leverage more and more flash memory in a Spark/Crail Terasort application. We sort 200GB of data and reduce memory in 20% steps from all data in memory to all data in flash. The plot shows that by putting all the data in flash we only increase the sorting time by around 48%. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
+In the following 200G Terasort experiment we gradually limit the DRAM resources in Crail while adding more flash to the Crail NVMf storage tier. Note there here Crail is used for both input/output as well as shuffle data. The figure shows that by putting all the data in flash we only increase the sorting time by around 48% compared to the configuration where all the data resides in DRAM. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
 </p>
 </div>
 
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/tiering.svg" width="550"/></div>
 
-To summarize, in this blog we have shown that the NVMf flash storage backend for Crail -- due to its efficient user-level implementation -- offers latencies and throughput very close to the hardware speed. The Crail NVMf storage tier can be used conveniently in combination with the Crail DRAM tier to either save cost or to handle situations where the available DRAM is not sufficient to store the working set of a data processing workload. 
+To summarize, in this blog we have shown that the NVMf storage backend for Crail -- due to its efficient user-level implementation -- offers latencies and throughput very close to the hardware speed. The Crail NVMf storage tier can be used conveniently in combination with the Crail DRAM tier to either save cost or to handle situations where the available DRAM is not sufficient to store the working set of a data processing workload. 
 
 
