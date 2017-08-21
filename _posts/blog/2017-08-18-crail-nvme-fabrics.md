@@ -5,7 +5,6 @@ author: Jonas Pfefferle
 category: blog
 comments: true
 ---
-<meta property='og:image' content='//http://crail.io/img/blog/crail-nvmf/tiering.svg" />
 <div style="text-align: justify">
 <p>
 This is part II of our series of posts discussing Crail's raw storage performance. This part is about Crail's NVMe storage tier, a low-latency flash storage backend for Crail completely based on user-level storage access.
