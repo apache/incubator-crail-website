@@ -26,14 +26,14 @@ set style line 7 lc rgb "#377e00" lw 4
 
 set style increment user
 
-set xtics ("100/0" 0, "100/0" 1, "80/20" 2, "60/40" 3, "40/60" 4, "20/80" 5, "0/100" 6)
+set xtics ("100/0" 0, "" 1, "100/0" 2, "80/20" 3, "60/40" 4, "40/60" 5, "20/80" 6, "0/100" 7)
 #set logscale y
 
 set label "Vanilla Spark \n (100\% Memory)" at 0.5,90
 set arrow from 0.48,89 to 0.25,89
 
 
-plot "crail.dat" using ($0):($1+$2):(0.3)  title "Reduce" with boxes fill solid 0.4,\
-"crail.dat" using ($0):($2):(0.3) title "Map" with boxes fill solid 0.4
+plot "crail.dat" using ($0):($1+$2):(0.4)  title "Reduce" with boxes fill solid 0.4,\
+"crail.dat" using ($0):($2):(0.4) title "Map" with boxes fill solid 0.4
 
 
