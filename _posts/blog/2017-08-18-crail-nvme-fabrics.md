@@ -134,14 +134,14 @@ Random read latency is limited by the flash technology and we currently see arou
 
 <div style="text-align: justify"> 
 <p>
-In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. As described in the <a href="http://www.crail.io/overview/">overview</a> section, if you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail first uses up all available resources of the faster tier. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash) due to the fast network. This is what we call horizontal tiering.
+In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. As described in the <a href="http://www.crail.io/overview/">overview</a> section, if you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail first uses up all available resources of the faster tier. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash), motivated by the fast network. This is what we call horizontal tiering.
 </p>
 </div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10"/></div>
 <br>
 <div style="text-align: justify"> 
 <p>
-In the following 200G Terasort experiment we gradually limit the DRAM resources in Crail while adding more flash to the Crail NVMf storage tier. Note there here Crail is used for both input/output as well as shuffle data. The figure shows that by putting all the data in flash we only increase the sorting time by around 48% compared to the configuration where all the data resides in DRAM. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
+In the following 200G Terasort experiment we gradually limit the DRAM resources in Crail while adding more flash to the Crail NVMf storage tier. Note that here Crail is used for both input/output as well as shuffle data. The figure shows that by putting all the data in flash we only increase the sorting time by around 48% compared to the configuration where all the data resides in DRAM. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
 </p>
 </div>
 
