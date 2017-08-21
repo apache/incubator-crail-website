@@ -33,7 +33,7 @@ set label "Vanilla Spark \n (100\% Memory)" at 0.5,90
 set arrow from 0.48,89 to 0.25,89
 
 
-plot "crail.dat" using ($0):($1+$2):(0.4)  title "Reduce" with boxes fill solid 0.4,\
-"crail.dat" using ($0):($2):(0.4) title "Map" with boxes fill solid 0.4
+plot "crail.dat" using ($0):($1+$2):(0.4)  title "Map" with boxes fill solid 0.4,\
+"crail.dat" using ($0):($2):(0.4) title "Reduce" with boxes fill solid 0.4
 
 
