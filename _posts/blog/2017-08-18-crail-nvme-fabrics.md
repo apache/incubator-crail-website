@@ -98,7 +98,7 @@ and SPDK:
 ```
 <div style="text-align: justify"> 
 <p>
-For sequential operations in Crail, metadata fetching is inlined with data operations as described in the <a href="http://www.crail.io/blog/2017/08/crail-memory.html">DRAM</a> blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier to reaches the same throughput as the native SPDK benchmark (device limit).
+For sequential operations in Crail, metadata fetching is inlined with data operations as described in the <a href="http://www.crail.io/blog/2017/08/crail-memory.html">DRAM</a> blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier reaches the same throughput as the native SPDK benchmark (device limit).
 </p>
 </div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
