@@ -134,7 +134,7 @@ Random read latency is limited by the flash technology and we currently see arou
 
 <div style="text-align: justify"> 
 <p>
-In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM to hold all the data. If you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail first uses up all available resources of the faster tier even. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash). This is what we call horizontal tiering.
+In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. If you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail first uses up all available resources of the faster tier even. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash). This is what we call horizontal tiering.
 </p>
 </div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10"/></div>
