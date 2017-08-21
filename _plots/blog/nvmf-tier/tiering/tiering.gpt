@@ -4,12 +4,12 @@ set term svg size 640,300 font "Times-Roman, 12"
 
 set output "tiering.svg"
 
-set yrange [0:50]
+set yrange [0:120]
 #set ytics add ("1us" 1, "10us" 10, "100us" 100, "1ms" 1000, "10ms" 10000, "" 100000, "" 1000000, "10s" 10000000, "100s" 100000000, "" 1000000000, "" 1e10)
 set ylabel "Runtime (seconds)"
 set xlabel "Memory to Flash Ratio"
 set grid ytics mytic
-set key left
+set key right
 
 set style line 1 lc rgb "#4dafa4" lw 4
 set style line 2 lc rgb "#ff7f00" lw 4
@@ -26,8 +26,11 @@ set style line 7 lc rgb "#377e00" lw 4
 
 set style increment user
 
-set xtics ("100/0" 0, "80/20" 1, "60/40" 2, "40/60" 3, "20/80" 4, "0/100" 5)
+set xtics ("100/0" 0, "100/0" 1, "80/20" 2, "60/40" 3, "40/60" 4, "20/80" 5, "0/100" 6)
 #set logscale y
+
+set label "Vanilla Spark (100\% Memory)" at 0.5,90
+set arrow from 0.48,89 to 0.25,89
 
 
 plot "crail.dat" using ($0):($1+$2):(0.3)  title "Reduce" with boxes fill solid 0.4,\
