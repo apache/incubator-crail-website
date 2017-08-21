@@ -141,7 +141,7 @@ In this paragraph we show how Crail can leverage flash memory when there is not 
 <br>
 <div style="text-align: justify"> 
 <p>
-In the following 200G Terasort experiment we gradually limit the DRAM resources in Crail while adding more flash to the Crail NVMf storage tier. Note that here Crail is used for both input/output as well as shuffle data. The figure shows that by putting all the data in flash we only increase the sorting time by around 48% compared to the configuration where all the data resides in DRAM. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease.
+In the following 200G Terasort experiment we gradually limit the DRAM resources in Crail while adding more flash to the Crail NVMf storage tier. Note that here Crail is used for both input/output as well as shuffle data. The figure shows that by putting all the data in flash we only increase the sorting time by around 48% compared to the configuration where all the data resides in DRAM. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease. Also, note that even with 100% of the data in NVMe, Spark/Crail is still faster than vanilla Spark with all the data in memory. The vanilla Spark experiment uses Alluxio for input/output and RamFS for the shuffle data.
 </p>
 </div>
 
