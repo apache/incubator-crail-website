@@ -77,7 +77,7 @@ and SPDK:
 ```
 <div style="text-align: justify"> 
 <p>
-The main take away from this plot is that the time it takes to perform a random read operation on a NVMe-backed file in Crail takes only about 7 microseconds more time than fetching the same amount of data over a point-to-point SPDK connection. This is impressive because it shows that using Crail a bunch of NVMe drives can be turned into a fully distributed storage space at almost no extra cost. The 7 microseconds are due to Crail having to look up the specific NVMe storage node that holdes the data which requires one extra network roundtrip (client to namenode). The experiment represents an extreme case where no metadata is cached at the client. In practice, file blocks are often accessed multiple times in which case the read latency is further reduced. Also note that unlike SPDK which is native library, Crail delivers data directly into Java off-heap memory. 
+The main take away from this plot is that the time it takes to perform a random read operation on a NVMe-backed file in Crail takes only about 7 microseconds more time than fetching the same amount of data over a point-to-point SPDK connection. This is impressive because it shows that using Crail a bunch of NVMe drives can be turned into a fully distributed storage space at almost no extra cost. The 7 microseconds are due to Crail having to look up the specific NVMe storage node that holdes the data -- an operation which requires one extra network roundtrip (client to namenode). The experiment represents an extreme case where no metadata is cached at the client. In practice, file blocks are often accessed multiple times in which case the read latency is further reduced. Also note that unlike SPDK which is a native library, Crail delivers data directly into Java off-heap memory. 
 </p>
 </div>
 
@@ -92,8 +92,11 @@ and SPDK:
 ```
 ./perf -q 128 -s 65536 -w read -r 'trtype:RDMA adrfam:IPv4 traddr:<ip> trsvcid:<port>' -t <time in seconds>
 ```
-Here the metadata information can be easliy prefetch due to the sequential access and a single operation is long enough to allow the metadata prefetch to finish before the next operation begins. This allows our NVMf storage tier to reach the same throughput as the native SPDK benchmark (device limit).
-
+<div style="text-align: justify"> 
+<p>
+For sequential operations in Crail, metadata fetching is inlined with data operations as described in the <a href="http://www.crail.io/blog/2017/08/crail-memory.html">DRAM</a> blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier to reaches the same throughput as the native SPDK benchmark (device limit).
+</p>
+</div>
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
 
 ### Sequential Throughput
