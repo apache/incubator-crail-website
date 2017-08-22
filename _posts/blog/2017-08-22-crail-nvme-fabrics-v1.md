@@ -24,7 +24,7 @@ The specific cluster configuration used for the experiments in this blog:
   * Network: 1x100Gbit/s Mellanox ConnectX-4 IB
 * Software
   * RedHat 7.3 with Linux kernel version 3.10
-  * Crail 1.0, internal version 2842
+  * Crail 1.0, internal version 2843
   * SPDK git commit 5109f56ea5e85b99207556c4ff1d48aa638e7ceb with patches for POWER support
   * DPDK git commit bb7927fd2179d7482de58d87352ecc50c69da427
 
