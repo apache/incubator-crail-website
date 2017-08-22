@@ -62,3 +62,6 @@ paginate_path: blog/page:num
 # gem dependencies
 gems: [jekyll-paginate, jekyll-feed, jekyll-gist]
 
+#plugins:
+#    - regex_filter
+
