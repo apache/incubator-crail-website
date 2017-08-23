@@ -68,7 +68,7 @@ Crail supports optimized local operations via memcpy (instead of RDMA) in case a
 
 Crail is a multi-tiered storage system. Additinoal tiers can be enabled by adding them to the configuration as follows.
 
-    crail.datanode.types                  com.ibm.crail.storage.rdma.RdmaStorageTier,com.ibm.crail.storage.nvmf.NvmfStorageTier
+    crail.storage.types                  com.ibm.crail.storage.rdma.RdmaStorageTier,com.ibm.crail.storage.nvmf.NvmfStorageTier
 
 
 For the NVMf storage tier we need to configure the server IP that is used when listening for new connections. We also need to configure the PCI address of the flash device we want to use, as well as the huge page mount point to be used for allocating memory. 

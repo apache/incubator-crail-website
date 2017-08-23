@@ -29,7 +29,7 @@ Crail aims at providing a comprehensive solution to the above challenges in a fo
 
 <div style="text-align: justify">
 <p>
-The backbone of the Crail I/O architecture is the Crail Distributed File System (CrailFS), a high-performance multi-tiered data store for temporary data in analytics workloads. Data processing frameworks and applications may directly interact with CrailFS for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use CrailFS the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. SparkCrail is a Spark specific module which implements various I/O intensive Spark operations such as shuffle, broadcast, etc. Both CrailHDFS and SparkCrail can be used transparently with no need to recompile either the application or the data processing framework. 
+The backbone of the Crail I/O architecture is Crail Store, a high-performance multi-tiered data store for temporary data in analytics workloads. If the context permits we often refer to Crail Store simply as Crail. Data processing frameworks and applications may directly interact with Crail for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use Crail Store the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. SparkIO is a Spark specific module which implements various I/O intensive Spark operations such as shuffle, broadcast, etc. Both CrailHDFS and SparkIO can be used transparently with no need to recompile either the application or the data processing framework. 
 </p>
 </div>
 <br>
@@ -37,7 +37,7 @@ The backbone of the Crail I/O architecture is the Crail Distributed File System 
 <br><br>
 <div style="text-align: justify">
 <p>
-Crail modules are thin layers on top of CrailFS. Implementing new modules for a particular data processing framework or a specific I/O operation requires only a moderate amount of work. At the same time, modules inherit the full benefits of CrailFS in terms of user-level I/O, performance and storage tiering. For instance, in the blog section we show that the Crail-based shuffle engine for Spark permits all-to-all data shuffling very close to the speed of the 100Gb/s network fabric. 
+Crail modules are thin layers on top of Crail Store. Implementing new modules for a particular data processing framework or a specific I/O operation requires only a moderate amount of work. At the same time, modules inherit the full benefits of Crail in terms of user-level I/O, performance and storage tiering. For instance, in the blog section we show that the Crail-based shuffle engine for Spark permits all-to-all data shuffling very close to the speed of the 100Gb/s network fabric. 
 </p>
 </div>
 
@@ -45,8 +45,15 @@ Crail modules are thin layers on top of CrailFS. Implementing new modules for a 
 
 <div style="text-align: justify">
 <p>
-CrailFS implements a file system namespace across a cluster of RDMA interconnected storage resources such as DRAM or flash. 
-Storage resources may be co-located with the compute nodes of the cluster, or disagreggated inside the data center, or a mix of both. Files in the Crail namespace consist of arrays of blocks distributed across storage resources in the cluster. Crail groups storage resources into different tiers (e.g, DRAM, flash, disk) and permits file segments (blocks) to be allocated in specific tiers but also across tiers. For instance, by default Crail uses horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware.
+Crail Store implements a hierarchical namespace across a cluster of RDMA interconnected storage resources such as DRAM or flash. Storage resources may be co-located with the compute nodes of the cluster, or disagreggated inside the data center, or a mix of both. Nodes in the Crail namespace consist of arrays of blocks distributed across storage resources in the cluster. Crail groups storage resources into different tiers (e.g, DRAM, flash, disk) and permits node segments (blocks) to be allocated in specific tiers but also across tiers. For instance, by default Crail uses horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- resulting in a more effective usage of storage hardware. 
+</p>
+<p>
+Crail currently supports three types of nodes to be stored in its namespace: regular data files, directories and multifiles. Regular data files are append-and-overwrite with only a single-writer permitted per file at a given time. Append-andoverwrite means that – aside from appending data to the file – overwriting existing content of a file is also
+permitted. Directories in Crail are just regular files containing fixed length directory records. The advantage
+is that directory enumeration becomes just a standard file read operation which makes enumeration fast and
+scalable with regard to the number of directory entries. Multifiles are files that can be written concurrently.
+Internally, a multifile very much resembles a flat directory. Multiple concurrent substreams on a multifile are
+backed with separate files inside the directory. 
 </p>
 </div>
 
@@ -107,7 +114,7 @@ Moreover, regular HDFS-based applications will transparently work with Crail whe
 
 <div style="text-align: justify">
 <p>
-The SparkCrail module includes a Crail based shuffle engine as well as a broadcast service. The shuffle engine maps key ranges to directories in CrailFS. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
+The SparkCrail module includes a Crail based shuffle engine as well as a broadcast service. The shuffle engine maps key ranges to directories in Crail. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
 </p>
 </div>
 
