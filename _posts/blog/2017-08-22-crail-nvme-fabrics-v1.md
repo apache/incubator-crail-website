@@ -123,7 +123,7 @@ The direct stream benchmark:
 
 <div style="text-align: justify"> 
 <p>
-Random read latency is limited by the flash technology and we currently see around 70us when performing sector size accesses to the device with the Crail NVMf backend. In comparison, remote DRAM latencies with Crail are about 7-8x faster. However, we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10us. Considering that there is an overhead of around 10us to access a drive with Crail, using such a device would put random read latencies somewhere around 20us which is only half the performance of our DRAM tier.
+Random read latency is limited by the flash technology and we currently see around 70us when performing sector size accesses to the device with the Crail NVMf backend. In comparison, remote DRAM latencies with Crail are about 7-8x faster. However, we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10us. Considering that there is an overhead of around 10us to access a drive with Crail from anywhere in the cluster, using such a device would put random read latencies somewhere around 20us which is only half the performance of our DRAM tier.
 </p>
 </div>
 
