@@ -5,7 +5,7 @@ patrick:
     webpage: "http://researcher.watson.ibm.com/researcher/view.php?person=zurich-stu"
     image: people/patrick.jpg
     role: active
-    bio: CrailFS, Spark shuffle
+    bio: Crail Store, Spark-IO
 
 animesh:
    last_name: Trivedi
