@@ -168,7 +168,7 @@ Make sure the crail-1.0/conf directory is part of the classpath.
 
 The simplest way to create a file in Crail is as follows:
 
-    CrailFile file = fs.createFile(filename, 0, 0).get().syncDir();
+    CrailFile file = fs.create(filename, CrailNodeType.DATAFILE, CrailStorageClass.DEFAULT, CrailLocationClass.DEFAULT).get().syncDir();
 
 Aside from the actual filename, the 'createFile()' takes as input to the storage and location affinity which are preferences about the storage tier and physical location that this file should created in. Crail tries to satisfy these preferences later when the file is written. In the example we do not request any particular storage or location affinity.
 
