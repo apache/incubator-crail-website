@@ -29,7 +29,7 @@ Crail aims at providing a comprehensive solution to the above challenges in a fo
 
 <div style="text-align: justify">
 <p>
-The backbone of the Crail I/O architecture is Crail Store, a high-performance multi-tiered data store for temporary data in analytics workloads. If the context permits we often refer to Crail Store simply as Crail. Data processing frameworks and applications may directly interact with Crail for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use Crail Store the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. SparkIO is a Spark specific module which implements various I/O intensive Spark operations such as shuffle, broadcast, etc. Both CrailHDFS and SparkIO can be used transparently with no need to recompile either the application or the data processing framework. 
+The backbone of the Crail I/O architecture is Crail Store, a high-performance multi-tiered data store for temporary data in analytics workloads. If the context permits we often refer to Crail Store simply as Crail. Data processing frameworks and applications may directly interact with Crail for fast storage of in-flight data, but more commonly the interaction takes place through one of the Crail modules. As an example, the CrailHDFS adapter provides a standard HDFS interface allowing applications to use Crail Store the same way they use regular HDFS. Applications may want to use CrailHDFS for short-lived performance critical data, and regular HDFS for long-term data storage. CrailSparkIO is a Spark specific module which implements various I/O intensive Spark operations such as shuffle, broadcast, etc. Both CrailHDFS and CrailSparkIO can be used transparently with no need to recompile either the application or the data processing framework. 
 </p>
 </div>
 <br>
@@ -41,7 +41,7 @@ Crail modules are thin layers on top of Crail Store. Implementing new modules fo
 </p>
 </div>
 
-<h3 id="fs">Crail Distributed File System</h3>
+<h3 id="fs">Crail Store</h3>
 
 <div style="text-align: justify">
 <p>
@@ -110,11 +110,11 @@ Moreover, regular HDFS-based applications will transparently work with Crail whe
     FileSystem fs = FileSystem.get(conf);
     fs.create("crail://test/hello.txt");
     
- <h3 id="spark">SparkCrail Module</h3>   
+ <h3 id="spark">Crail Spark Module</h3>   
 
 <div style="text-align: justify">
 <p>
-The SparkCrail module includes a Crail based shuffle engine as well as a broadcast service. The shuffle engine maps key ranges to directories in Crail. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
+The Crail Spark module includes a Crail based shuffle engine as well as a broadcast service. The shuffle engine maps key ranges to directories in Crail. Each map task, while partitioning the data, appends key/value pairs to individual files in the corresponding directories. Tasks running on the same core within the cluster append to the same files, which reduces storage fragmentation. 
 </p>
 </div>
 
@@ -124,13 +124,13 @@ The SparkCrail module includes a Crail based shuffle engine as well as a broadca
 
 <div style="text-align: justify">
 <p>
-As is the case with the Crail HDFS adapter, the shuffle engine benefits from the performance and tiering advantages of the Crail file system. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are filling up the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers to the I/O memory of the reducers. 
+As is the case with the Crail HDFS adapter, the shuffle engine benefits from the performance and tiering advantages of the Crail data store. For instance, individual shuffle files are served using horizontal tiering. In most cases that means the files are filling up the memory tier as long as there is some DRAM available in the cluster, after which they extend to the flash tier. The shuffle engine further uses the Crail location affinity API to make sure local DRAM and flash is preferred over remote DRAM and flash respectively. Note that the shuffle engine is also completely zero-copy, as it transfers data directly from the I/O memory of the mappers to the I/O memory of the reducers. 
 </p>
 </div>
 
 <div style="text-align: justify">
 <p>
-The Crail-based Broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to the shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. Crail Shuffle and broadcast components can be enabled in Spark by setting the following system properties in spark-defaults.conf:
+The Crail-based broadcast plugin for Spark stores broadcast variables in Crail files. In contrast to the shuffle engine, broadcast is implemented without location affinity, which makes sure the underlying blocks of the Crail files are distributed across the cluster, leading to a better load balancing when reading broadcast variables. Crail shuffle and broadcast components can be enabled in Spark by setting the following system properties in spark-defaults.conf:
 </p>
 </div>
 
