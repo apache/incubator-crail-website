@@ -8,8 +8,8 @@ The Crail I/O stack consists of a set of components. Typically only a subset of 
 * [Crail Store](https://github.com/zrlio/crail): The backbone for all I/O operations across distributed storage resource. Includes both the RDMA/DRAM and the NVMf/Flash storage tier.
 * [Crail-Blkdev](https://github.com/zrlio/crail-blkdev): A Crail storage tier for shared volume storage.
 * [Crail-Netty](https://github.com/zrlio/crail-netty): A Crail TCP/DRAM storage tier built on top of Netty.
-* [Spark-IO](https://github.com/zrlio/spark-io): A Spark specific I/O module including Shuffle, Broadcast and Off-Heap storage.
-* [Benchmarks](https://github.com/zrlio/crail-terasort): Currently only the sorting benchmark is available.
+* [Crail-Spark-IO](https://github.com/zrlio/spark-io): A Spark specific I/O module including Shuffle, Broadcast and Off-Heap storage.
+* [Crail-Spark-TeraSort](https://github.com/zrlio/crail-terasort): Currently only the sorting benchmark is available.
 
 We currently do not provide binary releases. This page describes how to build the Crail I/O stack from source, and how to configure and deploy it. 
 
@@ -220,12 +220,12 @@ This command issues 102400 read operations of 1MB each.
 
 The tool also contains benchmarks to read files randomly, or to measure the performance of opening files, etc.
 
-<h2 id="spark">Building Spark I/O Plugins</h2>
+<h2 id="spark">Building Crail Spark Modules</h2>
 
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
 
-1. Obtain a copy of [Spark-IO](https://github.com/zrlio/spark-io) from Github
+1. Obtain a copy of [Crail-Spark-IO](https://github.com/zrlio/spark-io) from Github
 2. Make sure your local maven repo contains [Crail](https://github.com/zrlio/crail), if not build Crail from Github
 4. Run: mvn -DskipTests install
 5. Add spark-io-1.0.jar as well as its Crail dependencies to the Spark extra class path, both for the driver and the executors
