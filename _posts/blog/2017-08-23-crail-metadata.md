@@ -27,7 +27,7 @@ The specific cluster configuration used for the experiments in this blog:
   * Crail 1.0, internal version 2993
 
 ### Crail Metadata Operation overview
-As described in <a href="/blog/2017/07/crail-memory.html">part I</a>, Crail
+As described in <a href="/blog/2017/08/crail-memory.html">part I</a>, Crail
 data operations are composed of actual data transfers and metadata operations.
 Metadata operations includes looking up block information, such as on
 which datanode a block is stored, file attributes and filename to data
