@@ -19,7 +19,7 @@ The specific cluster configuration used for the experiments in this blog:
 * Cluster
   * 8 node x86_64 cluster
 * Node configuration
-  * CPU: 8 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz
+  * CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz
   * DRAM: 96GB DDR4
   * Network: 1x100Gbit/s Mellanox ConnectX-5
 * Software
