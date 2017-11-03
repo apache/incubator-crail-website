@@ -61,88 +61,44 @@ Given that every client will execute a certain amount of metadata operations (se
 </div>
 
 ### Namenode metadata operations
-Metadata operations are mostly executed at the namenodes. Namenodes are
-responsible to store information about files and data blocks. Namenodes
-offer an RPC-based API to query such information.
-
-Namenodes need to be able to process a high amount of IOPS to ensure that
-they do not become the bottleneck of the overall system.
-
-An often used metadata operation is the ''getFile()'' RPC call, which
-looksup file information. The client calls ''getFile()'', which causes
-and RPC request to the namenode. The namenode sends back an RPC reply to the
-client.
-
-The client has the choice of using the blocking ''getFile()'' implementation
-or the non-blocking asynchronous ''getFileAsync()'' implementation.
-
-In this experiment the goal is to measure the achievable IOPS on the server
-side. We use the asynchronous ''getFileAsync()'' operation on the client side
-to ensure that the client is not the bottleneck. The client sends a maximum
-of 128 outstanding ''getFileAsync()'' RPCs. As soon as the client
-receives the RPC reply, it matches it with the original request in its
-pending operations data structures and frees this request from its data
-structure. This is what a regular client would do (so we do not just send
-requests without processing the replies).
-
-At the namenode side it does not matter, which implementation the client
-uses. For the namenode it is the same operation ''getFile()'', which causes
-it to lookup information about the file and sending back a reply.
 
 
-In the first experiment, we use a single namenode instance. The namenode runs
-on 8 physical cores (no hyperthreading).
-Clients execute ''getFileAsync()'' operations
-in a thight loop. The namenode measures the aggregated number of
-RPCs it can handle per second. The results are shown in the first graph below,
-labelled ''Namenode IOPS''.
-
-The namenode only gets saturated with more than 16 clients. The graph shows
-that the namenode can handle close to 10 million ''getFile()'' operations
-per second. With significantly more clients, the overall number of IOPS
-drops slightely, as more resources are being allocated on the single
-RDMA card, which basically creates a contention on hardware resources.
-
-As comparison, we measure the raw number of IOPS, which can be executed
-on the RDMA network. We measure the raw number using ib_send_bw.
-We configured ib_send_bw with the same parameters in terms of RDMA configuration
-as the namenode. This means, we instructed ib_send_bw not to do CQ moderation,
-and to use a receive queue and a send queue of length 32, which
-equals the length of the namenode queues. Note that the default
-configuration of ib_send_bw uses CQ moderation and does preposting of send
-operations, which can only be done, if the operation is known in advance.
-This is not the case in a real system, like crail's namenode.
-
-The line of the raw number of IOPS, labelled ''ib send'' is shown in the same
-graph. With this measurement we show that Crail's namenode IOPS are similar
-to the raw ib_send_bw IOPS with the same configuration.
-
+<div style="text-align: justify"> 
+<p>
+Metadata operations are mostly executed at the namenodes. Namenodes are responsible to store information about files and data blocks. Namenodes offer an RPC-based API to query such information. Namenodes need to be able to process a high amount of IOPS to ensure that they do not become the bottleneck of the overall system. An often used metadata operation is the ''getFile()'' RPC call, which looksup file information. The client calls ''getFile()'', which causes and RPC request to the namenode. The namenode sends back an RPC reply to the client. The client has the choice of using the blocking ''getFile()'' implementation or the non-blocking asynchronous ''getFileAsync()'' implementation.
+</p>
+<p>
+In this experiment the goal is to measure the achievable IOPS on the server side. We use the asynchronous ''getFileAsync()'' operation on the client side to ensure that the client is not the bottleneck. The client sends a maximum of 128 outstanding ''getFileAsync()'' RPCs. As soon as the client receives the RPC reply, it matches it with the original request in its
+pending operations data structures and frees this request from its data structure. This is what a regular client would do (so we do not just send requests without processing the replies). At the namenode side it does not matter, which implementation the client uses. For the namenode it is the same operation ''getFile()'', which causes it to lookup information about the file and sending back a reply.
+</p>
+<p>
+In the first experiment, we use a single namenode instance. The namenode runs on 8 physical cores (no hyperthreading).
+Clients execute ''getFileAsync()'' operations in a thight loop. The namenode measures the aggregated number of RPCs it can handle per second. The results are shown in the first graph below, labelled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightely, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
+</p>
+<p> 
+As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The line of the raw number of IOPS, labelled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
+</p>
+</div>
+<br>
 <div style="text-align:center"><img src ="/img/blog/crail-metadata/namenode_ibsend_iops64.svg" width="550"/></div>
-
-If one starts ib_send_bw without specifying the queue sizes or whether or not
-to use CQ moderation, the raw number of IOPS might be higher. This is
-due to the fact, that the default values of ib_send_bw use a receive queue of
-512, a send queue of 128 and CQ moderation of 100, meaning that a new
-completion is generated only after 100 sends. As comparison, we did this
-measurement too and show the result, labelled 'ib_send CQ mod',
-in the same graph. Fine tuning of receive and send queue sizes, CQ moderation
-size, podstlists etc might lead to a higher number of IOPS.
-
+<br>
+<div style="text-align: justify"> 
+<p>
+If one starts ib_send_bw without specifying the queue sizes or whether or not to use CQ moderation, the raw number of IOPS might be higher. This is due to the fact, that the default values of ib_send_bw use a receive queue of 512, a send queue of 128 and CQ moderation of 100, meaning that a new completion is generated only after 100 sends. As comparison, we did this
+measurement too and show the result, labelled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, podstlists etc might lead to a higher number of IOPS. 
+</p>
+</div>
 
 ### Namenode scalability
-To increase the number of IOPS the overall system can handle, we allow
-starting multiple namenode instances. Hot RPC operations, such as
-''getFile()'', are distributed over all running instances of the namenode.
-''getFile()'' is implemented such that no synchronization among the
-namenodes is required. As such, we expect good scalability.
 
-
-For the following experiment, every client executes ''getFile()'' operations
-in a tight loop as above. The graph below compares the overall IOPS of a system
-with one namenode to a system with two namenodes.
-
+<div style="text-align: justify"> 
+<p>
+To increase the number of IOPS the overall system can handle, we allow starting multiple namenode instances. Hot RPC operations, such as ''getFile()'', are distributed over all running instances of the namenode. ''getFile()'' is implemented such that no synchronization among the namenodes is required. As such, we expect good scalability. For the following experiment, every client executes ''getFile()'' operations in a tight loop as above. The graph below compares the overall IOPS of a system with one namenode to a system with two namenodes.
+</p>
+</div>
+<br>
 <div style="text-align:center"><img src ="/img/blog/crail-metadata/namenode_multi64.svg" width="550"/></div>
-
+<br>
 
 We show in this graph that the system can handle around 17Mio IOPS with
 two namenodes. Having multiple namenode instances matters especially with
