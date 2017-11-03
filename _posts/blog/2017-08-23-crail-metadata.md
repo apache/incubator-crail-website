@@ -100,18 +100,19 @@ To increase the number of IOPS the overall system can handle, we allow starting 
 <div style="text-align:center"><img src ="/img/blog/crail-metadata/namenode_multi64.svg" width="550"/></div>
 <br>
 
-We show in this graph that the system can handle around 17Mio IOPS with
-two namenodes. Having multiple namenode instances matters especially with
-a higher number of clients. In the graph we see that the more clients we
-have the more we can benefit from a second namenode instance.
+<div style="text-align: justify"> 
+<p>
+We show in this graph that the system can handle around 17Mio IOPS with two namenodes. Having multiple namenode instances matters especially with a higher number of clients. In the graph we see that the more clients we have the more we can benefit from a second namenode instance.
+</p>
+</div>
 
 ### Summary
-In this blog we show that Crail's namenode is able the handle a big number
-of IOPS. Crail's namenode performs similarly to the raw number of IOPS measured
-using ib_send_bw, when configured with the same parameters. This shows that
-the actual processing of the RPC is implemented efficiently.
 
-In addition, the namenode scales well in terms of number of
+<div style="text-align: justify"> 
+<p>
+In this blog we show that Crail's namenode is able the handle a big number of IOPS. Crail's namenode performs similarly to the raw number of IOPS measured using ib_send_bw, when configured with the same parameters. This shows that the actual processing of the RPC is implemented efficiently. In addition, the namenode scales well in terms of number of
 instances. This allows to deploy Crail on a larger cluster with many
 clients.
+</p>
+</div>
 
