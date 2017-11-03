@@ -33,8 +33,7 @@ The specific cluster configuration used for the experiments in this blog:
 As described in <a href="/blog/2017/08/crail-memory.html">part I</a>, Crail data operations are composed of actual data transfers and metadata operations. Metadata operations includes looking up block information, such as on which datanode a block is stored, file attributes and filename to data block mapping. Every client will execute a certain amount of metadata operations to create files, find file data blocks, modify or delete files. This blog is about measuring metadata operation characteristics and metadata operation performance.
 </p>
 </div>
-<br>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-metadata/rpc.png" width="420"></div>
+<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-metadata/rpc.png" width="440"></div>
 <br>
 
 <div style="text-align: justify"> 
