@@ -48,23 +48,17 @@ As every network operation, two ways of implementation of RPCs are possible: Blo
 </div>
 
 ### What measurements matter for metadata operations?
-Before measuring metadata characteristics, we need to decide what metrics
-to use and what measurements to make.
-When it comes to measurements in networks, the first two ideas are probably
-bandwidth and latency. While this are important values for data transfers,
-there is another metric, especially for small-sized RPC operations, which
-matters.
-An RPC server mostly needs to be able to process a high number of
-RPCs per second, while the actual bandwidth does not matter too much for small
-RPCs. The number of RPCs, which can be processed per second, is
-basically the number of I/O operations, which can be executed per second
-and is often reffered to as IOPS.
 
-Given that every client will execute a certain amount of metadata operations
-(see above), every client adds a certain number of additional RPCs that
-need to be performed by the system. In other words, the higher the number
-of IOPS the system can handle, the more client can concurrently use
-Crail without performance loss at the RPC level (RPC is not the bottleneck).
+<div style="text-align: justify"> 
+<p>
+Before measuring metadata characteristics, we need to decide what metrics to use and what measurements to make.
+When it comes to measurements in networks, the first two ideas are probably bandwidth and latency. While this are important values for data transfers, there is another metric, especially for small-sized RPC operations, which matters.
+An RPC server mostly needs to be able to process a high number of RPCs per second, while the actual bandwidth does not matter too much for small RPCs. The number of RPCs, which can be processed per second, is basically the number of I/O operations, which can be executed per second and is often reffered to as IOPS.
+</p>
+<p>
+Given that every client will execute a certain amount of metadata operations (see above), every client adds a certain number of additional RPCs that need to be performed by the system. In other words, the higher the number of IOPS the system can handle, the more client can concurrently use Crail without performance loss at the RPC level (RPC is not the bottleneck).
+</p>
+</div>
 
 ### Namenode metadata operations
 Metadata operations are mostly executed at the namenodes. Namenodes are
