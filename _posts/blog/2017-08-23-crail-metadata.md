@@ -28,9 +28,8 @@ The specific cluster configuration used for the experiments in this blog:
 
 ### Crail Metadata Operation overview
 
-<br>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.png" width="420"></div>
-<br>
+<div style="text-align: justify"> 
+<p>
 As described in <a href="/blog/2017/08/crail-memory.html">part I</a>, Crail
 data operations are composed of actual data transfers and metadata operations.
 Metadata operations includes looking up block information, such as on
