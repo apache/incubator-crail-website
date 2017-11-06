@@ -39,7 +39,7 @@ As described in <a href="/blog/2017/08/crail-memory.html">part I</a>, Crail data
 
 <div style="text-align: justify"> 
 <p>
-Metadata operations issued by clients are hashed to a particular namenode depending on the name of object the operations attempts to create or retrieve. 
+Metadata operations issued by clients are hashed to a particular namenode depending on the name of object the operation attempts to create or retrieve. With the DaRPC binding, RPC messages are exchanged using RDMA send/recv operations. At the server, RPC processing is parallelized across different cores. To minimize locking and cache contention, each core handles a disjoint set of client connections. Connections assigned to the same core share the same RDMA completion queue which is processed exclusively by that given core. All the network queus, including send, recv and completion queues are mapped into user-space and accessed directly from within the JVM process. Since Crail offers a hierarchical storage namespace, metadata operations for creating, deleting or renaming new storage resources are effectively modifications to a tree-like data structure. These structural operations require a somewhat more expensive locking than the more lightweight operations used to lookup the file status or to extend a file with a new storage block. 
 </p>
 </div>
 
