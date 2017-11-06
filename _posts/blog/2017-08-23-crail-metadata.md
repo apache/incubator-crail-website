@@ -43,7 +43,7 @@ Metadata operations issued by clients are hashed to a particular namenode depend
 </p>
 </div>
 
-### Namenode metadata operations
+### Experimental Setup
 
 <div style="text-align: justify"> 
 <p>
@@ -52,9 +52,13 @@ In two of the previous blogs (<a href="/blog/2017/08/crail-memory.html">DRAM</a>
 <p>
 An important metadata operation is ''getFile()'' which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation. In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see <a href="/blog/2017/08/crail-memory.html">DRAM</a>). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. 
 </p>
+</div>
+
+### Single Namenode scalability
+
+<div style="text-align: justify"> 
 <p>
-In the first experiment, we use a single namenode instance. The namenode runs on 8 physical cores (no hyperthreading).
-Clients execute ''getFileAsync()'' operations in a thight loop. The namenode measures the aggregated number of RPCs it can handle per second. The results are shown in the first graph below, labelled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightely, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
+In the first experiment, we measure the aggregated number of metadata operations a single Crail namenode can handle per second. The namenode runs on 8 physical cores with hyperthreading disabled. The results are shown in the first graph below, labelled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightely, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
 </p>
 <p> 
 As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The line of the raw number of IOPS, labelled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
@@ -70,7 +74,7 @@ measurement too and show the result, labelled 'ib_send CQ mod', in the same grap
 </p>
 </div>
 
-### Namenode scalability
+### Multiple Namenode scalability
 
 <div style="text-align: justify"> 
 <p>
