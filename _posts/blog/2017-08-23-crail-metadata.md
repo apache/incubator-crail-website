@@ -54,7 +54,7 @@ An important metadata operation is ''getFile()'' which is used by clients to loo
 </p>
 </div>
 ```
-./bin/crail iobench -t getFileAsync -f /tmp.dat -k 1000000
+./bin/crail iobench -t getFileAsync -f /tmp.dat -k 1000000 -b 128
 ```   
 
 ### Single Namenode Scalability
