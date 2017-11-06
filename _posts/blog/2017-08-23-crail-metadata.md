@@ -26,7 +26,7 @@ The specific cluster configuration used for the experiments in this blog:
   * Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic
   * Crail 1.0, internal version 2993
 
-### Crail Metadata Operation overview
+### Crail Metadata Operation Overview
 
 <div style="text-align: justify"> 
 <p>
@@ -54,11 +54,11 @@ An important metadata operation is ''getFile()'' which is used by clients to loo
 </p>
 </div>
 
-### Single Namenode scalability
+### Single Namenode Scalability
 
 <div style="text-align: justify"> 
 <p>
-In the first experiment, we measure the aggregated number of metadata operations a single Crail namenode can handle per second. The namenode runs on 8 physical cores with hyperthreading disabled. The results are shown in the first graph below, labelled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightely, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
+In the first experiment, we measure the aggregated number of metadata operations a single Crail namenode can handle per second. The namenode runs on 8 physical cores with hyperthreading disabled. The result is shown in the first graph below, labelled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightely, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
 </p>
 <p> 
 As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The line of the raw number of IOPS, labelled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
@@ -74,11 +74,11 @@ measurement too and show the result, labelled 'ib_send CQ mod', in the same grap
 </p>
 </div>
 
-### Multiple Namenode scalability
+### Multiple Namenode Scalability
 
 <div style="text-align: justify"> 
 <p>
-To increase the number of IOPS the overall system can handle, we allow starting multiple namenode instances. Hot RPC operations, such as ''getFile()'', are distributed over all running instances of the namenode. ''getFile()'' is implemented such that no synchronization among the namenodes is required. As such, we expect good scalability. For the following experiment, every client executes ''getFile()'' operations in a tight loop as above. The graph below compares the overall IOPS of a system with one namenode to a system with two namenodes.
+To increase the number of IOPS the overall system can handle, we allow starting multiple namenode instances. Hot metadata operations, such as ''getFile()'', are distributed over all running instances of the namenode. ''getFile()'' is implemented such that no synchronization among the namenodes is required. As such, we expect good scalability. The graph below compares the overall IOPS of a system with one namenode to a system with two namenodes.
 </p>
 </div>
 <br>
