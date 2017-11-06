@@ -1,0 +1,60 @@
+set ylabel "IOPS"
+set xlabel "Number of clients"
+set grid ytics mytic
+set key left
+
+set style line 1 lc rgb "#4dafa4" lw 4
+set style line 2 lc rgb "#ff7f00" lw 4
+set style line 3 lc rgb "#e41a1c" lw 4
+set style line 4 lc rgb "#377eb8" lw 4
+set style line 5 lc rgb "#377eb8" lw 4
+set style line 6 lc rgb "#377eb8" lw 4
+set style line 7 lc rgb "#377e00" lw 4
+set style line 8 lc rgb "#4dafa4" lw 2.5 pt 3 ps 0.5
+set style line 9 lc rgb "#ff7f00" lw 2.5 pt 3 ps 0.5
+set style line 10 lc rgb "#7f7fff" lw 2.5 pt 3 ps 0.5
+set style line 11 lc rgb "#4040ff" lw 2.5 pt 3 ps 0.5
+set style line 12 lc rgb "#ffaaff" lw 2.5 pt 3 ps 0.5
+
+set style increment user
+
+
+
+
+################################################################################
+### Single namenode vs. ib_send for the blog and the paper
+set key right
+
+set term jpeg size 640,300 font "Times-Roman, 10
+set output "namenode_ibsend_iops64.jpg"
+plot \
+     "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "ib_send_iops_multiqp_async_32.dat" using  1:2 title "ib send" with linespoints linestyle 11 axes x1y1, \
+     "ib_send_iops_multiqp_async_std.dat" using  1:2 title "ib send CQ mod" with linespoints linestyle 12 axes x1y1
+
+
+set term svg size 640,300 font "Times-Roman, 10
+set output "namenode_ibsend_iops64.svg"
+plot \
+     "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "ib_send_iops_multiqp_async_32.dat" using  1:2 title "ib send" with linespoints linestyle 11 axes x1y1, \
+     "ib_send_iops_multiqp_async_std.dat" using  1:2 title "ib send CQ mod" with linespoints linestyle 12 axes x1y1
+################################################################################
+
+
+################################################################################
+### multinamenodes vs 1 namenode for the blog and the paper
+set key left
+
+set term jpeg size 640,300 font "Times-Roman, 10
+set output "namenode_multi64.jpg"
+plot "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "iops_02_async.dat" using  1:2 title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
+
+
+set term svg size 640,300 font "Times-Roman, 10
+set output "namenode_multi64.svg"
+plot "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "iops_02_async.dat" using  1:2 title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
+################################################################################
+
