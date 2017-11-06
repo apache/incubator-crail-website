@@ -30,19 +30,16 @@ The specific cluster configuration used for the experiments in this blog:
 
 <div style="text-align: justify"> 
 <p>
-As described in <a href="/blog/2017/08/crail-memory.html">part I</a>, Crail data operations are composed of actual data transfers and metadata operations. Metadata operations includes looking up block information, such as on which datanode a block is stored, file attributes and filename to data block mapping. Every client will execute a certain amount of metadata operations to create files, find file data blocks, modify or delete files. This blog is about measuring metadata operation characteristics and metadata operation performance.
+As described in <a href="/blog/2017/08/crail-memory.html">part I</a>, Crail data operations are composed of actual data transfers and metadata operations. Examples of metadata operations are operations for creating or modifying the state of a file, or operations to lookup the storage server that stores a particular range (block) of a file. In Crail, all the metadata is managed by the namenode(s) (as opposed to the data which is managed by the storage nodes). Clients interact with Crail namenodes via Remote Procedure Calls (RPCs). Crail supports multiple RPC protocols for different type networks and also offers a pluggable RPC interface so that new RPC bindings can be implemented easily. On RDMA networks, the default <a href="http://github.com/zrlio/darpc">DaRPC</a> based RPC binding provides the best performance. The figure below gives an overview of the Crail metadata processing in the DaRPC configuration. 
 </p>
 </div>
+
 <div style="text-align:center"><img src ="http://crail.io/img/blog/crail-metadata/rpc.png" width="480"></div>
 <br>
 
 <div style="text-align: justify"> 
 <p>
-Metadata operations are performed using RPCs. RPCs are small-sized request packets sent over the network followed by small-sized replies sent back to the requestor. On RDMA networks, send and receives are used for RPCs (basically post send and post receive). These operations are implemented based on <a href="http://github.com/zrlio/darpc">DaRPC</a>
-and <a href="http://github.com/zrlio/disni">DiSNI</a>, where DiSNI offers a VERBS API for Java and DaRPC offers a more highlevel framework to build RDMA-based RPC servers and clients.
-</p>
-<p>
-As every network operation, two ways of implementation of RPCs are possible: Blocking synchronous RPCs and non-blocking asynchronous RPCs. The namenode offers both implementations at the client side, therefore the client can chose whether to block and wait for the RPC reply or whether to do some work and asyncrhonously receive the reply.
+Metadata operations issued by clients are hashed to a particular namenode depending on the name of object the operations attempts to create or retrieve. 
 </p>
 </div>
 
