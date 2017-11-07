@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Crail Storage Performance -- Part III: Metadata (Draft)"
+title: "Performance Comparison: Alternative RDMA-based Spark Shuffle Plugins (DRAFT)"
 author: Jonas Pfefferle, Patrick Stuedi, Animesh Trivedi, Bernard Metzler, Adrian Schuepbach
 category: blog
 comments: true
