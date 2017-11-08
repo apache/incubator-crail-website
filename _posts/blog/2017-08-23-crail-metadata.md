@@ -127,8 +127,21 @@ real-world application.
 We run TeraSort and measured the
 number of IOPS at the namenode with 4 executors, 8 executors and 12 executors.
 Every executor runs 12 cores. For this experiment, we use a single namenode
-instance. In the following table we show the peak number of IOPS measured
-throughout the execution time:
+instance. We plot the distribution of the number of IOPS measured at the
+namenode over the ellapsed runtime of the TeraSort application.
+</p>
+</div>
+
+<br>
+<div style="text-align:center"><img src ="/img/blog/crail-metadata/terasort_iops.svg" width="550"/></div>
+<br>
+
+
+<div style="text-align: justify"> 
+<p>
+From the graph we pick the peak number of IOPS measured
+throughout the execution time for all three cases. The following table
+shows the three peak IOPS numbers:
 </p>
 </div>
 
@@ -163,7 +176,20 @@ throughout the execution time:
 <p>
 From this table we see that it scales linearly. Even more important,
 we notice that with 12 nodes we still use only around 1% of the
-number of IOPS a single namenode can handle. If we extrapolate this to a
+number of IOPS a single namenode can handle.
+If we plot this to the measured maximum amount of around 10 Mio IOPS
+per namenode (see above), we see immediately that the namenode can handle
+way more clients:
+</p>
+</div>
+
+<br>
+<div style="text-align:center"><img src ="/img/blog/crail-metadata/terasort_namenode_iops.svg" width="550"/></div>
+<br>
+
+<div style="text-align: justify"> 
+<p>
+If we extrapolate this to a
 100%, we can handle a cluster size of almost 1200 nodes (1118 clients being just
 below 10Mio IOPS at the namenode). The
 extrapolated numbers would look like this:
@@ -238,7 +264,6 @@ a big cluster of at least several hundreds of nodes, theoretically up to
 1200 nodes with a single namenode and even more with multiple namenodes.
 </p>
 </div>
-
 
 ### Summary
 
