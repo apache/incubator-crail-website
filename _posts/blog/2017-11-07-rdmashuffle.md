@@ -20,11 +20,11 @@ The specific cluster configuration used for the experiments in this blog:
   * 8 compute + 1 management node x86_64 cluster
 * Node configuration
   * CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz
-  * DRAM: 96GB DDR4
+  * DRAM: 96GB DDR3
   * Network: 1x100Gbit/s Mellanox ConnectX-5
 * Software
   * Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic
-  * Crail 1.0, version 2995
+  * Crail 1.0, commit a45c8382050f471e9342e1c6cf25f9f2001af6b5
   * <a href="https://github.com/Mellanox/SparkRDMA">SparkRDMA</a>, commit d95ce3e370a8e3b5146f4e0ab5e67a19c6f405a5 (latest master on 8th of November 2017)
 
 ### Spark Shuffle Plugins
@@ -42,7 +42,7 @@ shuffle plugin here:
 <a href="https://github.com/Mellanox/SparkRDMA">https://github.com/Mellanox/SparkRDMA</a>.
 Note that the current prototype implementation supports two ways to store shuffle
 data between the stages: (1) shuffle data is stored like in vanilla Spark
-on disk. (2) data is stored in memory allocated and registered for RDMA transfer.
+in files, (2) data is stored in memory allocated and registered for RDMA transfer.
 <br/><br/>
 In constrast, the Crail approach is quite different. Crail was designed as a
 storage bus for intermediate data. We believe the Crail's modular architecture
@@ -63,9 +63,9 @@ speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparis
 As described above, SparkRDMA allows to switch how the shuffle data is handled
 between the stages by configuring a shuffle writer
 (spark.shuffle.rdma.shuffleWriterMethod): (1) Is called the Wrapper shuffle writer
-method and writes shuffle data to disk between stages (2) the ChunkedPartitionAgg
-(beta) stores shuffle data in memory. We evaluate both writer methods for
-terasort and SQL equijoin.
+method and wrappes the Spark shuffle writer, i.e. writes shuffle data to
+files between stages, (2) the ChunkedPartitionAgg (beta) stores shuffle data
+in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
 <br>
@@ -75,7 +75,7 @@ terasort and SQL equijoin.
 <p>
 First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a>
 on our 8+1 machine cluster (see above). We sort 200GB, i.e. each nodes gets 25GB 
-of data (assuming equal distribution). To get the best possible configuration for
+of data (equal distribution). To get the best possible configuration for
 all setups we brute-force the configuration space for each of them.
 All configuration use 8 executors with 12 cores each. Note that
 in a typical Spark run more CPU cores than assigned are engaged because of
@@ -86,8 +86,8 @@ The plot above shows runtimes of the various configuration we run with terasort.
 SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than
 vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. A quick
 inspection found that this overhead stems from memory allocation and registration
-for the shuffle data to be kept in memory between the stages. Crail shows
-a performance improvement of around 235%.
+for the shuffle data to be kept in memory between the stages. Crail's shuffle
+plugin shows performance improvement of around 235%.
 </p>
 </div>
 <br>
@@ -103,12 +103,12 @@ that allows data to be generated on the fly, i.e. this benchmark focuses on
 shuffle performance. The shuffle data size is around 148GB. Here the
 Wrapper shuffle writer is slightly slower than vanilla Spark but instead the
 Chunked shuffle writer is roughly the same amount faster. Crail again shows a
-great performance increasement over vanilla Spark.<br/><br/>
+great performance increase over vanilla Spark.<br/><br/>
 These benchmarks validate our previous statements that we believe a
-tightly integrated design cannot deliver the same performance as a holistic
+"last-mile" integration cannot deliver the same performance as a holistic
 approach, i.e. one has to look at the whole picture in how to integrate
 RDMA into Spark applications. Replacing only the data transfer alone does not
-lead to the anticipated performance increasement. We learned this the hard
+lead to the anticipated performance increase. We learned this the hard
 way when we intially started working on Crail.
 </p>
 </div>
