@@ -151,21 +151,21 @@ shows the three peak IOPS numbers:
   <thead>
     <tr>
       <th>Number of executor nodes</th>
-      <th>IOPS at namenode for TeraSort<br/>(measured)</th>
+      <th>Measured IOPS</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td align="right">4</td>
-      <td align="right">31573.00</td>
+      <td align="right">32k</td>
     </tr>
     <tr>
       <td align="right">8</td>
-      <td align="right">66618.38</td>
+      <td align="right">67k</td>
     </tr>
     <tr>
       <td align="right">12</td>
-      <td align="right">107305.00</td>
+      <td align="right">107k</td>
     </tr>
   </tbody>
 </table>
@@ -190,7 +190,7 @@ way more clients:
 <div style="text-align: justify"> 
 <p>
 If we extrapolate this to a
-100%, we can handle a cluster size of almost 1200 nodes (1118 clients being just
+100%, we can handle a cluster size of almost 1200 nodes (1121 clients being just
 below 10Mio IOPS at the namenode). The
 extrapolated numbers would look like this:
 </p>
@@ -203,29 +203,29 @@ extrapolated numbers would look like this:
   <thead>
     <tr>
       <th>Number of executor nodes</th>
-      <th>IOPS at namenode for TeraSort<br/>(extrapolated)</th>
+      <th>Extrapolated IOPS</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td align="right">4</td>
-      <td align="right">31573.00</td>
+      <td align="right">32k</td>
     </tr>
     <tr>
       <td align="right">8</td>
-      <td align="right">66618.38</td>
+      <td align="right">67k</td>
     </tr>
     <tr>
       <td align="right">12</td>
-      <td align="right">107305.00</td>
+      <td align="right">107k</td>
     </tr>
     <tr>
       <td align="right">...</td>
       <td align="right">...</td>
     </tr>
     <tr>
-      <td align="right">1118</td>
-      <td align="right">9997249.00</td>
+      <td align="right">1121</td>
+      <td align="right">9996k</td>
     </tr>
     <tr>
       <td align="right">...</td>
@@ -233,7 +233,7 @@ extrapolated numbers would look like this:
     </tr>
     <tr>
       <td align="right">1200</td>
-      <td align="right">10730500.00</td>
+      <td align="right">10730k</td>
     </tr>
   </tbody>
 </table>

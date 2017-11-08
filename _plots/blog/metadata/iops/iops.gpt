@@ -1,4 +1,4 @@
-set ylabel "IOPS"
+set ylabel "IOPS [millions]"
 set xlabel "Number of clients"
 set grid ytics mytic
 set key left
@@ -25,21 +25,22 @@ set style increment user
 ################################################################################
 ### Single namenode vs. ib_send for the blog and the paper
 set key right
+set yrange [0:25]
 
-set term jpeg size 640,300 font "Times-Roman, 10
+set term jpeg size 640,300 font "Times-Roman, 16"
 set output "namenode_ibsend_iops64.jpg"
 plot \
-     "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
-     "ib_send_iops_multiqp_async_32.dat" using  1:2 title "ib send" with linespoints linestyle 11 axes x1y1, \
-     "ib_send_iops_multiqp_async_std.dat" using  1:2 title "ib send CQ mod" with linespoints linestyle 12 axes x1y1
+     "iops_01_async.dat" using  1:($2/1000000) title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "ib_send_iops_multiqp_async_32.dat" using  1:($2/1000000) title "ib send" with linespoints linestyle 11 axes x1y1, \
+     "ib_send_iops_multiqp_async_std.dat" using  1:($2/1000000) title "ib send CQ mod" with linespoints linestyle 12 axes x1y1
 
 
-set term svg size 640,300 font "Times-Roman, 10
+set term svg size 640,300 font "Times-Roman, 16"
 set output "namenode_ibsend_iops64.svg"
 plot \
-     "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
-     "ib_send_iops_multiqp_async_32.dat" using  1:2 title "ib send" with linespoints linestyle 11 axes x1y1, \
-     "ib_send_iops_multiqp_async_std.dat" using  1:2 title "ib send CQ mod" with linespoints linestyle 12 axes x1y1
+     "iops_01_async.dat" using  1:($2/1000000) title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "ib_send_iops_multiqp_async_32.dat" using  1:($2/1000000) title "ib send" with linespoints linestyle 11 axes x1y1, \
+     "ib_send_iops_multiqp_async_std.dat" using  1:($2/1000000) title "ib send CQ mod" with linespoints linestyle 12 axes x1y1
 ################################################################################
 
 
@@ -47,41 +48,42 @@ plot \
 ### multinamenodes vs 1 namenode for the blog and the paper
 set key left
 
-set term jpeg size 640,300 font "Times-Roman, 10
+set term jpeg size 640,300 font "Times-Roman, 16"
 set output "namenode_multi64.jpg"
-plot "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
-     "iops_02_async.dat" using  1:2 title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
+plot "iops_01_async.dat" using  1:($2/1000000) title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "iops_02_async.dat" using  1:($2/1000000) title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
 
 
-set term svg size 640,300 font "Times-Roman, 10
+set term svg size 640,300 font "Times-Roman, 16"
 set output "namenode_multi64.svg"
-plot "iops_01_async.dat" using  1:2 title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
-     "iops_02_async.dat" using  1:2 title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
+plot "iops_01_async.dat" using  1:($2/1000000) title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "iops_02_async.dat" using  1:($2/1000000) title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
 ################################################################################
 
 ################################################################################
 ### TeraSort IOPS over time
 set key right
+set yrange [0:120]
 
-set ylabel "IOPS measured at namenode"
+set ylabel "IOPS at namenode [k]"
 set xlabel "Ellapsed time of TeraSort run [s]"
 
 set xrange [0:45]
-set term jpeg size 640,300 font "Times-Roman, 10
+set term jpeg size 640,300 font "Times-Roman, 16"
 set output "terasort_iops.jpg"
 
-plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m08_c12_02_sek.dat" using ($0):($2):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
+plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2/1000):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m08_c12_02_sek.dat" using ($0):($2/1000):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2/1000):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
 
 
 
-set term svg size 640,300 font "Times-Roman, 10
+set term svg size 640,300 font "Times-Roman, 16"
 set output "terasort_iops.svg"
 
-plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m08_c12_02_sek.dat" using ($0):($2):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
+plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2/1000):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m08_c12_02_sek.dat" using ($0):($2/1000):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2/1000):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
 
 ################################################################################
 
@@ -89,27 +91,27 @@ plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2):(0.1)  title "TeraSort 4 
 ### TeraSort IOPS over time against 10Mio possible of 1 namenode
 set key right
 
-set ylabel "IOPS measured at namenode"
+set ylabel "IOPS at namenode [millions]"
 set xlabel "Ellapsed time of TeraSort run [s]"
 
 set xrange [0:45]
-set yrange [0:15000000]
-set term jpeg size 640,300 font "Times-Roman, 10
+set yrange [0:22]
+set term jpeg size 640,300 font "Times-Roman, 16"
 set output "terasort_namenode_iops.jpg"
 
-plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m08_c12_02_sek.dat" using ($0):($2):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
-10000000 title "Single namenode IOPS" linestyle 13 axes x1y1
+plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2/1000000):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m08_c12_02_sek.dat" using ($0):($2/1000000):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2/1000000):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
+10 title "Single namenode IOPS" linestyle 13 axes x1y1
 
 
-set term svg size 640,300 font "Times-Roman, 10
+set term svg size 640,300 font "Times-Roman, 16"
 set output "terasort_namenode_iops.svg"
 
-plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m08_c12_02_sek.dat" using ($0):($2):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
-"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
-10000000 title "Single namenode IOPS" linestyle 13 axes x1y1
+plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2/1000000):(0.1)  title "TeraSort 4 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m08_c12_02_sek.dat" using ($0):($2/1000000):(0.1)  title "TeraSort 8 clients" with boxes fill solid 0.01 axes x1y1,\
+"terasort_m12_c12_02_sek.dat" using ($0+0.2):($2/1000000):(0.1)  title "TeraSort 12 clients" with boxes fill solid 0.01 axes x1y1,\
+10 title "Single namenode IOPS" linestyle 13 axes x1y1
 
 ################################################################################
 
