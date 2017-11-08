@@ -91,11 +91,11 @@ plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2/1000):(0.1)  title "TeraSo
 ### TeraSort IOPS over time against 10Mio possible of 1 namenode
 set key right
 
-set ylabel "IOPS at namenode [k]"
+set ylabel "IOPS at namenode [millions]"
 set xlabel "Ellapsed time of TeraSort run [s]"
 
 set xrange [0:45]
-set yrange [0:18]
+set yrange [0:22]
 set term jpeg size 640,300 font "Times-Roman, 14"
 set output "terasort_namenode_iops.jpg"
 
