@@ -34,9 +34,7 @@ Recently there has been interest by the community to include a RDMA accelerated
 shuffle engine into the Spark codebase (<a href="https://issues.apache.org/jira/browse/SPARK-22229">Proposal</a>).
 The design proposes to improve shuffle performance by performing
 data transfers over RDMA. For this, the code manages its own off-heap memory
-which needs to be registered with the NIC for RDMA use. Furthermore, the authors
-claim that using the plugin architecture for shuffle engines in Spark
-introduces limitations and overheads that reduce performance.
+which needs to be registered with the NIC for RDMA use.
 A prototype implementation of the design is available as open-source
 shuffle plugin here:
 <a href="https://github.com/Mellanox/SparkRDMA">https://github.com/Mellanox/SparkRDMA</a>.
