@@ -73,7 +73,7 @@ As comparison, we measure the raw number of IOPS, which can be executed on the R
 <div style="text-align: justify"> 
 <p>
 If one starts ib_send_bw without specifying the queue sizes or whether or not to use CQ moderation, the raw number of IOPS might be higher. This is due to the fact, that the default values of ib_send_bw use a receive queue of 512, a send queue of 128 and CQ moderation of 100, meaning that a new completion is generated only after 100 sends. As comparison, we did this
-measurement too and show the result, labelled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, podstlists etc might lead to a higher number of IOPS. 
+measurement too and show the result, labelled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, postlists etc might lead to a higher number of IOPS. 
 </p>
 </div>
 
@@ -99,30 +99,31 @@ We show in this graph that the system can handle around 17Mio IOPS with two name
 <div style="text-align: justify"> 
 <p>
 Let us look at a concrete application, which ideally runs on a large cluster:
-TeraSort. In a <a href="/blog/2017/01/sorting.html">previous blog</a> we
-analyzed performance characteristics of TeraSort on Crail on a big cluster of
-128 nodes, where we run 384 executors in total. This already proves that
+TeraSort. In a previous blog, <a href="/blog/2017/01/sorting.html">sorting</a>,
+we analyze performance characteristics of TeraSort on Crail on a big cluster
+of 128 nodes, where we run 384 executors in total. This already proves that
 Crail can at least handle 384 clients. Now we analyze the theoretical number
-of clients without performance loss at the namenode. Still this is not
-a hard limit on the number of clients. Just adding more clients would start
-dropping the number of IOPS per client.
+of clients without performance loss at the namenode. Still this theoretical
+number is not a hard limit on the number of clients. Just adding more
+clients would start dropping the number of IOPS per client (not at the
+namenode).
 </p>
 </div>
 
 <div style="text-align: justify"> 
 <p>
 In contrast to the benchmarks above, a real-world application, like TeraSort,
-does not
-issue RPC requests in a tight loop. It rather does sorting (computation),
-file reading
-and writing and and of course a certain amount of RPCs to manage the files.
+does not issue RPC requests in a tight loop. It rather does sorting
+(computation), file reading and writing and and of course a certain amount of
+RPCs to manage the files.
 </p>
 </div>
 
 <div style="text-align: justify"> 
 <p>
 We would like to know how many RPCs a run of TeraSort generates and therefore
-how big the number of IOPS is at the namenode for a real-world application.
+how big the load in terms of number of IOPS is at the namenode for a
+real-world application.
 We run TeraSort and measured the
 number of IOPS at the namenode with 4 executors, 8 executors and 12 executors.
 Every executor runs 12 cores. For this experiment, we use a single namenode
@@ -163,7 +164,8 @@ throughout the execution time:
 From this table we see that it scales linearly. Even more important,
 we notice that with 12 nodes we still use only around 1% of the
 number of IOPS a single namenode can handle. If we extrapolate this to a
-100%, we can handle a cluster size of almost 1200 nodes. The
+100%, we can handle a cluster size of almost 1200 nodes (1118 clients being just
+below 10Mio IOPS at the namenode). The
 extrapolated numbers would look like this:
 </p>
 </div>
@@ -215,13 +217,23 @@ extrapolated numbers would look like this:
 <div style="text-align: justify"> 
 <p>
 Of course we know that there is no system with perfect linear scalability.
-But even if we would loose 50% of the number of IOPS on a big cluster,
-the cluster would sill consist of 600 nodes and a single namenode.
-Should we still want
-to run an application like TeraSort on a bigger cluster, we can add a second
-namenode or have even more instances of namenodes. We believe that the
-combination of benchmarks, the scalability experiments and the real-world
-application of TeraSort shows that Crail and Crail's namenode can handle
+But even if we would loose 50% of the number of IOPS (compared to the
+theoretical maximum) on a big cluster, Crail could still handle a cluster size
+of 600 nodes and a single namenode without any performance loss at the
+namenode.
+Should we still want to run an application like TeraSort on a bigger cluster,
+we can add a second namenode or have even more instances of namenodes
+to ensure that clients do not suffer from contetion in terms of IOPS at
+the namenode.
+</p>
+</div>
+
+
+<div style="text-align: justify">
+<p>
+We believe that the combination of benchmarks above, the scalability
+experiments and the real-world
+application of TeraSort shows clearly that Crail and Crail's namenode can handle
 a big cluster of at least several hundreds of nodes, theoretically up to
 1200 nodes with a single namenode and even more with multiple namenodes.
 </p>
@@ -245,7 +257,7 @@ clients.
 <div style="text-align: justify"> 
 <p>
 With TeraSort as real application, we show that in real-world scenarios
-Crail supports big clusters.
+Crail supports big clusters with several hundred of clients.
 </p>
 </div>
 
