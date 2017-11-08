@@ -42,7 +42,7 @@ Note that the current prototype implementation supports two ways to store shuffl
 data between the stages: (1) shuffle data is stored like in vanilla Spark
 in files, (2) data is stored in memory allocated and registered for RDMA transfer.
 <br/><br/>
-In constrast, the Crail approach is different as it was designed as a
+In constrast, the Crail approach is different. It was designed as a
 storage bus for intermediate data. We believe the Crail's modular architecture
 to leverage high-performance storage and networking devices for e.g.
 shuffle data has many advantages over a "last-mile" design like
