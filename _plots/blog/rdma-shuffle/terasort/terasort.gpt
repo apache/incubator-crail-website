@@ -11,6 +11,7 @@ set grid ytics mytic
 set key left
 set style data histogram
 set style fill solid border -1
+set boxwidth 0.9
 unset xtics
 set title "TeraSort"
 
