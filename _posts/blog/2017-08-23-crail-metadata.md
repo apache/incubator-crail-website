@@ -150,22 +150,26 @@ shows the three peak IOPS numbers:
 <table>
   <thead>
     <tr>
-      <th>Number of executor nodes</th>
+      <th>#Executor nodes</th>
       <th>Measured IOPS</th>
+      <th>% of single namenode</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td align="right">4</td>
       <td align="right">32k</td>
+      <td align="right">0.32%</td>
     </tr>
     <tr>
       <td align="right">8</td>
       <td align="right">67k</td>
+      <td align="right">0.67%</td>
     </tr>
     <tr>
       <td align="right">12</td>
       <td align="right">107k</td>
+      <td align="right">1.07%</td>
     </tr>
   </tbody>
 </table>
@@ -177,18 +181,6 @@ shows the three peak IOPS numbers:
 From this table we see that it scales linearly. Even more important,
 we notice that with 12 nodes we still use only around 1% of the
 number of IOPS a single namenode can handle.
-If we plot this to the measured maximum amount of around 10 Mio IOPS
-per namenode (see above), we see immediately that the namenode can handle
-way more clients:
-</p>
-</div>
-
-<br>
-<div style="text-align:center"><img src ="/img/blog/crail-metadata/terasort_namenode_iops.svg" width="550"/></div>
-<br>
-
-<div style="text-align: justify"> 
-<p>
 If we extrapolate this to a
 100%, we can handle a cluster size of almost 1200 nodes (1121 clients being just
 below 10Mio IOPS at the namenode). The
@@ -202,38 +194,31 @@ extrapolated numbers would look like this:
 <table>
   <thead>
     <tr>
-      <th>Number of executor nodes</th>
+      <th>#Executor nodes</th>
       <th>Extrapolated IOPS</th>
+      <th>% of single namenode</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td align="right">4</td>
-      <td align="right">32k</td>
-    </tr>
-    <tr>
-      <td align="right">8</td>
-      <td align="right">67k</td>
-    </tr>
-    <tr>
-      <td align="right">12</td>
-      <td align="right">107k</td>
-    </tr>
-    <tr>
+      <td align="right">...</td>
       <td align="right">...</td>
       <td align="right">...</td>
     </tr>
     <tr>
       <td align="right">1121</td>
       <td align="right">9996k</td>
+      <td align="right">99.96%</td>
     </tr>
     <tr>
+      <td align="right">...</td>
       <td align="right">...</td>
       <td align="right">...</td>
     </tr>
     <tr>
       <td align="right">1200</td>
       <td align="right">10730k</td>
+      <td align="right">107.3%</td>
     </tr>
   </tbody>
 </table>
