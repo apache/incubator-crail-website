@@ -151,7 +151,7 @@ shows the three peak IOPS numbers:
   <thead>
     <tr>
       <th>Number of executor nodes</th>
-      <th>IOPS at namenode for TeraSort<br/>(measured)</th>
+      <th>Measured IOPS</th>
     </tr>
   </thead>
   <tbody>
@@ -203,7 +203,7 @@ extrapolated numbers would look like this:
   <thead>
     <tr>
       <th>Number of executor nodes</th>
-      <th>IOPS at namenode for TeraSort<br/>(extrapolated)</th>
+      <th>Extrapolated IOPS</th>
     </tr>
   </thead>
   <tbody>
