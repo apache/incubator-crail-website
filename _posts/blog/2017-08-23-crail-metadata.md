@@ -124,7 +124,7 @@ RPCs to manage the files.
 We would like to know how many RPCs a run of TeraSort generates and therefore
 how big the load in terms of number of IOPS is at the namenode for a
 real-world application.
-We run TeraSort and measured the
+We run TeraSort on a data set of 200GB and measured the
 number of IOPS at the namenode with 4 executors, 8 executors and 12 executors.
 Every executor runs 12 cores. For this experiment, we use a single namenode
 instance. We plot the distribution of the number of IOPS measured at the
