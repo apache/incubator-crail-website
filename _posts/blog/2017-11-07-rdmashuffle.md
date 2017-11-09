@@ -67,7 +67,7 @@ in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="750"/></div>
+<div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
 <br>
 <div style="text-align: justify">
 <p>
