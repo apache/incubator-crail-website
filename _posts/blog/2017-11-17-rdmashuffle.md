@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Spark Shuffle: SparkRDMA vs Crail (DRAFT)"
+title: "Spark Shuffle: SparkRDMA vs Crail"
 author: Jonas Pfefferle, Patrick Stuedi, Animesh Trivedi, Bernard Metzler, Adrian Schuepbach
 category: blog
 comments: true
@@ -24,14 +24,14 @@ The specific cluster configuration used for the experiments in this blog:
   * Network: 1x100Gbit/s Mellanox ConnectX-5
 * Software
   * Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic
-  * Crail 1.0, commit a45c8382050f471e9342e1c6cf25f9f2001af6b5
+  * <a href="https://github.com/zrlio/crail">Crail 1.0</a>, commit a45c8382050f471e9342e1c6cf25f9f2001af6b5
   * <a href="">Crail Shuffle plugin</a>, commit 2273b5dd53405cab3389f5c1fc2ee4cd30f02ae6 
   * <a href="https://github.com/Mellanox/SparkRDMA">SparkRDMA</a>, commit d95ce3e370a8e3b5146f4e0ab5e67a19c6f405a5 (latest master on 8th of November 2017)
 
 ### Overview
 <div style="text-align: justify">
 <p>
-Lately there has been an increasing interest in the community to include RDMA networking into data processing frameworks like Spark and Hadoop. One natural spot to integrate RDMA is in the shuffle operation that involved all-to-all network communication pattern. Naturally, due to its performance requirements the shuffle operation is of interest to us as well, and we have developed a Spark plugin for shuffle. In our previous blog posts, we have already shown that the Crail Shuffler achieves great workload-level speedups compared to vanilla Spark. In this blog post, we take a look at another recently proposed design called <a href="https://github.com/Mellanox/SparkRDMA">SparkRDMA</a> (<a href="https://issues.apache.org/jira/browse/SPARK-22229">SPARK-22229 JIRA</a>). SparkRDMA proposes to improve the shuffle performance of Spark by performing data transfers over RDMA. For this, the code manages its own off-heap memory which needs to be registered with the NIC for RDMA use. It supports two ways to store shuffle data between the stages: (1) shuffle data is stored in regular files (just like vanilla Spark) but the data transfer is implemented via RDMA, (2) data is stored in memory (allocated and registered for RDMA transfer) and the data transfer is implemented via RDMA. We call it the "last-mile" approach where just the networking operations are replaced by the RDMA operations.
+Lately there has been an increasing interest in the community to include RDMA networking into data processing frameworks like Spark and Hadoop. One natural spot to integrate RDMA is in the shuffle operation that involves all-to-all network communication pattern. Naturally, due to its performance requirements the shuffle operation is of interest to us as well, and we have developed a Spark plugin for shuffle. In our previous blog posts, we have already shown that the Crail Shuffler achieves great workload-level speedups compared to vanilla Spark. In this blog post, we take a look at another recently proposed design called <a href="https://github.com/Mellanox/SparkRDMA">SparkRDMA</a> (<a href="https://issues.apache.org/jira/browse/SPARK-22229">SPARK-22229 JIRA</a>). SparkRDMA proposes to improve the shuffle performance of Spark by performing data transfers over RDMA. For this, the code manages its own off-heap memory which needs to be registered with the NIC for RDMA use. It supports two ways to store shuffle data between the stages: (1) shuffle data is stored in regular files (just like vanilla Spark) but the data transfer is implemented via RDMA, (2) data is stored in memory (allocated and registered for RDMA transfer) and the data transfer is implemented via RDMA. We call it the "last-mile" approach where just the networking operations are replaced by the RDMA operations.
 </p>
 <p>
 In contrast, the Crail shuffler plugin takes a more holistic approach and leverages the high performance of Crail distributed data store to deliver gains. It uses Crail store to efficiently manage I/O resources, storage and networking devices, memory registrations, client sessions, data distribution, etc. Consequently, the shuffle operation becomes as simple as writing and reading files. And recall that Crail store is designed as a fast data bus for the intermediate data. The shuffle operation is just one of many operations that can be accelerated using Crail store. Beyond these operations, the modular architecture of Crail store enables us to seamlessly leverage different storage types (DRAM, NVMe, and more), perform tiering, support disaggregation, share inter-job data, jointly optimize I/O resources for various workloads, etc. These capabilities and performance gains give us confidence in the design choices we made for the Crail project.
