@@ -40,17 +40,17 @@ In constrast, the Crail approach is different. Crail was designed as a storage b
 ### Performance comparison
 <div style="text-align: justify">
 <p>
-In our previous blog posts we have shown that Crail can achieve great speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparison. As described above, SparkRDMA allows to switch how the shuffle data is handled between the stages by configuring a shuffle writer (spark.shuffle.rdma.shuffleWriterMethod): (1) Is called the Wrapper shuffle writer method and wrappes the Spark shuffle writer, i.e. writes shuffle data to files between stages, (2) the ChunkedPartitionAgg (beta) stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
+In our previous blog posts we have shown that Crail can achieve a great speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparison. As described above, SparkRDMA can be operated in two different modes. Users decide which mode to use by selecting a particular type of shuffle writer (spark.shuffle.rdma.shuffleWriterMethod). The Wrapper shuffle writer writes shuffle data to files between the stages, the Chunked shuffle writer stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
 <div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
 <br>
 <div style="text-align: justify">
 <p>
-First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a> on our 8+1 machine cluster (see above). We sort 200GB, i.e. each nodes gets 25GB of data (equal distribution). To get the best possible configuration for all setups we brute-force the configuration space for each of them. All configuration use 8 executors with 12 cores each. Note that in a typical Spark run more CPU cores than assigned are engaged because of garbabge collection, etc. In our test runs assigning 12 cores lead to the best performance.
+First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a> on our 8+1 machine cluster (see above). We sort 200GB, i.e. each node gets 25GB of data (equal distribution). To get the best possible configuration for all setups we brute-force the configuration space for each of them. In all configurations we use 8 executors with 12 cores each. Note that in a typical Spark run more CPU cores than assigned are engaged because of garbabge collection, etc. In our test runs assigning 12 cores lead to the best performance.
 </p>
 <p>
-The plot above shows runtimes of the various configuration we run with terasort. SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. A quick inspection found that this overhead stems from memory allocation and registration for the shuffle data to be kept in memory between the stages. Crail's shuffle plugin shows performance improvement of around 235%.
+The plot above shows runtimes of the various configuration we run with terasort. SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. On a quick inspection we found that this overhead stems from memory allocation and registration for the shuffle data that is kept in memory between the stages. Compared to vanilla Spark, Crail's shuffle plugin shows performance improvement of around 235%.
 </p>
 </div>
 <div style="text-align:center"><img src ="/img/blog/rdma-shuffle/sql.svg" width="550"/></div>
