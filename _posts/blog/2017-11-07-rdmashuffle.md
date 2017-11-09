@@ -40,7 +40,7 @@ In constrast, the Crail approach is different. Crail was designed as a storage b
 ### Performance comparison
 <div style="text-align: justify">
 <p>
-In the previous blogs we have already shown that Crail can achieve great speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparison. As described above, SparkRDMA allows to switch how the shuffle data is handled between the stages by configuring a shuffle writer (spark.shuffle.rdma.shuffleWriterMethod): (1) Is called the Wrapper shuffle writer method and wrappes the Spark shuffle writer, i.e. writes shuffle data to files between stages, (2) the ChunkedPartitionAgg (beta) stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
+In out previous blog posts we have shown that Crail can achieve great speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparison. As described above, SparkRDMA allows to switch how the shuffle data is handled between the stages by configuring a shuffle writer (spark.shuffle.rdma.shuffleWriterMethod): (1) Is called the Wrapper shuffle writer method and wrappes the Spark shuffle writer, i.e. writes shuffle data to files between stages, (2) the ChunkedPartitionAgg (beta) stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
 <div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
