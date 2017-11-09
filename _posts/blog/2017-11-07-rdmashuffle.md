@@ -100,7 +100,14 @@ that allows data to be generated on the fly, i.e. this benchmark focuses on
 shuffle performance. The shuffle data size is around 148GB. Here the
 Wrapper shuffle writer is slightly slower than vanilla Spark but instead the
 Chunked shuffle writer is roughly the same amount faster. Crail again shows a
-great performance increase over vanilla Spark.<br/><br/>
+great performance increase over vanilla Spark.
+</p>
+</div>
+
+### Summary
+
+<div style="text-align: justify">
+<p>
 These benchmarks validate our previous statements that we believe a
 "last-mile" integration cannot deliver the same performance as a holistic
 approach, i.e. one has to look at the whole picture in how to integrate
