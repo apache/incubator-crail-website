@@ -30,26 +30,11 @@ The specific cluster configuration used for the experiments in this blog:
 ### Spark Shuffle Plugins
 <div style="text-align: justify">
 <p>
-Recently there has been interest by the community to include a RDMA accelerated
-shuffle engine into the Spark codebase (<a href="https://issues.apache.org/jira/browse/SPARK-22229">Proposal</a>).
-The design proposes to improve shuffle performance by performing
-data transfers over RDMA. For this, the code manages its own off-heap memory
-which needs to be registered with the NIC for RDMA use.
-A prototype implementation of the design is available as open-source
-shuffle plugin here:
-<a href="https://github.com/Mellanox/SparkRDMA">https://github.com/Mellanox/SparkRDMA</a>.
-Note that the current prototype implementation supports two ways to store shuffle
-data between the stages: (1) shuffle data is stored like in vanilla Spark
-in files, (2) data is stored in memory allocated and registered for RDMA transfer.
-<br/><br/>
-In constrast, the Crail approach is different. It was designed as a
-storage bus for intermediate data. We believe the Crail's modular architecture
-to leverage high-performance storage and networking devices for e.g.
-shuffle data has many advantages over a "last-mile" design like
-the one described above: no overhead of allocation and registration of data
-stored between stages, disaggregation support, seamless support for
-different storage types (e.g. RAM, NVMe, ...), tiering, Inter-Job data storage,
-...
+Recently there has been increasing interest by the community to include a RDMA accelerated shuffle engine into the Spark codebase (<a href="https://issues.apache.org/jira/browse/SPARK-22229">Proposal</a>). The design proposes to improve shuffle performance by performing data transfers over RDMA. For this, the code manages its own off-heap memory which needs to be registered with the NIC for RDMA use. A prototype implementation of the design is available as part of the SparkRDMA open-source codebase (<a href="https://github.com/Mellanox/SparkRDMA">https://github.com/Mellanox/SparkRDMA</a>). The SparkRDMA shuffle plugin supports two ways to store shuffle data between the stages: (1) shuffle data is stored like in vanilla Spark in files, (2) data is stored in memory allocated and registered for RDMA transfer.
+</p>
+<p>
+In constrast, the Crail approach is different. Crail was designed as a storage bus for intermediate data. We believe the Crail's modular architecture to leverage high-performance storage and networking devices for e.g. shuffle data has many advantages over a "last-mile" design like the one described above: no overhead of allocation and registration of data
+stored between stages, disaggregation support, seamless support for different storage types (e.g. RAM, NVMe, ...), tiering, inter-job data storage, ...
 </p>
 </div>
 
