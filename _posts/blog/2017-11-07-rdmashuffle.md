@@ -66,7 +66,6 @@ files between stages, (2) the ChunkedPartitionAgg (beta) stores shuffle data
 in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
-<br>
 <div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
 <br>
 <div style="text-align: justify">
