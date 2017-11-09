@@ -30,17 +30,16 @@ The specific cluster configuration used for the experiments in this blog:
 ### Spark Shuffle Plugins
 <div style="text-align: justify">
 <p>
-Recently there has been increasing interest by the community to include a RDMA accelerated shuffle engine into the Spark codebase (<a href="https://issues.apache.org/jira/browse/SPARK-22229">Proposal</a>). The design proposes to improve the shuffle performance of Spark by performing data transfers over RDMA. For this, the code manages its own off-heap memory which needs to be registered with the NIC for RDMA use. A prototype implementation of the design is available as part of the SparkRDMA open-source codebase (<a href="https://github.com/Mellanox/SparkRDMA">https://github.com/Mellanox/SparkRDMA</a>). The SparkRDMA shuffle plugin supports two ways to store shuffle data between the stages: (1) shuffle data is stored in regular files (just like vanilla Spark) but the data transfer is implemented via RDMA, (2) data is stored in memory (allocated and registered for RDMA transfer) and the data transfer is implemented via RDMA.
+Lately there has been an increasing interest in the community to include RDMA networking into data processing frameworks like Spark and Hadoop. One natural spot to integrate RDMA is in the shuffle operation that involved all-to-all network communication pattern. Naturally, due to its performance requirements the shuffle operation is of interest to us as well, and we have developed a Spark plugin for shuffle. In our previous blog posts, we have already shown that the Crail Shuffler achieves great workload-level speedups compared to vanilla Spark. In this blog post, we take a look at another recently proposed design called <a href="https://github.com/Mellanox/SparkRDMA">SparkRDMA</a> (<a href="https://issues.apache.org/jira/browse/SPARK-22229">SPARK-22229 JIRA</a>). SparkRDMA proposes to improve the shuffle performance of Spark by performing data transfers over RDMA. For this, the code manages its own off-heap memory which needs to be registered with the NIC for RDMA use. It supports two ways to store shuffle data between the stages: (1) shuffle data is stored in regular files (just like vanilla Spark) but the data transfer is implemented via RDMA, (2) data is stored in memory (allocated and registered for RDMA transfer) and the data transfer is implemented via RDMA. We call it the "last-mile" approach where just the networking operations are replaced by the RDMA operations.
 </p>
 <p>
-In constrast, the Crail approach is different. Crail was designed as a storage bus for intermediate data. We believe that Crail's modular architecture to leverage high-performance storage and networking devices for e.g. shuffle data has many advantages over a "last-mile" design like SparkRDMA: no overhead of allocation and registration of data stored between stages, disaggregation support, seamless support for different storage types (e.g. RAM, NVMe, ...), tiering, inter-job data storage, ...
+In contrast, the Crail shuffler plugin takes a more holistic approach and leverages the high performance of Crail distributed data store to deliver gains. It uses Crail store to efficiently manage I/O resources, storage and networking devices, memory registrations, client sessions, data distribution, etc. Consequently, the shuffle operation becomes as simple as writing and reading files. And recall that Crail store is designed as a fast data bus for the intermediate data. The shuffle operation is just one of many operations that can be accelerated using Crail store. Beyond these operations, the modular architecture of Crail store enables us to seamlessly leverage different storage types (DRAM, NVMe, and more), perform tiering, support disaggregation, share inter-job data, jointly optimize I/O resources for various workloads, etc. These capabilities and performance gains give us confidence in the design choices we made for the Crail project.
 </p>
 </div>
 
 ### Performance comparison
 <div style="text-align: justify">
-<p>
-In our previous blog posts we have shown that Crail can achieve a great speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparison. As described above, SparkRDMA can be operated in two different modes. Users decide which mode to use by selecting a particular type of shuffle writer (spark.shuffle.rdma.shuffleWriterMethod). The Wrapper shuffle writer writes shuffle data to files between the stages, the Chunked shuffle writer stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
+<p>Lets start by quantitatively assessing performance gains from the Crail shuffle plugin and SparkRDMA. As described above, SparkRDMA can be operated in two different modes. Users decide which mode to use by selecting a particular type of shuffle writer (spark.shuffle.rdma.shuffleWriterMethod). The Wrapper shuffle writer writes shuffle data to files between the stages, the Chunked shuffle writer stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
 <div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
@@ -58,15 +57,20 @@ The plot above shows runtimes of the various configuration we run with terasort.
 
 <div style="text-align: justify">
 <p>
-For our second workload we choose the <a href="https://github.com/zrlio/sql-benchmarks">SQL equijoin</a> with a <a href="https://github.com/zrlio/spark-nullio-fileformat">special fileformat</a> that allows data to be generated on the fly. By generating data on the fly we eliminate any costs for reading data from storage and focus entirely on the shuffle performance. The shuffle data size is around 148GB. Here the Wrapper shuffle writer is slightly slower than vanilla Spark but instead the Chunked shuffle writer is roughly the same amount faster. Crail again shows a great performance increase over vanilla Spark.
+For our second workload we choose the <a href="https://github.com/zrlio/sql-benchmarks">SQL equijoin</a> with a <a href="https://github.com/zrlio/spark-nullio-fileformat">special fileformat</a> that allows data to be generated on the fly. By generating data on the fly we eliminate any costs for reading data from storage and focus entirely on the shuffle performance. The shuffle data size is around 148GB. Here the Wrapper shuffle writer is slightly slower than vanilla Spark but instead the Chunked shuffle writer is roughly the same amount faster. The Crail shuffle plugin again delivers a great performance increase over vanilla Spark.
 </p>
+</div>
+
+<div style="text-align: justify">
+<p>Please let us know if your have recommendations about how these experiments can be improved.</p>
 </div>
 
 ### Summary
 
 <div style="text-align: justify">
 <p>
-These benchmarks validate our previous statements that we believe a "last-mile" integration cannot deliver the same performance as a holistic approach, i.e. one has to look at the whole picture in how to integrate RDMA into Spark applications. Only replacing the data transfer alone does not lead to the anticipated performance increase. We learned this the hard way when we intially started working on Crail.
+These benchmarks validate our belief that a "last-mile" integration cannot deliver the same performance gains as a holistic approach, i.e. one has to look at the whole picture in how to integrate RDMA into Spark applications (and for that matter any framework or application). Only replacing the data transfer alone does not lead to the anticipated performance increase. We learned this the hard way when we intially started working on Crail.
 </p>
+
 </div>
 
