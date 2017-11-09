@@ -41,51 +41,25 @@ stored between stages, disaggregation support, seamless support for different st
 ### Performance comparison
 <div style="text-align: justify">
 <p>
-In the previous blogs we have already shown that Crail can achieve great
-speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparison.
-As described above, SparkRDMA allows to switch how the shuffle data is handled
-between the stages by configuring a shuffle writer
-(spark.shuffle.rdma.shuffleWriterMethod): (1) Is called the Wrapper shuffle writer
-method and wrappes the Spark shuffle writer, i.e. writes shuffle data to
-files between stages, (2) the ChunkedPartitionAgg (beta) stores shuffle data
-in memory. We evaluate both writer methods for terasort and SQL equijoin.
+In the previous blogs we have already shown that Crail can achieve great speedup compared to vanilla Spark. Let us see how SparkRDMA holds up in comparison. As described above, SparkRDMA allows to switch how the shuffle data is handled between the stages by configuring a shuffle writer (spark.shuffle.rdma.shuffleWriterMethod): (1) Is called the Wrapper shuffle writer method and wrappes the Spark shuffle writer, i.e. writes shuffle data to files between stages, (2) the ChunkedPartitionAgg (beta) stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
 <div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
 <br>
 <div style="text-align: justify">
 <p>
-First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a>
-on our 8+1 machine cluster (see above). We sort 200GB, i.e. each nodes gets 25GB 
-of data (equal distribution). To get the best possible configuration for
-all setups we brute-force the configuration space for each of them.
-All configuration use 8 executors with 12 cores each. Note that
-in a typical Spark run more CPU cores than assigned are engaged because of
-garbabge collection, etc. In our test runs assigning 12 cores lead to the
-best performance.<br/><br/>
-
-The plot above shows runtimes of the various configuration we run with terasort.
-SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than
-vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. A quick
-inspection found that this overhead stems from memory allocation and registration
-for the shuffle data to be kept in memory between the stages. Crail's shuffle
-plugin shows performance improvement of around 235%.
+First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a> on our 8+1 machine cluster (see above). We sort 200GB, i.e. each nodes gets 25GB of data (equal distribution). To get the best possible configuration for all setups we brute-force the configuration space for each of them. All configuration use 8 executors with 12 cores each. Note that in a typical Spark run more CPU cores than assigned are engaged because of garbabge collection, etc. In our test runs assigning 12 cores lead to the best performance.
+</p>
+<p>
+The plot above shows runtimes of the various configuration we run with terasort. SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. A quick inspection found that this overhead stems from memory allocation and registration for the shuffle data to be kept in memory between the stages. Crail's shuffle plugin shows performance improvement of around 235%.
 </p>
 </div>
-<br>
 <div style="text-align:center"><img src ="/img/blog/rdma-shuffle/sql.svg" width="550"/></div>
 <br>
 
 <div style="text-align: justify">
 <p>
-For our second workload we choose the
-<a href="https://github.com/zrlio/sql-benchmarks">SQL equijoin</a> with a
-<a href="https://github.com/zrlio/spark-nullio-fileformat">special fileformat</a>
-that allows data to be generated on the fly, i.e. this benchmark focuses on
-shuffle performance. The shuffle data size is around 148GB. Here the
-Wrapper shuffle writer is slightly slower than vanilla Spark but instead the
-Chunked shuffle writer is roughly the same amount faster. Crail again shows a
-great performance increase over vanilla Spark.
+For our second workload we choose the <a href="https://github.com/zrlio/sql-benchmarks">SQL equijoin</a> with a <a href="https://github.com/zrlio/spark-nullio-fileformat">special fileformat</a> that allows data to be generated on the fly, i.e. this benchmark focuses on shuffle performance. The shuffle data size is around 148GB. Here the Wrapper shuffle writer is slightly slower than vanilla Spark but instead the Chunked shuffle writer is roughly the same amount faster. Crail again shows a great performance increase over vanilla Spark.
 </p>
 </div>
 
@@ -93,12 +67,7 @@ great performance increase over vanilla Spark.
 
 <div style="text-align: justify">
 <p>
-These benchmarks validate our previous statements that we believe a
-"last-mile" integration cannot deliver the same performance as a holistic
-approach, i.e. one has to look at the whole picture in how to integrate
-RDMA into Spark applications. Replacing only the data transfer alone does not
-lead to the anticipated performance increase. We learned this the hard
-way when we intially started working on Crail.
+These benchmarks validate our previous statements that we believe a "last-mile" integration cannot deliver the same performance as a holistic approach, i.e. one has to look at the whole picture in how to integrate RDMA into Spark applications. Replacing only the data transfer alone does not lead to the anticipated performance increase. We learned this the hard way when we intially started working on Crail.
 </p>
 </div>
 
