@@ -88,7 +88,7 @@ plugin shows performance improvement of around 235%.
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="/img/blog/rdma-shuffle/sql.svg" width="750"/></div>
+<div style="text-align:center"><img src ="/img/blog/rdma-shuffle/sql.svg" width="550"/></div>
 <br>
 
 <div style="text-align: justify">
