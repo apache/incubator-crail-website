@@ -8,7 +8,7 @@ comments: true
 
 <div style="text-align: justify">
 <p>
-This blog is comparing the performance of different RDMA-based shuffle plugins for Spark.
+This blog is comparing the shuffle performance of Crail with SparkRDMA, an alternative RDMA-based shuffle plugin for Spark.
 </p>
 </div>
 
