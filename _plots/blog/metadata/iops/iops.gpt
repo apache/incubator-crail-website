@@ -1,5 +1,3 @@
-set ylabel "IOPS [millions]"
-set xlabel "Number of clients"
 set grid ytics mytic
 set key left
 
@@ -24,6 +22,9 @@ set style increment user
 
 ################################################################################
 ### Single namenode vs. ib_send for the blog and the paper
+set ylabel "IOPS [millions]"
+set xlabel "Number of clients"
+
 set key right
 set yrange [0:25]
 
@@ -47,17 +48,20 @@ plot \
 ################################################################################
 ### multinamenodes vs 1 namenode for the blog and the paper
 set key left
+set yrange [0:35]
 
 set term jpeg size 640,300 font "Times-Roman, 16"
 set output "namenode_multi64.jpg"
 plot "iops_01_async.dat" using  1:($2/1000000) title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
      "iops_02_async.dat" using  1:($2/1000000) title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
+     "iops_04_async_c64.dat" using  1:($2/1000000) title "4 Namenodes IOPS" with linespoints linestyle 10 axes x1y1, \
 
 
 set term svg size 640,300 font "Times-Roman, 16"
 set output "namenode_multi64.svg"
 plot "iops_01_async.dat" using  1:($2/1000000) title "Namenode IOPS" with linespoints linestyle 8 axes x1y1, \
      "iops_02_async.dat" using  1:($2/1000000) title "2 Namenodes IOPS" with linespoints linestyle 9 axes x1y1, \
+     "iops_04_async_c64.dat" using  1:($2/1000000) title "4 Namenodes IOPS" with linespoints linestyle 10 axes x1y1, \
 ################################################################################
 
 ################################################################################
@@ -114,4 +118,47 @@ plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2/1000000):(0.1)  title "Ter
 10 title "Single namenode IOPS" linestyle 13 axes x1y1
 
 ################################################################################
+
+
+################################################################################
+### Single namenode vs. ib_send for the blog and the paper
+set ylabel "IOPS [k]"
+set xlabel "Number of clients"
+
+set xrange [0:70]
+
+set key right
+set yrange [0:25000]
+
+set term jpeg size 640,300 font "Times-Roman, 16"
+set output "namenode_crail_hdfs_iops.jpg"
+plot \
+     "iops_01_async.dat" using  1:($2/1000) title "Crail namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "hdfs_iops.dat" using  1:($2/1000) title "HDFS namenode IOPS" with linespoints linestyle 11 axes x1y1, \
+
+
+set term svg size 640,300 font "Times-Roman, 16"
+set output "namenode_crail_hdfs_iops.svg"
+plot \
+     "iops_01_async.dat" using  1:($2/1000) title "Crail namenode IOPS" with linespoints linestyle 8 axes x1y1, \
+     "hdfs_iops.dat" using  1:($2/1000) title "HDFS namenode IOPS" with linespoints linestyle 11 axes x1y1, \
+
+
+set yrange [0:250]
+
+set term jpeg size 640,300 font "Times-Roman, 16"
+set output "namenode_hdfs_iops.jpg"
+plot \
+     "hdfs_iops.dat" using  1:($2/1000) title "HDFS namenode IOPS" with linespoints linestyle 11 axes x1y1, \
+
+
+set term svg size 640,300 font "Times-Roman, 16"
+set output "namenode_hdfs_iops.svg"
+plot \
+     "hdfs_iops.dat" using  1:($2/1000) title "HDFS namenode IOPS" with linespoints linestyle 11 axes x1y1, \
+
+
+################################################################################
+
+
 
