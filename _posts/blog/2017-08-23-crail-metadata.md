@@ -20,7 +20,7 @@ The specific cluster configuration used for the experiments in this blog:
   * 8 node x86_64 cluster
 * Node configuration
   * CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz
-  * DRAM: 96GB DDR4
+  * DRAM: 96GB DDR3
   * Network: 1x100Gbit/s Mellanox ConnectX-5
 * Software
   * Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic
@@ -91,6 +91,21 @@ To increase the number of IOPS the overall system can handle, we allow starting 
 <div style="text-align: justify"> 
 <p>
 We show in this graph that the system can handle around 17Mio IOPS with two namenodes and 28Mio IOPS with four namenodes (with more than 64 clients we measured the number of IOPS to be slightly higher than 30Mio IOPS). Having multiple namenode instances matters especially with a higher number of clients. In the graph we see that the more clients we have the more we can benefit from a second namenode instance or even more instances.
+</p>
+</div>
+
+
+<div style="text-align: justify"> 
+<p>
+We only have 7 physical nodes available to run the client processes. This
+means, after 7 client processes, processes start sharing a physical machine.
+With 64 client processes, each machine runs 9 (10 in one case) client
+instances, which share the cores and the resources of the RDMA hardware.
+We believe this is the reason, why the graphs appear not to scale linearly.
+The number of total IOPS is client-bound, not namenode-bound.
+With more physical machines, we believe that scalability could be shown
+much better. Again, there is absolutely no communication among the
+namenodes happening, which should lead to linear scalability.
 </p>
 </div>
 
@@ -358,14 +373,11 @@ For a fair comparison, we run RAMCloud without any persistency, so without
 Zookeeper and without replicas to secondary storage. We run one coordinator
 and one storage server, which is somewhat similar to running one namenode
 in the Crail and HDFS cases. Also, we wanted to vary the number of clients
-from 1 to 64. For reasons, we don't knmow yet, results are coming back by the
-benchmark fine up to 14 clients. With more clients we start to see warnings
-about waiting for write to serer. At the moment we only have results
-for up 16 clients and as such might not be a fair comparison to HDFS and Crail
-with 64 clients each. We are currently investigating, if
-a configuration change of our setup is necessary to run RAMCloud
-with more clients. The following plot shows the number of reads per second
-for up to 16 clients.
+from 1 to 64. At the moment we can only get results for up to 16 clients.
+We asked the RAMCloud developers for possible reasons and got to know that the
+reason is a starvation bug in the benchmark (not in the RAMCloud system
+itself). The RAMCloud developers are looking into this issue. We are happy
+to rerun the experiments with more clients at any time.
 </p>
 </div>
 
@@ -376,8 +388,15 @@ for up to 16 clients.
 
 <div style="text-align: justify">
 <p>
-RAMCloud reaches around 1.12Mio IOPS with 16 clients. We are investigating,
-if we can run measurements with up to 64 clients.
+RAMCloud reaches a peak of 1.12Mio IOPS with 14 clients. The utilization of the
+dispatcher thread is at 100% alreaady with 10 clients. Even with more clients,
+the number of IOPS won't get higher than 1.12Mio, because the
+dispatcher thread is the bottleneck, as can be seen in the graph.
+In addition, we got a confirmation from the developers that more than
+10 clients will not increase the number of IOPS.
+So we think that the measurements are not unfair, even if we do not have
+results for more than 16 clients. Again, we are happy to rerun our experiments,
+once the benchmark runs fine with more clients.
 </p>
 </div>
 
@@ -386,7 +405,13 @@ if we can run measurements with up to 64 clients.
 <div style="text-align: justify">
 <p>
 Let us now summarize the number of IOPS of all three systems in one plot
-below.
+below. For a fair comparison, Crail runs only one namenode for this
+experiments and we compare the results to RAMCloud with one coordinator and
+one sotrage server (without replication as described above) and the one
+namenode instance of HDFS. We see that Crail's single namenode can handle
+a much bigger number of RPCs compared to the other two systems (remember
+that Crail can run multiple namenodes and we measured a number of IOPS
+of 30Mio/s with 4 namenodes).
 </p>
 </div>
 
@@ -398,7 +423,7 @@ below.
 <p>
 HDFS is deployed on production clusters and handles real workloads
 with roughly 200000 IOPS. We believe that Crail, which can handle a much
-bigger number of workloads, is able to run real workloads on very large
+bigger number of IOPS, is able to run real workloads on very large
 clusters. A common assumption is that Java-based implementations suffer from
 performance loss. We show that a Java-based system can handle a high amount
 of operations even compared to a C++-based system like RAMCloud.
@@ -425,6 +450,14 @@ clients.
 
 <div style="text-align: justify"> 
 <p>
+The measurements show that a system completely implemented in Java,
+reaches very high performance and can fully leverage the peformance
+provided by modern hardware.
+</p>
+</div>
+
+<div style="text-align: justify"> 
+<p>
 With TeraSort as real application, we show that in real-world scenarios
 Crail supports big clusters with several hundred of clients.
 </p>
@@ -437,7 +470,7 @@ does well. The comparison to HDFS, which is deployed on production
 cluters, shows that in real world workloads Crail would be able ti handle
 very large clusters in terms of metadata operations it can handle. Comparing
 to a C++-based system, RAMCloud, we show that Java-based systems do not
-necessarly suffer from performance loss.
+suffer from performance loss at all.
 </p>
 </div>
 
