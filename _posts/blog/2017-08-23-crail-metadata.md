@@ -47,24 +47,51 @@ Metadata operations issued by clients are hashed to a particular namenode depend
 
 <div style="text-align: justify"> 
 <p>
-In two of the previous blogs (<a href="/blog/2017/08/crail-memory.html">DRAM</a>,<a href="/blog/2017/08/crail-nvme-fabrics-v1.html">NVMf</a>) we have already shown that Crail metadata operations are very low latency. Essentially a single metadata operation issued by a remote client takes 5-6 microseconds, which is only slightly more than the raw network latency of the RDMA network fabric. In this blog, we want to explore the scalability of Crail's metadata management, that is, the number of clients Crail can support, or how Crail scales as the cluster size increases. The level of scability of Crail is mainly determined by the number of metadata operations Crail can process concurrently, a metric that is often referred to as IOPS. The higher the number of IOPS the system can handle, the more clients can concurrently use Crail without performance loss. 
+In two of the previous blogs (<a href="/blog/2017/08/crail-memory.html">DRAM</a>, <a href="/blog/2017/08/crail-nvme-fabrics-v1.html">NVMf</a>) we have already shown that Crail metadata operations are very low latency. Essentially a single metadata operation issued by a remote client takes 5-6 microseconds, which is only slightly more than the raw network latency of the RDMA network fabric. In this blog, we want to explore the scalability of Crail's metadata management, that is, the number of clients Crail can support, or how Crail scales as the cluster size increases. The level of scalability of Crail is mainly determined by the number of metadata operations Crail can process concurrently, a metric that is often referred to as IOPS. The higher the number of IOPS the system can handle, the more clients can concurrently use Crail without performance loss. 
 </p>
 <p>
-An important metadata operation is ''getFile()'' which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation. In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see <a href="/blog/2017/08/crail-memory.html">DRAM</a>). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. The basic command of the benchmark as executed by each of the individual clients is given by the following command:
+An important metadata operation is ''getFile()'', which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation. In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see <a href="/blog/2017/08/crail-memory.html">DRAM</a>). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. The basic command of the benchmark as executed by each of the individual clients is given by the following command:
 </p>
 </div>
 ```
-./bin/crail iobench -t getFileAsync -f /tmp.dat -k 1000000 -b 128
+./bin/crail iobench -t getMultiFileAsync -f / -k 10000000 -b 128
 ```
+<div style="text-align: justify"> 
+<p>
+Where ''-t'' specifies the benchmark to run, ''-f'' specifies the path on the
+Crail file system to be used for the benchmark, ''-k'' specifies the number of
+iterations to be performed by the benchmark
+(how many times will the benchmark execute ''getFile()'') and
+''-b'' specifies the maximum number of requests in flight.
+</p>
+</div>
 
 ### Single Namenode Scalability
 
 <div style="text-align: justify"> 
 <p>
-In the first experiment, we measure the aggregated number of metadata operations a single Crail namenode can handle per second. The namenode runs on 8 physical cores with hyperthreading disabled. The result is shown in the first graph below, labelled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightely, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
+In the first experiment, we measure the aggregated number of metadata operations a single Crail namenode can handle per second. The namenode runs on 8 physical cores with hyper-threading disabled. The result is shown in the first graph below, labeled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightly, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
 </p>
 <p> 
-As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The line of the raw number of IOPS, labelled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
+As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The basic ib_send_bw command is given below:
+</p>
+</div>
+```
+ib_send_bw -s 1 -Q 1 -r 32 -t 32 -n 10000000
+```
+<div style="text-align: justify"> 
+<p>
+Where ''-s 1'' specifies to send packets with a payload of 1 (we don't want to
+measure the transmission time of data, just the number of I/O operations),
+''-Q 1'' specifies not to do CQ moderation, ''-r 32'' specifies the receive
+queue length to be 32, ''-t 32'' specifies the send queue length to be 32
+and ''-n'' specifies the number of
+iterations to be performed by ib_send_bw.
+</p>
+</div>
+<div style="text-align: justify"> 
+<p>
+The line of the raw number of IOPS, labeled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
 </p>
 </div>
 <br>
@@ -73,7 +100,7 @@ As comparison, we measure the raw number of IOPS, which can be executed on the R
 <div style="text-align: justify"> 
 <p>
 If one starts ib_send_bw without specifying the queue sizes or whether or not to use CQ moderation, the raw number of IOPS might be higher. This is due to the fact, that the default values of ib_send_bw use a receive queue of 512, a send queue of 128 and CQ moderation of 100, meaning that a new completion is generated only after 100 sends. As comparison, we did this
-measurement too and show the result, labelled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, postlists etc might lead to a higher number of IOPS. 
+measurement too and show the result, labeled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, postlists etc might lead to a higher number of IOPS. 
 </p>
 </div>
 
@@ -143,7 +170,7 @@ We run TeraSort on a data set of 200GB and measured the
 number of IOPS at the namenode with 4 executors, 8 executors and 12 executors.
 Every executor runs 12 cores. For this experiment, we use a single namenode
 instance. We plot the distribution of the number of IOPS measured at the
-namenode over the ellapsed runtime of the TeraSort application.
+namenode over the elapsed runtime of the TeraSort application.
 </p>
 </div>
 
@@ -218,25 +245,11 @@ extrapolated numbers would look like this:
   </thead>
   <tbody>
     <tr>
-      <td align="right">...</td>
-      <td align="right">...</td>
-      <td align="right">...</td>
-      <td align="right">...</td>
-      <td align="right">...</td>
-    </tr>
-    <tr>
       <td align="right">1</td>
       <td align="right">10000k</td>
       <td align="right">1121</td>
       <td align="right">9996k</td>
       <td align="right">99.96%</td>
-    </tr>
-    <tr>
-      <td align="right">...</td>
-      <td align="right">...</td>
-      <td align="right">...</td>
-      <td align="right">...</td>
-      <td align="right">...</td>
     </tr>
     <tr>
       <td align="right">1</td>
@@ -273,7 +286,7 @@ of 600 nodes and a single namenode without any performance loss at the
 namenode.
 Should we still want to run an application like TeraSort on a bigger cluster,
 we can add a second namenode or have even more instances of namenodes
-to ensure that clients do not suffer from contetion in terms of IOPS at
+to ensure that clients do not suffer from contention in terms of IOPS at
 the namenode.
 </p>
 </div>
@@ -308,7 +321,7 @@ as Crail's namenode, while HDFS's datanodes provide additional functionality,
 like replication, for example. We are interested in the
 number of IOPS the namenode can handle. As such, the datanode's functionality
 is not relevant for this experiment. HDFS is implemented in Java like Crail.
-Due to this high similariy in terms of cuntionality and language used to
+Due to this high similarity in terms of functionality and language used to
 implement the system, HDFS is a good candidate to compare Crail to.
 </p>
 </div>
@@ -325,7 +338,7 @@ IP network. In our case, it is the same 100Gbit/s ethernet-based RoCE network.
 To measure the number of IOPS HDFS's namenode can handle, we run the same
 experiment as for Crail. The clients issue a ''getFile()'' RPC to the
 namenode and we vary the number of clients from 1 to 64. The following
-plot show hte number of IOPS relative to the number of clients.
+plot shows the number of IOPS relative to the number of clients.
 </p>
 </div>
 
@@ -338,7 +351,12 @@ plot show hte number of IOPS relative to the number of clients.
 <p>
 The graph shows that the namenode can handle around 200000 IOPS. One reason
 for the difference to the number of IOPS of Crail is surely that HDFS does not
-use the capabilities offered by the RDMA network, while Crail does.
+use the capabilities offered by the RDMA network, while Crail does. However
+this cannot be the only reason, why the namenode cannot handle more than
+200000 IOPS. We would need to analyze more deeply where the bottleneck is
+to find an answer. We believe that the amount of code which
+gets executed at probably various layers of the software stack
+is too big to achieve high performance in terms of IOPS.
 </p>
 </div>
 
@@ -361,7 +379,7 @@ it is natively compiled code.
 <div style="text-align: justify">
 <p>
 We are interested in the number of IOPS RAMCloud can handle. We decided
-to run the readThroughout benchmark of RAMCloud's ClusterPerf program, which
+to run the readThroughput benchmark of RAMCloud's ClusterPerf program, which
 measures the number of object reads per second. This is probably the closest
 benchmark to the RPC benchmark of Crail and HDFS.
 </p>
@@ -369,15 +387,15 @@ benchmark to the RPC benchmark of Crail and HDFS.
 
 <div style="text-align: justify">
 <p>
-For a fair comparison, we run RAMCloud without any persistency, so without
+For a fair comparison, we run RAMCloud without any persistence, so without
 Zookeeper and without replicas to secondary storage. We run one coordinator
 and one storage server, which is somewhat similar to running one namenode
 in the Crail and HDFS cases. Also, we wanted to vary the number of clients
 from 1 to 64. At the moment we can only get results for up to 16 clients.
 We asked the RAMCloud developers for possible reasons and got to know that the
 reason is a starvation bug in the benchmark (not in the RAMCloud system
-itself). The RAMCloud developers are looking into this issue. We are happy
-to rerun the experiments with more clients at any time.
+itself). The RAMCloud developers are looking into this issue. We will update
+the blog with the latest numbers as soon as the bug is fixed.
 </p>
 </div>
 
@@ -389,14 +407,14 @@ to rerun the experiments with more clients at any time.
 <div style="text-align: justify">
 <p>
 RAMCloud reaches a peak of 1.12Mio IOPS with 14 clients. The utilization of the
-dispatcher thread is at 100% alreaady with 10 clients. Even with more clients,
+dispatcher thread is at 100% already with 10 clients. Even with more clients,
 the number of IOPS won't get higher than 1.12Mio, because the
 dispatcher thread is the bottleneck, as can be seen in the graph.
 In addition, we got a confirmation from the developers that more than
 10 clients will not increase the number of IOPS.
 So we think that the measurements are not unfair, even if we do not have
-results for more than 16 clients. Again, we are happy to rerun our experiments,
-once the benchmark runs fine with more clients.
+results for more than 16 clients. Again, we we will update the blog
+with a higher number of clients, as soon as the bug is fixed.
 </p>
 </div>
 
@@ -407,7 +425,7 @@ once the benchmark runs fine with more clients.
 Let us now summarize the number of IOPS of all three systems in one plot
 below. For a fair comparison, Crail runs only one namenode for this
 experiments and we compare the results to RAMCloud with one coordinator and
-one sotrage server (without replication as described above) and the one
+one storage server (without replication as described above) and the one
 namenode instance of HDFS. We see that Crail's single namenode can handle
 a much bigger number of RPCs compared to the other two systems (remember
 that Crail can run multiple namenodes and we measured a number of IOPS
@@ -438,39 +456,15 @@ of operations even compared to a C++-based system like RAMCloud.
 
 <div style="text-align: justify"> 
 <p>
-In this blog we show that Crail's namenode is able the handle a big number
-of IOPS. Crail's namenode performs similarly to the raw number of IOPS
-measured using ib_send_bw, when configured with the same parameters. This
-shows that the actual processing of the RPC is implemented efficiently.
-In addition, the namenode scales well in terms of number of
-instances. This allows to deploy Crail on a larger cluster with many
-clients.
+In this blog we show three main key points of Crail: First, Crail's namenode
+performs the same as ib_send_bw with realistic parameters
+in terms of IOPS. Second, with only one
+namenode, Crail performs 10x to 50x better than RAMCloud and HDFS, two
+popular systems, where RAMCloud is even natively written. With four namenodes,
+Crail performs 30x to 150x better than these systems. Third,
+Crail scales to 1000s of clients, which directly
+translates into better application scalability.
 </p>
 </div>
 
-<div style="text-align: justify"> 
-<p>
-The measurements show that a system completely implemented in Java,
-reaches very high performance and can fully leverage the peformance
-provided by modern hardware.
-</p>
-</div>
-
-<div style="text-align: justify"> 
-<p>
-With TeraSort as real application, we show that in real-world scenarios
-Crail supports big clusters with several hundred of clients.
-</p>
-</div>
-
-<div style="text-align: justify"> 
-<p>
-Finally, a comparison of the number of IOPS shows that Crail's namenode
-does well. The comparison to HDFS, which is deployed on production
-cluters, shows that in real world workloads Crail would be able ti handle
-very large clusters in terms of metadata operations it can handle. Comparing
-to a C++-based system, RAMCloud, we show that Java-based systems do not
-suffer from performance loss at all.
-</p>
-</div>
 

@@ -70,7 +70,7 @@ set key right
 set yrange [0:120]
 
 set ylabel "IOPS at namenode [k]"
-set xlabel "Ellapsed time of TeraSort run [s]"
+set xlabel "Elapsed time of TeraSort run [s]"
 
 set xrange [0:45]
 set term jpeg size 640,300 font "Times-Roman, 16"
@@ -96,7 +96,7 @@ plot "terasort_m04_c12_01_sek.dat" using ($0-0.2):($2/1000):(0.1)  title "TeraSo
 set key right
 
 set ylabel "IOPS at namenode [millions]"
-set xlabel "Ellapsed time of TeraSort run [s]"
+set xlabel "Elapsed time of TeraSort run [s]"
 
 set xrange [0:45]
 set yrange [0:22]
@@ -151,6 +151,8 @@ plot \
      "ramcloud_iops.dat" using  1:($2/1000) title "RAMCloud IOPS" with linespoints linestyle 12 axes x1y1, \
      "ramcloud_iops.dat" using  1:($4 * 100) title "Dispatcher utilization" with linespoints linestyle 13 axes x1y2, \
 
+unset y2label
+unset y2tics
 ################################################################################
 
 
