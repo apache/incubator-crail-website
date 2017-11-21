@@ -133,11 +133,15 @@ set xrange [0:70]
 set key right
 set yrange [0:1500]
 
+set y2range [0:100]
+set y2tics
+set y2label "Utilization [%]"
 
 set term jpeg size 640,300 font "Times-Roman, 16"
 set output "ramcloud_iops.jpg"
 plot \
      "ramcloud_iops.dat" using  1:($2/1000) title "RAMCloud IOPS" with linespoints linestyle 12 axes x1y1, \
+     "ramcloud_iops.dat" using  1:($4 * 100) title "Dispatcher utilization" with linespoints linestyle 13 axes x1y2, \
 
 
 
@@ -145,6 +149,7 @@ set term svg size 640,300 font "Times-Roman, 16"
 set output "ramcloud_iops.svg"
 plot \
      "ramcloud_iops.dat" using  1:($2/1000) title "RAMCloud IOPS" with linespoints linestyle 12 axes x1y1, \
+     "ramcloud_iops.dat" using  1:($4 * 100) title "Dispatcher utilization" with linespoints linestyle 13 axes x1y2, \
 
 ################################################################################
 
