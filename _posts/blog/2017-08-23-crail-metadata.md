@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Crail Storage Performance -- Part III: Metadata (Draft)"
+title: "Crail Storage Performance -- Part III: Metadata"
 author: Adrian Schuepbach and Patrick Stuedi
 category: blog
 comments: true
