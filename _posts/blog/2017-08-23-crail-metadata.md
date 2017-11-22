@@ -456,14 +456,7 @@ of operations even compared to a C++-based system like RAMCloud.
 
 <div style="text-align: justify"> 
 <p>
-In this blog we show three main key points of Crail: First, Crail's namenode
-performs the same as ib_send_bw with realistic parameters
-in terms of IOPS. Second, with only one
-namenode, Crail performs 10x to 50x better than RAMCloud and HDFS, two
-popular systems, where RAMCloud is even natively written. With four namenodes,
-Crail performs 30x to 150x better than these systems. Third,
-Crail scales to 1000s of clients, which directly
-translates into better application scalability.
+In this blog we show three main key points of Crail: First, Crail's namenode performs the same as ib_send_bw with realistic parameters in terms of IOPS. This shows that the actual processing of the RPC is implemented efficiently. Second, with only one namenode, Crail performs 10x to 50x better than RAMCloud and HDFS, two popular systems, where RAMCloud is RDMA-based and implemented natively. Third, Crail's metadata service can be scaled out to serve large number of clients. We have shown that Crail offers near linear scaling with up to 4 namenodes, offering a performance that is sufficient to serve several 1000s of clients. 
 </p>
 </div>
 
