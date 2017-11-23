@@ -57,9 +57,7 @@ backed with separate files inside the directory.
 </p>
 </div>
 
-<br>
-<img src="filesystem2.png" width="700" align="middle">
-<br><br>
+<div style="text-align:center"><img src ="http://crail.io/overview/filesystem2.png" width="700"></div>
 
 <div style="text-align: justify">
 <p>
