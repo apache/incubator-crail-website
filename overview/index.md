@@ -58,7 +58,7 @@ backed with separate files inside the directory.
 </div>
 
 <br>
-<img src="filesystem.png" width="700" align="middle">
+<img src="filesystem2.png" width="800" align="middle">
 <br><br>
 
 <div style="text-align: justify">
