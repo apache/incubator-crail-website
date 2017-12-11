@@ -45,7 +45,7 @@ Crail can accelerate various I/O tasks of Spark Applications, namely shuffle, br
 
 The next figure shows a high level view of CoCoA's communication pattern with 2 workers and 1 driver process. Blue arrows represent broadcast communication whereas green arrows represent a reduce operation.
 
-<div style="text-align:center"><img src ="/img/blog/crail-machine-learning/cocoa.svg" width="550"/></div>
+<div style="text-align:center"><img src ="/img/blog/crail-machine-learning/cocoa.svg" width="250"/></div>
 
 The first step in accelerating this workload was to analyze where time is being spent. An initial breakdown resulted in this
 
