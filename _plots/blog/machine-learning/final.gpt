@@ -1,0 +1,40 @@
+#set terminal pdf monochrome size 3.15,2.5
+#set term pdf truecolor size 4.15,2.0 font "Times-Roman, 12"
+#set term svg size 880,300 font "Times-Roman, 14"
+set term svg size 640,300 font "Sans, 10"
+
+set output "final.svg"
+
+#set yrange [0:140]
+#set xrange [0.2:2]
+#set ytics add ("1us" 1, "10us" 10, "100us" 100, "1ms" 1000, "10ms" 10000, "" 100000, "" 1000000, "10s" 10000000, "100s" 100000000, "" 1000000000, "" 1e10)
+set ylabel "time [s]"
+set grid ytics mytic
+set key left
+set style data histogram
+#set style fill solid border -1
+#set boxwidth 0.9
+unset xtics
+set title "Machine Learning"
+
+set style line 1 lc rgb "#4dafa4" lw 4 # green
+set style line 2 lc rgb "#4dafa4" lw 4 # green
+set style line 3 lc rgb "#ff7f00" lw 4 # orange
+set style line 4 lc rgb "#ff7f00" lw 4 # orange
+set style line 5 lc rgb "#e41a1c" lw 4 # red
+set style line 6 lc rgb "#e41a1c" lw 4 # red
+set style line 7 lc rgb "#377eb8" lw 4 # blue
+set style line 8 lc rgb "#377eb8" lw 4 # blue
+
+set style increment user
+
+plot "final.dat" using ($0+1+0.00):($2):(0.2) with boxes axis x1y1 title " Compute (Vanilla)" fs solid 0.9,\
+     "final.dat" using ($0+1+0.23):($6):(0.2) with boxes axis x1y1 title " Compute (Crail)" fs solid 0.9 fillstyle pattern 1,\
+     "final.dat" using ($0+1+0.46):($3):(0.2) with boxes axis x1y1 title " Broadcast (Vanilla)" fs solid 0.9,\
+     "final.dat" using ($0+1+0.69):($7):(0.2) with boxes axis x1y1 title " Broadcast (Crail)" fs solid 0.9 fillstyle pattern 1,\
+     "final.dat" using ($0+1+0.92):($4):(0.2) with boxes axis x1y1 title " Reduce (Vanilla)" fs solid 0.9,\
+     "final.dat" using ($0+1+1.15):($8):(0.2) with boxes axis x1y1 title " Reduce (Crail)" fs solid 0.9 fillstyle pattern 1,\
+     "final.dat" using ($0+1+1.38):($5):(0.2) with boxes axis x1y1 title " Total (Vanilla)" fs solid 0.9,\
+     "final.dat" using ($0+1+1.61):($9):(0.2) with boxes axis x1y1 title " Total (Crail)" fs solid 0.9 fillstyle pattern 1
+
+
