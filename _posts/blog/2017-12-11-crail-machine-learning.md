@@ -45,7 +45,7 @@ Crail can accelerate various I/O tasks of Spark Applications, namely shuffle, br
 
 The next figure shows a high level view of CoCoA's communication pattern with 2 workers and 1 driver process. Blue arrows represent broadcast communication whereas green arrows represent a reduce operation.
 
-![communication pattern of the cocoa algorithm](/img/blog/crail-machine-learning/cocoa.svg)
+<div style="text-align:center"><img src ="/img/blog/crail-machine-learning/cocoa.svg" width="550"/></div>
 
 The first step in accelerating this workload was to analyze where time is being spent. An initial breakdown resulted in this
 
@@ -134,15 +134,10 @@ deserialized and copied multiple times for every reduce step. Using Crail, it wa
 modify this code for zero-copy and single serialization. This reduced the time spent in the reduce
 path from 1185 ms to 680 ms (1.74x faster).
 
-```
-Maybe mention the custom serializer somehow, though it didn't make a huge difference, but it allowed
-to use Crail's zero-copy serialization.
-```
-
 ### Putting it all together
 When using all optimizations we were able to reduce the runtime of the Snap.ML machine learning
 application from ~2.5s to 1.4s per iteration (1.77x faster).
 
 ```
 Final plot with all data
-```ich 
+```
