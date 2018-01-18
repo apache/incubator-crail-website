@@ -60,7 +60,7 @@ One challenge with file read/write operations is to avoid blocking in case block
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/anatomy.png" width="420"></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-memory/anatomy.png" width="420"></div>
 <br>
 <div style="text-align: justify"> 
 <p>
@@ -98,8 +98,8 @@ The figure below illustrates the sequential write (top) and read (bottom) perfor
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/write.svg" width="550"/></div>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/read.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-memory/write.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-memory/read.svg" width="550"/></div>
 <br><br>
 <div style="text-align: justify"> 
 <p>
@@ -110,8 +110,8 @@ Note that both figures show single-client performance numbers. With Crail being 
 </p>
 </div>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/crail-groupby.svg" width="550"/></div>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/spark-groupby.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-memory/crail-groupby.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-memory/spark-groupby.svg" width="550"/></div>
 
 ### Random Read Latency
 
@@ -128,7 +128,7 @@ Typically, distributed storage systems are either built for sequential access to
 The figure below illustrates the latencies of get() operations for different key/value sizes and compares them to the latencies we obtained with RAMCloud for the same type of operations (measured using RAMClouds C and Java APIs). RAMCloud is a low-latency key/value store implemented using RDMA. RAMCloud actually provides durable storage by asynchronously replicating data onto backup devices. However, at any point in time all the data is held in DRAM and read requests will be served from DRAM directly. Up to our knowledge, RAMCloud is the fastest key/value store that is (a) available open source and (b) can be deployed in practice as a storage platform for applications. Other similar RDMA-based storage systems we looked at, like FaRM or HERD, are either not open source or they do not provide a clean separation between storage system, API and clients. 
 </p>
 </div>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/latency.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-memory/latency.svg" width="550"/></div>
 
 <div style="text-align: justify"> 
 <p>
@@ -142,7 +142,7 @@ The latency advantages of Crail are beneficial also at the application level. Th
 </p>
 </div>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-memory/cdf-broadcast-128-read.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-memory/cdf-broadcast-128-read.svg" width="550"/></div>
 
 <div style="text-align: justify"> 
 <p>

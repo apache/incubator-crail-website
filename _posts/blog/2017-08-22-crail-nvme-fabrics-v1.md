@@ -80,7 +80,7 @@ The main take away from this plot is that the time it takes to perform a random 
 </p>
 </div>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/latency.svg" width="550"/></div>
 <br>
 
 <div style="text-align: justify"> 
@@ -100,7 +100,7 @@ and SPDK:
 For sequential operations in Crail, metadata fetching is inlined with data operations as described in the <a href="http://www.crail.io/blog/2017/08/crail-memory.html">DRAM</a> blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier reaches the same throughput as the native SPDK benchmark (device limit).
 </p>
 </div>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
 
 ### Sequential Throughput
 
@@ -117,7 +117,7 @@ The direct stream benchmark:
 ./bin/crail iobench -t readAsync -s <size> -k <iterations> -b 128 -w 32 -f /tmp.dat
 ```
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/throughput2.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/throughput2.svg" width="550"/></div>
 
 ### Random Read Latency
 
@@ -127,7 +127,7 @@ Random read latency is limited by the flash technology and we currently see arou
 </p>
 </div>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/latency2.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/latency2.svg" width="550"/></div>
 
 ### Tiering DRAM - NVMf
 
@@ -136,7 +136,7 @@ Random read latency is limited by the flash technology and we currently see arou
 In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. As described in the <a href="http://www.crail.io/overview/">overview</a> section, if you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail by default first uses up all available resources of the faster tier. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash), motivated by the fast network. This is what we call horizontal tiering.
 </p>
 </div>
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10"/></div>
 <br>
 <div style="text-align: justify"> 
 <p>
@@ -144,7 +144,7 @@ In the following 200G Terasort experiment we gradually limit the DRAM resources 
 </p>
 </div>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-nvmf/tiering.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/tiering.svg" width="550"/></div>
 
 To summarize, in this blog we have shown that the NVMf storage backend for Crail -- due to its efficient user-level implementation -- offers latencies and throughput very close to the hardware speed. The Crail NVMf storage tier can be used conveniently in combination with the Crail DRAM tier to either save cost or to handle situations where the available DRAM is not sufficient to store the working set of a data processing workload. 
 

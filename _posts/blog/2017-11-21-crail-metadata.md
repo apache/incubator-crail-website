@@ -34,7 +34,7 @@ As described in <a href="/blog/2017/08/crail-memory.html">part I</a>, Crail data
 </p>
 </div>
 
-<div style="text-align:center"><img src ="http://crail.io/img/blog/crail-metadata/rpc.png" width="480"></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-metadata/rpc.png" width="480"></div>
 <br>
 
 <div style="text-align: justify"> 
