@@ -36,7 +36,7 @@ To configure Crail use crail-site.conf.template as a basis and modify it to matc
 There are a general file system properties and specific properties for the different storage tiers. A typical configuration for the general file system section may look as follows:
 
     crail.namenode.address                crail://namenode:9060
-    crail.storage.types                   com.ibm.crail.storage.rdma.RdmaStorageTier
+    crail.storage.types                   org.apache.crail.storage.rdma.RdmaStorageTier
     crail.cachepath                       /memory/cache
     crail.cachelimit                      12884901888
     crail.blocksize                       1048576
@@ -68,7 +68,7 @@ Crail supports optimized local operations via memcpy (instead of RDMA) in case a
 
 Crail is a multi-tiered storage system. Additinoal tiers can be enabled by adding them to the configuration as follows.
 
-    crail.storage.types                  com.ibm.crail.storage.rdma.RdmaStorageTier,com.ibm.crail.storage.nvmf.NvmfStorageTier
+    crail.storage.types                  org.apache.crail.storage.rdma.RdmaStorageTier,org.apache.crail.storage.nvmf.NvmfStorageTier
 
 
 For the NVMf storage tier we need to configure the server IP that is used when listening for new connections. We also need to configure the PCI address of the flash device we want to use, as well as the huge page mount point to be used for allocating memory. 
@@ -95,7 +95,7 @@ To start a datanode run the following command on a host in the cluster (ideally 
 
 Now you should have a small deployment up with just one datanode. In this case the datanode is of type RDMA/DRAM, which is the default datnode. If you want to start a different storage tier you can do so by passing a specific datanode class as follows:
 
-    ./bin/crail datanode -t com.ibm.crail.storage.nvmf.NvmfStorageTier
+    ./bin/crail datanode -t org.apache.crail.storage.nvmf.NvmfStorageTier
 
 This would start the shared storage datanode. Note that configuration in crail-site.conf needs to have the specific properties set of this type of datanode, in order for this to work. 
 
@@ -112,7 +112,7 @@ Similarly, Crail can be stopped by using
 For this to work include the list of machines to start datanodes in conf/slaves. You can start multiple datanode of different types on the same host as follows:
 
     host02-ib
-    host02-ib -t com.ibm.crail.storage.nvmf.NvmfStorageTier
+    host02-ib -t org.apache.crail.storage.nvmf.NvmfStorageTier
     host03-ib
 
 In this example, we are configuring a Crail cluster with 2 physical hosts but 3 datanodes and two different storage tiers.
@@ -135,7 +135,7 @@ For the Crail shell to work properly, the HDFS configuration in crail-1.0/conf/c
     <configuration>
       <property>
        <name>fs.crail.impl</name>
-       <value>com.ibm.crail.hdfs.CrailHadoopFileSystem</value>
+       <value>org.apache.crail.hdfs.CrailHadoopFileSystem</value>
       </property>
       <property>
         <name>fs.defaultFS</name>
@@ -143,7 +143,7 @@ For the Crail shell to work properly, the HDFS configuration in crail-1.0/conf/c
       </property>
       <property>
         <name>fs.AbstractFileSystem.crail.impl</name>
-        <value>com.ibm.crail.hdfs.CrailHDFS</value>
+        <value>org.apache.crail.hdfs.CrailHDFS</value>
       </property>
      </configuration>
 
@@ -154,7 +154,7 @@ Note that the Crail HDFS interface currently cannot provide the full performance
 The best way to program against Crail is to use Maven. Make sure you have the Crail dependency specified in your application pom.xml file:
 
     <dependency>
-      <groupId>com.ibm.crail</groupId>
+      <groupId>org.apache.crail</groupId>
       <artifactId>crail-client</artifactId>
       <version>1.0</version>
     </dependency>
@@ -191,7 +191,7 @@ Once the stream has been obtained, there exist various ways to write a file. The
     ...
     future.get();
 
-Reading files works very similar to writing. There exist various examples in com.ibm.crail.tools.CrailBenchmark.
+Reading files works very similar to writing. There exist various examples in org.apache.crail.tools.CrailBenchmark.
 
 ### Storage Tiers
 
