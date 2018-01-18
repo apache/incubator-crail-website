@@ -57,7 +57,7 @@ backed with separate files inside the directory. Keyvalue nodes are similar to d
 </div>
 
 
-<div style="text-align:center"><img src ="http://crail.io/overview/filesystem2.png" width="550"></div>
+<div style="text-align:center"><img src ="{{ site.base }}/overview/filesystem2.png" width="550"></div>
 <br>
 
 <div style="text-align: justify">
