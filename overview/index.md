@@ -15,7 +15,7 @@ Modern storage and network technologies such as 100Gb/s Ethernet, RDMA, NVMe fla
 
 * Heterogeneity: with modern hardware, I/O operations are becoming more complex. Not only are there more options to store data (disk, flash, DRAM, disaggregated storage, etc.) but also it is getting increasingly important to use storage resources efficiently. For  instance, some newer technologies such as phase change memory (PCM) permit data access at byte granularity. Mediating storage access through a block device interface is a bad fit in such a case. Moreover, with accelerators like GPUs or FPGAs extending the traditional compute layer, new distributed interfaces to accelerator-local memories are needed.
 
-In the [Blog](http://crail.io/blog) section we discuss each of those challenges in more detail.
+In the <a href="{{ site.base }}/blog">Blog</a> section we discuss each of those challenges in more detail.
 
 ## Crail Architecture
 
