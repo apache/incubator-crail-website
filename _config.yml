@@ -1,5 +1,5 @@
-name: The Crail Project
-url: http://crail.io
+name: The Apache Crail (Incubating) Project
+url: https://animeshtrivedi.github.io/crail-website/ 
 
 exclude: [bibble, README.md, Makefile]
 
@@ -36,7 +36,7 @@ roles:
 front_page_news: 5
 
 # Base pathname for links.
-base: 'http://crail.io'
+base: 'https://animeshtrivedi.github.io/crail-website'
 
 
 # gem dependencies
