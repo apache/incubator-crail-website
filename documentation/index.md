@@ -5,7 +5,7 @@ title: GitHub Repositories
 
 The Crail I/O stack consists of a set of components. Typically only a subset of the components are required for a particular use case (e.g., Spark, Hadoop, Hive, etc.) or hardware setup (e.g., RDMA, TCP, Flash, etc.). Here is a list of the components together with their GitHub repository. 
 
-* [Crail Store](https://github.com/zrlio/crail): The backbone for all I/O operations across distributed storage resource. Includes both the RDMA/DRAM and the NVMf/Flash storage tier.
+* <a href="{{ site.base }}/community/">Crail Store</a>: The backbone for all I/O operations across distributed storage resource. Includes both the RDMA/DRAM and the NVMf/Flash storage tier.
 * [Crail-Blkdev](https://github.com/zrlio/crail-blkdev): A Crail storage tier for shared volume storage.
 * [Crail-Netty](https://github.com/zrlio/crail-netty): A Crail TCP/DRAM storage tier built on top of Netty.
 * [Crail-Spark-IO](https://github.com/zrlio/crail-spark-io): A module including Crail-based Shuffle and Broadcast plugins for Spark.
@@ -18,7 +18,7 @@ We currently do not provide binary releases. This page describes how to build th
 Building the source requires [Apache Maven](http://maven.apache.org/) and Java version 8 or higher.
 To build Crail execute the following steps:
 
-1. Obtain a copy of [Crail](https://github.com/zrlio/crail) from Github
+1. Obtain a copy of <a href="{{ site.base }}/community/">Crail Store</a>
 2. Make sure your local maven repo contains [DiSNI](https://github.com/zrlio/disni), if not build DiSNI from Github
 3. Make sure your local maven repo contains [DaRPC](https://github.com/zrlio/darpc), if not build DaRPC from Github
 4. Run: mvn -DskipTests install
@@ -226,7 +226,7 @@ Building the source requires [Apache Maven](http://maven.apache.org/) and Java v
 To build Crail execute the following steps:
 
 1. Obtain a copy of [Crail-Spark-IO](https://github.com/zrlio/crail-spark-io) from Github
-2. Make sure your local maven repo contains [Crail](https://github.com/zrlio/crail), if not build Crail from Github
+2. Make sure your local maven repo contains crail store jars, if not build Crail from the <a href="{{ site.base }}/community/">source</a> 
 4. Run: mvn -DskipTests install
 5. Add crail-spark-1.0.jar as well as its Crail dependencies to the Spark extra class path, both for the driver and the executors
 
