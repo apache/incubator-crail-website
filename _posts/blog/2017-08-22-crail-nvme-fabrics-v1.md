@@ -97,7 +97,7 @@ and SPDK:
 ```
 <div style="text-align: justify"> 
 <p>
-For sequential operations in Crail, metadata fetching is inlined with data operations as described in the <a href="http://www.crail.io/blog/2017/08/crail-memory.html">DRAM</a> blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier reaches the same throughput as the native SPDK benchmark (device limit).
+For sequential operations in Crail, metadata fetching is inlined with data operations as described in the <a href="{{ site.base }}/blog/2017/08/crail-memory.html">DRAM</a> blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier reaches the same throughput as the native SPDK benchmark (device limit).
 </p>
 </div>
 <div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/throughput.svg" width="550"/></div>
@@ -106,7 +106,7 @@ For sequential operations in Crail, metadata fetching is inlined with data opera
 
 <div style="text-align: justify"> 
 <p>
-Let us look at the sequential read and write throughput for buffered and direct streams and compare them to a buffered Crail stream on DRAM. All benchmarks are single thread/client performed against 8 storage nodes with 4 drives each, cf. configuration above. In this benchmark we use 32 outstanding operations for the NVMf storage tier buffered stream experiments by using a buffer size of 16MB and a slice size of 512KB, cf. <a href="http://www.crail.io/blog/2017/07/crail-memory.html">part I</a>. The buffered stream reaches line speed at a transfer size of around 1KB and shows only slightly slower performance when compared to the DRAM tier buffered stream. However we are only using 2 outstanding operations with the DRAM tier to achieve these results. Basically for sizes smaller than 1KB the buffered stream is limited by the copy speed to fill the application buffer. The direct stream reaches line speed at around 128KB with 128 outstanding operations. Here no copy operation is performed for transfer size greater than 512Byte (sector size). The command to run the Crail buffered stream benchmark:
+Let us look at the sequential read and write throughput for buffered and direct streams and compare them to a buffered Crail stream on DRAM. All benchmarks are single thread/client performed against 8 storage nodes with 4 drives each, cf. configuration above. In this benchmark we use 32 outstanding operations for the NVMf storage tier buffered stream experiments by using a buffer size of 16MB and a slice size of 512KB, cf. <a href="{{ site.base }/blog/2017/07/crail-memory.html">part I</a>. The buffered stream reaches line speed at a transfer size of around 1KB and shows only slightly slower performance when compared to the DRAM tier buffered stream. However we are only using 2 outstanding operations with the DRAM tier to achieve these results. Basically for sizes smaller than 1KB the buffered stream is limited by the copy speed to fill the application buffer. The direct stream reaches line speed at around 128KB with 128 outstanding operations. Here no copy operation is performed for transfer size greater than 512Byte (sector size). The command to run the Crail buffered stream benchmark:
 </p>
 </div>
 ```
@@ -133,7 +133,7 @@ Random read latency is limited by the flash technology and we currently see arou
 
 <div style="text-align: justify"> 
 <p>
-In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. As described in the <a href="http://www.crail.io/overview/">overview</a> section, if you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail by default first uses up all available resources of the faster tier. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash), motivated by the fast network. This is what we call horizontal tiering.
+In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. As described in the <a href="{{ site.base }}/overview/">overview</a> section, if you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail by default first uses up all available resources of the faster tier. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash), motivated by the fast network. This is what we call horizontal tiering.
 </p>
 </div>
 <div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10"/></div>
