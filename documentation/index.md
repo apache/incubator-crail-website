@@ -1,6 +1,6 @@
 ---
 layout: default
-title: GitHub Repositories
+title: Documentation 
 ---
 
 The Crail I/O stack consists of a set of components. Typically only a subset of the components are required for a particular use case (e.g., Spark, Hadoop, Hive, etc.) or hardware setup (e.g., RDMA, TCP, Flash, etc.). Here is a list of the components together with their GitHub repository. 
