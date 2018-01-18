@@ -95,7 +95,7 @@ The line of the raw number of IOPS, labeled ''ib send'' is shown in the same gra
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="/img/blog/crail-metadata/namenode_ibsend_iops64.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-metadata/namenode_ibsend_iops64.svg" width="550"/></div>
 <br>
 <div style="text-align: justify"> 
 <p>
@@ -112,7 +112,7 @@ To increase the number of IOPS the overall system can handle, we allow starting 
 </p>
 </div>
 <br>
-<div style="text-align:center"><img src ="/img/blog/crail-metadata/namenode_multi64.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-metadata/namenode_multi64.svg" width="550"/></div>
 <br>
 
 <div style="text-align: justify"> 
@@ -175,7 +175,7 @@ namenode over the elapsed runtime of the TeraSort application.
 </div>
 
 <br>
-<div style="text-align:center"><img src ="/img/blog/crail-metadata/terasort_iops.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-metadata/terasort_iops.svg" width="550"/></div>
 <br>
 
 
@@ -343,7 +343,7 @@ plot shows the number of IOPS relative to the number of clients.
 </div>
 
 <br/>
-<div style="text-align:center"><img src ="/img/blog/crail-metadata/namenode_hdfs_iops.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-metadata/namenode_hdfs_iops.svg" width="550"/></div>
 <br/>
 
 
@@ -400,7 +400,7 @@ the blog with the latest numbers as soon as the bug is fixed.
 </div>
 
 <br/>
-<div style="text-align:center"><img src ="/img/blog/crail-metadata/ramcloud_iops.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-metadata/ramcloud_iops.svg" width="550"/></div>
 <br/>
 
 
@@ -434,7 +434,7 @@ of 30Mio/s with 4 namenodes).
 </div>
 
 <br/>
-<div style="text-align:center"><img src ="/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg" width="550"/></div>
 <br/>
 
 <div style="text-align: justify">

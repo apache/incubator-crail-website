@@ -45,7 +45,7 @@ Crail can accelerate various I/O tasks of Spark Applications, namely shuffle, br
 
 The next figure shows a high level view of CoCoA's communication pattern with 2 workers and 1 driver process. Blue arrows represent broadcast communication whereas green arrows represent a reduce operation.
 
-<div style="text-align:center"><img src ="/img/blog/crail-machine-learning/cocoa.svg" width="250"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-machine-learning/cocoa.svg" width="250"/></div>
 
 The first step in accelerating this workload was to analyze where time is being spent. An initial breakdown resulted in this
 
@@ -138,4 +138,4 @@ path from 1185 ms to 680 ms (1.74x faster).
 When using all optimizations we were able to reduce the runtime of the ??? machine learning
 application from ~2.5s to 1.4s per iteration (1.77x faster).
 
-<div style="text-align:center"><img src ="/img/blog/crail-machine-learning/final.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/crail-machine-learning/final.svg" width="550"/></div>

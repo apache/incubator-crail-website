@@ -43,7 +43,7 @@ In contrast, the Crail shuffler plugin takes a more holistic approach and levera
 <p>Lets start by quantitatively assessing performance gains from the Crail shuffle plugin and SparkRDMA. As described above, SparkRDMA can be operated in two different modes. Users decide which mode to use by selecting a particular type of shuffle writer (spark.shuffle.rdma.shuffleWriterMethod). The Wrapper shuffle writer writes shuffle data to files between the stages, the Chunked shuffle writer stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
-<div style="text-align:center"><img src ="/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/rdma-shuffle/terasort.svg" width="550"/></div>
 <br>
 <div style="text-align: justify">
 <p>
@@ -53,7 +53,7 @@ First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a
 The plot above shows runtimes of the various configuration we run with terasort. SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. On a quick inspection we found that this overhead stems from memory allocation and registration for the shuffle data that is kept in memory between the stages. Compared to vanilla Spark, Crail's shuffle plugin shows performance improvement of around 235%.
 </p>
 </div>
-<div style="text-align:center"><img src ="/img/blog/rdma-shuffle/sql.svg" width="550"/></div>
+<div style="text-align:center"><img src ="{{ site.base }}/img/blog/rdma-shuffle/sql.svg" width="550"/></div>
 <br>
 
 <div style="text-align: justify">
