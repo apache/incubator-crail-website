@@ -30,7 +30,7 @@ base: 'https://animeshtrivedi.github.io/crail-website'
 
 
 # gem dependencies
-gems: [jekyll-paginate, jekyll-feed, jekyll-gist]
+plugins: [jekyll-paginate, jekyll-feed, jekyll-gist]
 
 # Navigation bar links.
 navigation:
@@ -50,7 +50,7 @@ paginate: 5
 paginate_path: blog/page:num
 
 # gem dependencies
-gems: [jekyll-paginate, jekyll-feed, jekyll-gist]
+#gems: [jekyll-paginate, jekyll-feed, jekyll-gist]
 
 #plugins:
 #    - regex_filter
