@@ -1,5 +1,5 @@
 name: The Apache Crail (Incubating) Project
-url: https://animeshtrivedi.github.io/crail-website/ 
+url: http://crail.incubator.apache.org/ 
 
 exclude: [bibble, README.md, Makefile]
 
@@ -26,7 +26,7 @@ categories: [blog, news]
 front_page_news: 5
 
 # Base pathname for links.
-base: 'https://animeshtrivedi.github.io/crail-website'
+base: 'http://crail.incubator.apache.org/'
 
 
 # gem dependencies
