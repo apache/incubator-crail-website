@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>The Apache Crail (Incubating) Project: Crail Storage Performance -- Part III: Metadata</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://animeshtrivedi.github.io/crail-website/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://animeshtrivedi.github.io/crail-website/css/group.css" rel="stylesheet">
+        <link href="http://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://crail.incubator.apache.org/css/group.css" rel="stylesheet">
         <link rel="alternate" type="application/atom+xml" title="Atom"
-            href="https://animeshtrivedi.github.io/crail-website/blog/blog.xml">
+            href="http://crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="https://animeshtrivedi.github.io/crail-website/img/blog/preview/crail-metadata-summary.png" />
-        <meta property="og:image:secure_url" content="https://animeshtrivedi.github.io/crail-website/img/blog/preview/crail-metadata-summary.png" />
+        <meta property="og:image" content="http://crail.incubator.apache.org/img/blog/preview/crail-metadata-summary.png" />
+        <meta property="og:image:secure_url" content="http://crail.incubator.apache.org/img/blog/preview/crail-metadata-summary.png" />
     </head>
 
     <body>
@@ -21,43 +21,43 @@
               
                 
                 <li >
-                  <a href="https://animeshtrivedi.github.io/crail-website/">
+                  <a href="http://crail.incubator.apache.org/">
                     Home
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="https://animeshtrivedi.github.io/crail-website/overview/">
+                  <a href="http://crail.incubator.apache.org/overview/">
                     Overview
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="https://animeshtrivedi.github.io/crail-website/blog/">
+                  <a href="http://crail.incubator.apache.org/blog/">
                     Blog
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="https://animeshtrivedi.github.io/crail-website/community/">
+                  <a href="http://crail.incubator.apache.org/community/">
                     Community
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="https://animeshtrivedi.github.io/crail-website/documentation/">
+                  <a href="http://crail.incubator.apache.org/documentation/">
                     Documentation
                   </a>
                 </li>
               
             </ul>
-            <a href="https://animeshtrivedi.github.io/crail-website/">
-                <img src="https://animeshtrivedi.github.io/crail-website/img/crail_logo.png"
-                    srcset="https://animeshtrivedi.github.io/crail-website/img/crail_logo.png"
+            <a href="http://crail.incubator.apache.org/">
+                <img src="http://crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="http://crail.incubator.apache.org/img/crail_logo.png"
                     alt="Crail" id="logo">
             </a>
           </div>
@@ -105,11 +105,11 @@ This is part III of our series of posts discussing Crail's raw storage performan
 
 <div style="text-align: justify"> 
 <p>
-As described in <a href="https://animeshtrivedi.github.io/crail-website/blog/2017/08/crail-memory.html">part I</a>, Crail data operations are composed of actual data transfers and metadata operations. Examples of metadata operations are operations for creating or modifying the state of a file, or operations to lookup the storage server that stores a particular range (block) of a file. In Crail, all the metadata is managed by the namenode(s) (as opposed to the data which is managed by the storage nodes). Clients interact with Crail namenodes via Remote Procedure Calls (RPCs). Crail supports multiple RPC protocols for different types of networks and also offers a pluggable RPC interface so that new RPC bindings can be implemented easily. On RDMA networks, the default DaRPC (<a href="https://dl.acm.org/citation.cfm?id=2670994">DaRPC paper</a>, <a href="http://github.com/zrlio/darpc">DaRPC GitHub</a>) based RPC binding provides the best performance. The figure below gives an overview of the Crail metadata processing in a DaRPC configuration. 
+As described in <a href="http://crail.incubator.apache.org/blog/2017/08/crail-memory.html">part I</a>, Crail data operations are composed of actual data transfers and metadata operations. Examples of metadata operations are operations for creating or modifying the state of a file, or operations to lookup the storage server that stores a particular range (block) of a file. In Crail, all the metadata is managed by the namenode(s) (as opposed to the data which is managed by the storage nodes). Clients interact with Crail namenodes via Remote Procedure Calls (RPCs). Crail supports multiple RPC protocols for different types of networks and also offers a pluggable RPC interface so that new RPC bindings can be implemented easily. On RDMA networks, the default DaRPC (<a href="https://dl.acm.org/citation.cfm?id=2670994">DaRPC paper</a>, <a href="http://github.com/zrlio/darpc">DaRPC GitHub</a>) based RPC binding provides the best performance. The figure below gives an overview of the Crail metadata processing in a DaRPC configuration. 
 </p>
 </div>
 
-<div style="text-align:center"><img src="https://animeshtrivedi.github.io/crail-website/img/blog/crail-metadata/rpc.png" width="480" /></div>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/rpc.png" width="480" /></div>
 <p><br /></p>
 
 <div style="text-align: justify"> 
@@ -122,10 +122,10 @@ Crail supports partitioning of metadata across several namenods. Thereby, metada
 
 <div style="text-align: justify"> 
 <p>
-In two of the previous blogs (<a href="https://animeshtrivedi.github.io/crail-website/blog/2017/08/crail-memory.html">DRAM</a>, <a href="https://animeshtrivedi.github.io/crail-website/blog/2017/08/crail-nvme-fabrics-v1.html">NVMf</a>) we have already shown that Crail metadata operations are very low latency. Essentially a single metadata operation issued by a remote client takes 5-6 microseconds, which is only slightly more than the raw network latency of the RDMA network fabric. In this blog, we want to explore the scalability of Crail's metadata management, that is, the number of clients Crail can support, or how Crail scales as the cluster size increases. The level of scalability of Crail is mainly determined by the number of metadata operations Crail can process concurrently, a metric that is often referred to as IOPS. The higher the number of IOPS the system can handle, the more clients can concurrently use Crail without performance loss. 
+In two of the previous blogs (<a href="http://crail.incubator.apache.org/blog/2017/08/crail-memory.html">DRAM</a>, <a href="http://crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html">NVMf</a>) we have already shown that Crail metadata operations are very low latency. Essentially a single metadata operation issued by a remote client takes 5-6 microseconds, which is only slightly more than the raw network latency of the RDMA network fabric. In this blog, we want to explore the scalability of Crail's metadata management, that is, the number of clients Crail can support, or how Crail scales as the cluster size increases. The level of scalability of Crail is mainly determined by the number of metadata operations Crail can process concurrently, a metric that is often referred to as IOPS. The higher the number of IOPS the system can handle, the more clients can concurrently use Crail without performance loss. 
 </p>
 <p>
-An important metadata operation is ''getFile()'', which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation (used by clients to query which storage nodes holds a particular block). In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see <a href="https://animeshtrivedi.github.io/crail-website/blog/2017/08/crail-memory.html">DRAM</a>). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. The basic command of the benchmark as executed by each of the individual clients is given by the following command:
+An important metadata operation is ''getFile()'', which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation (used by clients to query which storage nodes holds a particular block). In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see <a href="http://crail.incubator.apache.org/blog/2017/08/crail-memory.html">DRAM</a>). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. The basic command of the benchmark as executed by each of the individual clients is given by the following command:
 </p>
 </div>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t getMultiFileAsync -f / -k 10000000 -b 128
@@ -168,7 +168,7 @@ The line of the raw number of IOPS, labeled ''ib send'' is shown in the same gra
 </p>
 </div>
 <p><br /></p>
-<div style="text-align:center"><img src="https://animeshtrivedi.github.io/crail-website/img/blog/crail-metadata/namenode_ibsend_iops64.svg" width="550" /></div>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_ibsend_iops64.svg" width="550" /></div>
 <p><br /></p>
 <div style="text-align: justify"> 
 <p>
@@ -185,7 +185,7 @@ To increase the number of IOPS the overall system can handle, we allow starting 
 </p>
 </div>
 <p><br /></p>
-<div style="text-align:center"><img src="https://animeshtrivedi.github.io/crail-website/img/blog/crail-metadata/namenode_multi64.svg" width="550" /></div>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_multi64.svg" width="550" /></div>
 <p><br /></p>
 
 <div style="text-align: justify"> 
@@ -213,7 +213,7 @@ namenodes happening, which should lead to linear scalability.
 <div style="text-align: justify"> 
 <p>
 Let us look at a concrete application, which ideally runs on a large cluster:
-TeraSort. In a previous blog, <a href="https://animeshtrivedi.github.io/crail-website/blog/2017/01/sorting.html">sorting</a>,
+TeraSort. In a previous blog, <a href="http://crail.incubator.apache.org/blog/2017/01/sorting.html">sorting</a>,
 we analyze performance characteristics of TeraSort on Crail on a big cluster
 of 128 nodes, where we run 384 executors in total. This already proves that
 Crail can at least handle 384 clients. Now we analyze the theoretical number
@@ -247,7 +247,7 @@ namenode over the elapsed runtime of the TeraSort application.
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="https://animeshtrivedi.github.io/crail-website/img/blog/crail-metadata/terasort_iops.svg" width="550" /></div>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/terasort_iops.svg" width="550" /></div>
 <p><br /></p>
 
 <div style="text-align: justify"> 
@@ -411,7 +411,7 @@ plot shows the number of IOPS relative to the number of clients.
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="https://animeshtrivedi.github.io/crail-website/img/blog/crail-metadata/namenode_hdfs_iops.svg" width="550" /></div>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_hdfs_iops.svg" width="550" /></div>
 <p><br /></p>
 
 <div style="text-align: justify">
@@ -465,7 +465,7 @@ the blog with the latest numbers as soon as the bug is fixed.
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="https://animeshtrivedi.github.io/crail-website/img/blog/crail-metadata/ramcloud_iops.svg" width="550" /></div>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/ramcloud_iops.svg" width="550" /></div>
 <p><br /></p>
 
 <div style="text-align: justify">
@@ -496,7 +496,7 @@ of 30Mio/s with 4 namenodes).
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="https://animeshtrivedi.github.io/crail-website/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg" width="550" /></div>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg" width="550" /></div>
 <p><br /></p>
 
 <div style="text-align: justify">
@@ -558,6 +558,6 @@ s.setAttribute('data-timestamp', +new Date());
 
         <!-- Support retina images. -->
         <script type="text/javascript"
-            src="https://animeshtrivedi.github.io/crail-website/js/srcset-polyfill.js"></script>
+            src="http://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
     </body>
 </html>
