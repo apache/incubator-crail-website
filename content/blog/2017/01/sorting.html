@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>The Apache Crail (Incubating) Project: Sorting on a 100Gbit/s Cluster using Spark/Crail</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link rel="alternate" type="application/atom+xml" title="Atom"
+            href="http://crail.incubator.apache.org/blog/blog.xml">
+        
+        <meta property="og:image" content="http://crail.incubator.apache.org/img/blog/preview/sorting-summary.png" />
+        <meta property="og:image:secure_url" content="http://crail.incubator.apache.org/img/blog/preview/sorting-summary.png" />
+    </head>
+
+    <body>
+        <div class="container">
+          <div class="header">
+            <ul class="nav nav-pills pull-right">
+              
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/">
+                    Home
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/overview/">
+                    Overview
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/blog/">
+                    Blog
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/community/">
+                    Community
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/documentation/">
+                    Documentation
+                  </a>
+                </li>
+              
+            </ul>
+            <a href="http://crail.incubator.apache.org/">
+                <img src="http://crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="http://crail.incubator.apache.org/img/crail_logo.png"
+                    alt="Crail" id="logo">
+            </a>
+          </div>
+
+          
+          
+          <h2>Sorting on a 100Gbit/s Cluster using Spark/Crail</h2>   
+          
+
+          <p class="meta">17 Jan 2017</p>
+
+<div class="post">
+<div style="text-align: justify"> 
+<p>
+In this blog we explore the sorting performance of Spark/Crail on a 100Gbit/s RDMA cluster. Sorting large data sets efficiently on a cluster is particularly interesting from a network perspective as most of the input data will have to cross the network at least once. Hence, a sorting workload should be an ideal candidate to be accelerated by a fast network. 
+</p>
+<p>
+The following table summarizes the results of this blog and provides a comparison with other sorting benchmarks. In essence, Spark/Crail is sorting 12.8 TB of data in 98 seconds, which calculates to a sorting rate of 3.13 GB/min/core. This is about a factor of 5 faster than the sorting performance of the <a href="https://databricks.com/blog/2014/11/05/spark-officially-sets-a-new-record-in-large-scale-sorting.html">Spark 2014 benchmark winner</a>, and only about 28% slower than the <a href="http://sortbenchmark.org/TencentSort2016.pdf">2016 winner of the sorting benchmark</a> -- a sorting benchmark running native code optimized specifically for sorting. 
+</p>
+</div>
+<p><br /></p>
+
+<center>
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Spark/Crail</th>
+      <th>Spark/Vanilla</th>
+      <th>Spark/Winner2014</th>
+      <th>Tencent/Winner2016</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data Size</td>
+      <td>12.8 TB</td>
+      <td>12.8 TB</td>
+      <td>100 TB</td>
+      <td>100 TB</td>
+    </tr>
+    <tr>
+      <td>Elapsed Time</td>
+      <td>98 s</td>
+      <td>527 s</td>
+      <td>1406 s</td>
+      <td>98.8 s</td>
+    </tr>
+    <tr>
+      <td>Cores</td>
+      <td>2560</td>
+      <td>2560</td>
+      <td>6592</td>
+      <td>10240</td>
+    </tr>
+    <tr>
+      <td>Nodes</td>
+      <td>128</td>
+      <td>128</td>
+      <td>206</td>
+      <td>512</td>
+    </tr>
+    <tr>
+      <td>Network</td>
+      <td>100 Gbit/s</td>
+      <td>100 Gbit/s</td>
+      <td>10 Gbit/s</td>
+      <td>100 Gbit/s</td>
+    </tr>
+    <tr>
+      <td>Sorting rate</td>
+      <td>7.8 TB/min</td>
+      <td>1.4 TB/min</td>
+      <td>4.27 TB/min</td>
+      <td>44.78 TB/min</td>
+    </tr>
+    <tr>
+      <td>Sorting rate/core</td>
+      <td>3.13 GB/min</td>
+      <td>0.58 GB/min</td>
+      <td>0.66 GB/min</td>
+      <td>4.4 GB/min</td>
+    </tr>
+  </tbody>
+</table>
+</center>
+
+<p><br /></p>
+
+<h3 id="hardware-configuration">Hardware Configuration</h3>
+
+<p>The specific cluster configuration used for the experiments in this blog:</p>
+
+<ul>
+  <li>Cluster
+    <ul>
+      <li>128 node OpenPower cluster</li>
+    </ul>
+  </li>
+  <li>Node configuration
+    <ul>
+      <li>CPU: 2x OpenPOWER Power8 10-core @2.9Ghz</li>
+      <li>DRAM: 512GB DDR4</li>
+      <li>Storage: 4x Huawei ES3600P V3 1.2TB NVMe SSD</li>
+      <li>Network: 100Gbit/s Ethernet Mellanox ConnectX-4 EN (RoCE)</li>
+    </ul>
+  </li>
+  <li>Software
+    <ul>
+      <li>Ubuntu 16.04 with Linux kernel version 4.4.0-31</li>
+      <li>Spark 2.0.0</li>
+      <li>Crail 1.0 (Crail only used during shuffle, input/output is on HDFS)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="anatomy-spark-sorting">Anatomy Spark Sorting</h3>
+
+<div style="text-align: justify"> 
+<p>
+A Spark sorting job  consists of two phases. The first phase is a mapping or classification phase - where individual workers read their part of the key-value (KV) input data and classify the KV pairs based on their keys. This phase involves only very little networking as most of the workers run locally on the nodes that host the HDFS data blocks. During the second so called reduce phase, each worker collects all KV pairs for a particular key range from all the workers, de-serializes the data and sorts the resulting objects. This pipeline runs on all cores in multiple waves of tasks on all the compute nodes in the cluster. Naturally, the performance of such a pipeline depends upon both the network as well as the CPU performance, which together should dictate the overall job run time.
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/terasort_pipeline.png" width="490" /></div>
+<p><br /><br /></p>
+
+<h3 id="using-vanilla-spark">Using Vanilla Spark</h3>
+
+<div style="text-align: justify"> 
+<p>
+The first question we are interested in is to what extent such a sorting benchmark can drive the 100Gbit/s network fabric. Making good use of the network is important since a reduce task needs to first fetch all the relevant data from the network before it can start sorting the data. Unfortunately, it turns out that when running vanilla Spark on the cluster, the network usage stays at only 5-10%. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/net_vanilla.svg" /></div>
+<p><br /><br /></p>
+
+<div style="text-align: justify"> 
+<p>
+The poor network usage matches with the general observation we made in our previous <a href="http://dl.acm.org/citation.cfm?id=3027062">HotCloud'16 publication</a> where we show that a faster network does not necessarily lead to a better runtime. The problem can be understood by looking at a single reduce task in the sorting benchmark. While the actual time for fetching all the data over the network decreases with increasing network bandwidth, the time a reduce task spends on funneling the data through the stack, deserializing and sorting it outweighs the transmission time by far. The figure below shows percentage wise for different network technologies, how much time a reduce task spends on waiting for data versus executing CPU instructions (a more detailed breakdown of the time can be found in the <a href="http://dl.acm.org/citation.cfm?id=3027062">paper</a>). Clearly, in such a situation, a higher network bandwidth will only improve the increasinlgy small red part and, and thus, will not result in a substantial runtime reduction. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/cpu_network.svg" /></div>
+<p><br /><br /></p>
+
+<div style="text-align: justify"> 
+<p>
+Consequently, to improve the runtime of the sorting benchmark and to make good use of the 100Gbit/s network, the number of CPU instructions executed per byte transferred need to be reduced massively. In the following, we show how we use the Crail shuffle engine to cut down the software overheads related to networking, deserialization and sorting and thereby empower the reduce tasks in the sorting benchmark to consume data at a speed that is very close to the network limit (~70Gbit/s all-to-all). 
+</p>
+</div>
+
+<h3 id="using-the-crail-shuffler">Using the Crail Shuffler</h3>
+
+<div style="text-align: justify"> 
+<p>
+An overview of the Crail shuffler is provided in the <a href="http://crail.incubator.apache.org/docs">documentation section</a>. The main difference between the Crail shuffler and the Spark built-in shuffler lies in the way data from the network is processed in a reduce task. The Spark shuffler is based on TCP sockets, thus, many CPU instructions are necessary to bring the data from the networking interface to the buffer inside Spark. In contrast, the Crail shuffler shares shuffle data through the Crail file system, and therefore data is transferred directly via DMA from the network interface to the Spark shuffle buffer within the JVM. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/shuffle_rdma.png" width="470" /></div>
+<p><br /><br /></p>
+
+<div style="text-align: justify"> 
+<p>
+During the map phase, the Crail shuffler organizes each key range in a set of Crail files, one file per Spark core per key range. Reading the shuffle data from the Crail file system in the reduce phase not only eliminates data copies and avoids system calls, it also makes sure the different segments (files) are placed at the right offset within the reduce buffer to create one contiguous memory area that can immediately be used for deserialization and sorting.  
+</p>
+
+<p>
+As illustrated in the <a href="http://crail.incubator.apache.org/docs">documentation section</a>, the Crail shuffler allows applications to use their own custom serializer and sorter. The recommended serializer for Spark is Kryo, which is a generic serializer. Being generic, however, comes at a cost. Specifically, Kryo requires more type information to be stored along with the serialized data than a custom serializer would need, and also the parsing is more complex for a generic serializer. On top of this, Kryo also comes with its own buffering, introducing additional memory copies. In our benchmark, we use a custom serializer that takes advantage of the fact that the data consists of fixed size key/value pairs. The custom serializer further avoids extra buffering and directly interfaces with Crail file system streams when reading and writing data. 
+</p>
+<p>
+As with serialization, the Spark built-in sorter is a general purpose TimSort that can sort arbitrary collections of comparable objects. In our benchmark, we instruct the Crail shuffler to use a Radix sorter instead. The Radix sorter cannot be applied to arbitrary objects but works well for keys of a fixed byte length. The standard pipeline of a reduce task is to first deserialize the data and then sort it. In the particular configuration of the Crail shuffler, we turn these two steps around and first sort the data and deserialize it later. This is possible because the data is read into a contiguous off-heap buffer that can be sorted almost in-place. 
+</p>
+</div>
+
+<h3 id="sparkcrail-sorting-performance">Spark/Crail Sorting Performance</h3>
+
+<div style="text-align: justify"> 
+<p>
+The figure below shows the overall performance of Spark/Crail vs Spark/Vanilla on a 12.8 TB data set. With a cluster size of 128 nodes, each node gets to sort 100GB of data - if the data distribution is uniform. As can be seen, using the Crail shuffler, the total job runtime is reduced by a factor of 6. Most of the gains come from the reduce side, which is where the networking takes place. However, the map phase is also faster which comes from the more efficient serialization but also from a faster I/O. The built-in Spark shuffler dumps data into files absorbed by the buffer cache (no disk writes took place during shuffle), which requires file system calls and data copies. The Crail shuffler instead uses memory mapped I/O to write local Crail files, avoiding both data copies, system calls and kernel context switches. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/performance_overall.png" width="470" /></div>
+<p><br /><br /></p>
+
+<p>One key question of interest is about the network usage of the Crail shuffler during the sorting benchmark. In the figure below, we show the data rate at which the different reduce tasks fetch data from the network. Each point in the figure corresponds to one reduce task. In our configuration, we run 3 Spark executors per node and 5 Spark cores per executor. Thus, 1920 reduce tasks are running concurrently (out of 6400 reduce tasks in total) generating a cluster-wide all-to-all traffic of about 70Gbit/s per node during that phase.</p>
+
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/multiread.svg" /></div>
+<p><br /><br /></p>
+
+<p>In this blog post, we have shown that Crail successfully manages to translate the raw network performance into actual workload level gains. The exercise with TeraSort as an application validates the design decisions we made in Crail. Stay tuned for more results with different workloads and hardware configurations.</p>
+
+<h3 id="how-to-run-sorting-with-sparkcrail">How to run Sorting with Spark/Crail</h3>
+
+<p>All the components required to run the sorting benchmark using Spark/Crail are open source. Here is some guidance how to run the benchmark:</p>
+
+<ul>
+  <li>Build and deploy Crail using the instructions at <a href="http://crail.incubator.apache.org/documentation#crail">documentation</a></li>
+  <li>Enable the Crail shuffler for Spark by building Spark-IO using the instructions at <a href="http://crail.incubator.apache.org/documentation#spark">documentation</a></li>
+  <li>Configure the DRAM storage tier of Crail so that all the shuffle data fits into the DRAM tier.</li>
+  <li>Build the sorting benchmark using the instructions on <a href="https://github.com/zrlio/crail-terasort">GitHub</a></li>
+  <li>Make sure you have the custom serializer and sorter specified in spark-defaults.conf</li>
+  <li>Run Hadoop TeraGen to produce a valid data set. We used standard HDFS for both input and output data.</li>
+  <li>Run the Crail-TeraSort on your Spark cluster. The command line we have used on the 128 node cluster is the following:</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/spark-submit -v --num-executors 384 --executor-cores 5 --executor-memory 64G 
+--driver-memory 64G --master yarn 
+--class com.ibm.crail.terasort.TeraSort path/to/crail-terasort-2.0.jar 
+-i /terasort-input-1280g -o /terasort-output-1280g
+</code></pre></div></div>
+
+<p>Have questions or comments? Feel free to discuss at the dev mailing list at <a href="mailto:dev@crail.incubator.apache.org">dev@crail.incubator.apache.org</a></p>
+<hr />
+
+
+</div>
+
+<!-- 
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//crail-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+-->
+
+
+        <br>
+	<br> 
+          <div class="footer">
+            <p>Apache Crail is an effort undergoing <a href="https://incubator.apache.org/">incubation</a> at <a href="https://www.apache.org/">The Apache Software Foundation (ASF)</a>, sponsored by the Apache Incubator PMC. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+            </p>
+          </div>
+
+        </div> <!-- /container -->
+
+        <!-- Support retina images. -->
+        <script type="text/javascript"
+            src="http://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+    </body>
+</html>
