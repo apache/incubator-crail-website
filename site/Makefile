@@ -7,7 +7,7 @@ all: _site/index.html
 
 BUILDARGS :=
 _site/index.html _site/wacas14/index.html:
-	jekyll build $(BUILDARGS)
+	bundle exec jekyll build $(BUILDARGS)
 
 #_includes/pubs.html: bib/pubs.bib bib/publications.tmpl
 #	mkdir -p _includes
@@ -18,7 +18,7 @@ _site/index.html: $(wildcard *.html) _config.yml _layouts/default.html
 clean:
 	$(RM) -r _site 
 
-HOST := https://zrlio.github.io/crail-project
+HOST := http://crail.incubator.apache.org
 PATHSVR := www/
 deploy: clean all
 	rsync --compress --recursive --checksum --itemize-changes --delete -e ssh _site/ $(HOST):$(PATHSVR)
