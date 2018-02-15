@@ -65,7 +65,7 @@
           
 
           <div class="jumbotron">
-<h4>Apache Crail (Incubating) is an open source user-level I/O architecture for the Apache data processing ecosystem designed from ground up for high-performance storage and networking hardware</h4>
+<h4>Apache Crail is a high-performance distributed data store designed for fast sharing of ephemeral data in distributed data processing workloads</h4>
 </div>
 
 <br>
@@ -78,19 +78,20 @@
 
 <div class="row">
 <div class="col-lg-4">
-<h2>Open</h2>
-<p align="justify">Crail is open source and integrates seamlessly with the Apache ecosystem, such as Spark, Flink, Parquet, etc. Crail is based on Crail Store -- a high-performance distributed data store for temporary data -- and a series of modules interfacing with the compute engine. Crail modules provide standard interfaces (e.g. HDFS) and can be loaded transparently at runtime (e.g., Spark shuffle).</p>
-<p><a class="btn btn-default" href="overview/index.html#spark">Learn more &raquo;</a></p>
-</div>
-<div class="col-lg-4">
 <h2>Fast</h2>
-<p align="justify">Crail is built explictly for user-level I/O (RDMA, NVMef, etc.), allowing storage and networking hardware to directly access I/O memory within the data processing engine. Bypassing OS and JVM during data access enables delivering bare-metal I/O performance to analytics workloads. For example, Crail achieves data access at rates close to the 100Gb/s network limit with latencies below 10 us.</p>
+<p align="justify">Crail is designed from ground up for modern high-performance networking and storage hardware (RDMA, NVMe, NVMf, etc.). It leverages user-level I/O to access hardware directly from the application context, providing bare-metal I/O performance to analytics workloads. For example, Crail achieves data access at rates close to the 100Gb/s network limit with latencies below 10 us.</p>
 <p><a class="btn btn-default" href="overview/index.html#overview">Learn more &raquo;</a></p>
 </div>
 <div class="col-lg-4">
 <h2>Heterogeneous</h2>
-<p align="justify">Crail orchestrates I/O operations across different storage tiers including DRAM, flash or GPU memory. Aside from providing fine grained control as to which storage tier is used when storing data, Crail also supports horizontal tiering where higher performing storage resources are filled up across the cluster prior to using lower performing tiers -- making effective use of the storage hardware.</p>
+<p align="justify">Crail offers a unified storage namespace over a heterogeneous set of storage resources distributed in a cluster, such as DRAM, non-volatile memory (NVM), Flash or GPU memory. Depending on the storage policy, data sets may be stored on a particular storage technology or even a specific storage device, or be distributed across multiple devices and storage technologies. 
+</p>
 <p><a class="btn btn-default" href="overview/index.html#fs">Learn more &raquo;</a></p>
+</div>
+<div class="col-lg-4">
+<h2>Modular</h2>
+<p align="justify">Crail provides a modular architecture where new network and storage technologies can be integrated in the form of pluggable modules. Crail further exports various application interfaces including File System (FS), Key-Value (KV) and Streaming, and integrates seamlessly with the Apache ecosystem, such as Apache Spark, Apache Parquet, Apache Arrow, etc.</p>
+<p><a class="btn btn-default" href="overview/index.html#spark">Learn more &raquo;</a></p>
 </div>
 </div>
 
