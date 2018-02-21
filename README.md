@@ -23,3 +23,9 @@ After this, you switch back to the "master" branch.
 - The build site is checked into the 'asf-site/content'. 
 
 https://issues.apache.org/jira/browse/CRAIL-1
+
+** 
+For older bundle exec jekyll installations (2.4) you might not have 
+"clean" command. Then just delete site/_site directory instead of 
+calling "bundle exec jekyll clean" in the publish script. And let
+run rest of the script. 
