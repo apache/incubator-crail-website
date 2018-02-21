@@ -9,8 +9,8 @@
         <link rel="alternate" type="application/atom+xml" title="Atom"
             href="http://crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="http://crail.incubator.apache.org/img/blog/preview/index-summary.png" />
-        <meta property="og:image:secure_url" content="http://crail.incubator.apache.org/img/blog/preview/index-summary.png" />
+        <meta property="og:image" content="http://crail.incubator.apache.org/img/blog/preview/overview-summary.png" />
+        <meta property="og:image:secure_url" content="http://crail.incubator.apache.org/img/blog/preview/overview-summary.png" />
     </head>
 
     <body>
@@ -27,7 +27,7 @@
                 </li>
               
                 
-                <li >
+                <li class="active">
                   <a href="http://crail.incubator.apache.org/overview/">
                     Overview
                   </a>
@@ -104,12 +104,12 @@ The backbone of the Crail I/O architecture is Crail Store, a high-performance mu
 </div>
 <p><br />
 <img src="architecture.png" width="500" align="middle" />
-<br /><br />
-&lt;div style="text-align: justify"&gt;</p>
+<br /><br /></p>
+<div style="text-align: justify">
 <p>
 Crail modules are thin layers on top of Crail Store. Implementing new modules for a particular data processing framework or a specific I/O operation requires only a moderate amount of work. At the same time, modules inherit the full benefits of Crail in terms of user-level I/O, performance and storage tiering. For instance, in the blog section we show that the Crail-based shuffle engine for Spark permits all-to-all data shuffling very close to the speed of the 100Gb/s network fabric. 
 </p>
-<p>&lt;/div&gt;</p>
+</div>
 
 <h3 id="fs">Crail Store</h3>
 
@@ -136,46 +136,47 @@ Access to storage resources over the network -- as happening during file read/wr
 </div>
 <p><br />
 <img src="tiering.png" width="650" align="middle" />
-<br /><br />
-&lt;div style="text-align: justify"&gt;</p>
+<br /><br /></p>
+<div style="text-align: justify">
 <p>
 Crail's top level storage API offers asynchronous non-blocking functions for reading and writing data. Typically, the user-level APIs used by the storage tiers offer an asynchronous interface to the hardware which Crail directly leverages, thus, Crail is naturally asynchronous and does not need to engage any extra threads to provide asynchronism. The asynchronous API is particular important in the context of data processing, as it facilitates interleaving of computation and I/O in data processing workloads. Aside from the standard read/write operations, Crail provides extra semantics geared towards its use case. For instance, Crail exports functions to allocate dedicated I/O buffers from a reuseable pool -- memory that is registered with the hardware if needed to support zero-copy I/O. Moreover, Crail provides detailed control as to which storage tier and location preference should be used when allocating file system resources. 
 </p>
 <p>
 Crail not only exports a Java API but also is written entirely in Java, which makes it easy to use and allows for a better integration with data processing frameworks like Spark, Flink, Hadoop, etc. A simple example of a Crail write operation is shown below:
 </p>
-<p>&lt;/div&gt;
-    CrailConfiguration conf = new CrailConfiguration();
-    CrailStore store = CrailStore.newInstance(conf);
-    CrailFile file = store.createFile(filename, 0, 0).get().syncDir();
-    CrailOutputStream outstream = file.getDirectOutputStream();
-    ByteBuffer dataBuf = store.allocateBuffer();
-    Future<dataresult> future = outputStream.write(dataBuf);
-    ...
-    future.get();
-&lt;div style="text-align: justify"&gt;</dataresult></p>
+</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailConfiguration conf = new CrailConfiguration();
+CrailStore store = CrailStore.newInstance(conf);
+CrailFile file = store.createFile(filename, 0, 0).get().syncDir();
+CrailOutputStream outstream = file.getDirectOutputStream();
+ByteBuffer dataBuf = store.allocateBuffer();
+Future&lt;DataResult&gt; future = outputStream.write(dataBuf);
+...
+future.get();
+</code></pre></div></div>
+<div style="text-align: justify">
 <p>
 
 Crail uses <a href="https://github.com/zrlio/disni">DiSNI</a>, a user-level network and storage stack for the Java virtual machine. DiSNI allows data to be exchanged in a zero-copy fashion between Java I/O memory and remote storage resources over RDMA. 
 </p>
-<p>&lt;/div&gt;</p>
+</div>
 
 <h3>Crail HDFS Adapter</h3>
 
 <p>The Crail HDFS adaptor enables users to access Crail using the standard HDFS API. For instance, administrators can interact with Crail using the standard HDFS shell:</p>
 
-<pre><code>./bin/crail fs -mkdir /test
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail fs -mkdir /test
 ./bin/crail fs -ls /
 ./bin/crail fs -copyFromLocal &lt;path-to-local-file&gt; 
 ./bin/crail fs -cat /test/&lt;file-name&gt;
-</code></pre>
+</code></pre></div></div>
 
 <p>Moreover, regular HDFS-based applications will transparently work with Crail when using fully qualified path names (or when specifying Crail as the default Hadoop file system):</p>
 
-<pre><code>Configuration conf = new Configuration();
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Configuration conf = new Configuration();
 FileSystem fs = FileSystem.get(conf);
 fs.create("crail://test/hello.txt");
-</code></pre>
+</code></pre></div></div>
 
 <h3 id="spark">Crail Spark Module</h3>
 
@@ -201,9 +202,9 @@ The Crail-based broadcast plugin for Spark stores broadcast variables in Crail f
 </p>
 </div>
 
-<pre><code>spark.shuffle.manager		org.apache.spark.shuffle.crail.CrailShuffleManager
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark.shuffle.manager		org.apache.spark.shuffle.crail.CrailShuffleManager
 spark.broadcast.factory		org.apache.spark.broadcast.CrailBroadcastFactory
-</code></pre>
+</code></pre></div></div>
 
 <div style="text-align: justify">
 <p>
@@ -224,9 +225,9 @@ Application specific serializers and sorters can be defined by setting the follo
 </p>
 </div>
 
-<pre><code>spark.crail.shuffle.serializer  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark.crail.shuffle.serializer  
 spark.crail.shuffle.sorter	
-</code></pre>
+</code></pre></div></div>
 
 
 

@@ -182,9 +182,9 @@ A Spark sorting job  consists of two phases. The first phase is a mapping or cla
 </p>
 </div>
 
-<p><br />
-&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/sort/terasort_pipeline.png" width="490" />&lt;/div&gt;
-<br /><br /></p>
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/terasort_pipeline.png" width="490" /></div>
+<p><br /><br /></p>
 
 <h3 id="using-vanilla-spark">Using Vanilla Spark</h3>
 
@@ -194,9 +194,9 @@ The first question we are interested in is to what extent such a sorting benchma
 </p>
 </div>
 
-<p><br />
-&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/sort/net_vanilla.svg" />&lt;/div&gt;
-<br /><br /></p>
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/net_vanilla.svg" /></div>
+<p><br /><br /></p>
 
 <div style="text-align: justify"> 
 <p>
@@ -204,9 +204,9 @@ The poor network usage matches with the general observation we made in our previ
 </p>
 </div>
 
-<p><br />
-&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/sort/cpu_network.svg" />&lt;/div&gt;
-<br /><br /></p>
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/cpu_network.svg" /></div>
+<p><br /><br /></p>
 
 <div style="text-align: justify"> 
 <p>
@@ -222,9 +222,9 @@ An overview of the Crail shuffler is provided in the <a href="http://crail.incub
 </p>
 </div>
 
-<p><br />
-&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/sort/shuffle_rdma.png" width="470" />&lt;/div&gt;
-<br /><br /></p>
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/shuffle_rdma.png" width="470" /></div>
+<p><br /><br /></p>
 
 <div style="text-align: justify"> 
 <p>
@@ -247,17 +247,17 @@ The figure below shows the overall performance of Spark/Crail vs Spark/Vanilla o
 </p>
 </div>
 
-<p><br />
-&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/sort/performance_overall.png" width="470" />&lt;/div&gt;
-<br /><br /></p>
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/performance_overall.png" width="470" /></div>
+<p><br /><br /></p>
 
 <p>One key question of interest is about the network usage of the Crail shuffler during the sorting benchmark. In the figure below, we show the data rate at which the different reduce tasks fetch data from the network. Each point in the figure corresponds to one reduce task. In our configuration, we run 3 Spark executors per node and 5 Spark cores per executor. Thus, 1920 reduce tasks are running concurrently (out of 6400 reduce tasks in total) generating a cluster-wide all-to-all traffic of about 70Gbit/s per node during that phase.</p>
 
-<p><br />
-&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/sort/multiread.svg" />&lt;/div&gt;
-<br /><br /></p>
+<p><br /></p>
+<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sort/multiread.svg" /></div>
+<p><br /><br /></p>
 
-<p>In this blog post, we have shown that Crail successfully manages to translate the raw network performance into actual workload level gains. The exercise with TeraSort as an application validates the design decisions we made in Crail. Stay tuned for more results with different workloads and hardware configurations. </p>
+<p>In this blog post, we have shown that Crail successfully manages to translate the raw network performance into actual workload level gains. The exercise with TeraSort as an application validates the design decisions we made in Crail. Stay tuned for more results with different workloads and hardware configurations.</p>
 
 <h3 id="how-to-run-sorting-with-sparkcrail">How to run Sorting with Spark/Crail</h3>
 
@@ -266,19 +266,18 @@ The figure below shows the overall performance of Spark/Crail vs Spark/Vanilla o
 <ul>
   <li>Build and deploy Crail using the instructions at <a href="http://crail.incubator.apache.org/documentation#crail">documentation</a></li>
   <li>Enable the Crail shuffler for Spark by building Spark-IO using the instructions at <a href="http://crail.incubator.apache.org/documentation#spark">documentation</a></li>
-  <li>Configure the DRAM storage tier of Crail so that all the shuffle data fits into the DRAM tier. </li>
+  <li>Configure the DRAM storage tier of Crail so that all the shuffle data fits into the DRAM tier.</li>
   <li>Build the sorting benchmark using the instructions on <a href="https://github.com/zrlio/crail-terasort">GitHub</a></li>
   <li>Make sure you have the custom serializer and sorter specified in spark-defaults.conf</li>
-  <li>Run Hadoop TeraGen to produce a valid data set. We used standard HDFS for both input and output data. </li>
+  <li>Run Hadoop TeraGen to produce a valid data set. We used standard HDFS for both input and output data.</li>
   <li>Run the Crail-TeraSort on your Spark cluster. The command line we have used on the 128 node cluster is the following:</li>
 </ul>
 
-<p><code>
-./bin/spark-submit -v --num-executors 384 --executor-cores 5 --executor-memory 64G 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/spark-submit -v --num-executors 384 --executor-cores 5 --executor-memory 64G 
 --driver-memory 64G --master yarn 
 --class com.ibm.crail.terasort.TeraSort path/to/crail-terasort-2.0.jar 
 -i /terasort-input-1280g -o /terasort-output-1280g
-</code></p>
+</code></pre></div></div>
 
 <p>Have questions or comments? Feel free to discuss at the dev mailing list at <a href="mailto:dev@crail.incubator.apache.org">dev@crail.incubator.apache.org</a></p>
 <hr />
