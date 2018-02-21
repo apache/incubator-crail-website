@@ -77,10 +77,10 @@ Crail not only exports a Java API but also is written entirely in Java, which ma
 </p>
 </div>
     CrailConfiguration conf = new CrailConfiguration();
-    CrailFS fs = CrailFS.newInstance(conf);
-    CrailFile file = fs.createFile(filename, 0, 0).get().syncDir();
+    CrailStore store = CrailStore.newInstance(conf);
+    CrailFile file = store.createFile(filename, 0, 0).get().syncDir();
     CrailOutputStream outstream = file.getDirectOutputStream();
-    ByteBuffer dataBuf = fs.allocateBuffer();
+    ByteBuffer dataBuf = store.allocateBuffer();
     Future<DataResult> future = outputStream.write(dataBuf);
     ...
     future.get();
