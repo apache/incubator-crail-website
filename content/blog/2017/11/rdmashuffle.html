@@ -97,7 +97,7 @@ This blog is comparing the shuffle performance of Crail with SparkRDMA, an alter
     <ul>
       <li>Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic</li>
       <li><a href="https://github.com/zrlio/crail">Crail 1.0</a>, commit a45c8382050f471e9342e1c6cf25f9f2001af6b5</li>
-      <li><a href="">Crail Shuffle plugin</a>, commit 2273b5dd53405cab3389f5c1fc2ee4cd30f02ae6</li>
+      <li><a href="">Crail Shuffle plugin</a>, commit 2273b5dd53405cab3389f5c1fc2ee4cd30f02ae6 </li>
       <li><a href="https://github.com/Mellanox/SparkRDMA">SparkRDMA</a>, commit d95ce3e370a8e3b5146f4e0ab5e67a19c6f405a5 (latest master on 8th of November 2017)</li>
     </ul>
   </li>
@@ -119,17 +119,17 @@ In contrast, the Crail shuffler plugin takes a more holistic approach and levera
 </p>
 </div>
 <div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/rdma-shuffle/terasort.svg" width="550" /></div>
-<p><br /></p>
-<div style="text-align: justify">
+<p><br />
+&lt;div style="text-align: justify"&gt;</p>
 <p>
 First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a> on our 8+1 machine cluster (see above). We sort 200GB, thus, each node gets 25GB of data (equal distribution). We further did a basic search of the parameter space for each of the systems to find the best possible configuration. In all the experiments we use 8 executors with 12 cores each. Note that in a typical Spark run more CPU cores than assigned are engaged because of garbabge collection, etc. In our test runs assigning 12 cores lead to the best performance.
 </p>
 <p>
 The plot above shows runtimes of the various configuration we run with terasort. SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. On a quick inspection we found that this overhead stems from memory allocation and registration for the shuffle data that is kept in memory between the stages. Compared to vanilla Spark, Crail's shuffle plugin shows performance improvement of around 235%.
 </p>
-</div>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/rdma-shuffle/sql.svg" width="550" /></div>
-<p><br /></p>
+<p>&lt;/div&gt;
+&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/rdma-shuffle/sql.svg" width="550" />&lt;/div&gt;
+<br /></p>
 
 <div style="text-align: justify">
 <p>

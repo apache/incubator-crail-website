@@ -128,9 +128,10 @@ In two of the previous blogs (<a href="http://crail.incubator.apache.org/blog/20
 An important metadata operation is ''getFile()'', which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation (used by clients to query which storage nodes holds a particular block). In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see <a href="http://crail.incubator.apache.org/blog/2017/08/crail-memory.html">DRAM</a>). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. The basic command of the benchmark as executed by each of the individual clients is given by the following command:
 </p>
 </div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t getMultiFileAsync -f / -k 10000000 -b 128
-</code></pre></div></div>
-<div style="text-align: justify"> 
+<p><code>
+./bin/crail iobench -t getMultiFileAsync -f / -k 10000000 -b 128
+</code>
+&lt;div style="text-align: justify"&gt; </p>
 <p>
 Where ''-t'' specifies the benchmark to run, ''-f'' specifies the path on the
 Crail file system to be used for the benchmark, ''-k'' specifies the number of
@@ -138,7 +139,7 @@ iterations to be performed by the benchmark
 (how many times will the benchmark execute ''getFile()'') and
 ''-b'' specifies the maximum number of requests in flight.
 </p>
-</div>
+<p>&lt;/div&gt;</p>
 
 <h3 id="single-namenode-scalability">Single Namenode Scalability</h3>
 
@@ -150,9 +151,10 @@ In the first experiment, we measure the aggregated number of metadata operations
 As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The basic ib_send_bw command is given below:
 </p>
 </div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ib_send_bw -s 1 -Q 1 -r 32 -t 32 -n 10000000
-</code></pre></div></div>
-<div style="text-align: justify"> 
+<p><code>
+ib_send_bw -s 1 -Q 1 -r 32 -t 32 -n 10000000
+</code>
+&lt;div style="text-align: justify"&gt; </p>
 <p>
 Where ''-s 1'' specifies to send packets with a payload of 1 (we don't want to
 measure the transmission time of data, just the number of I/O operations),
@@ -161,21 +163,21 @@ queue length to be 32, ''-t 32'' specifies the send queue length to be 32
 and ''-n'' specifies the number of
 iterations to be performed by ib_send_bw.
 </p>
-</div>
-<div style="text-align: justify"> 
+<p>&lt;/div&gt;
+&lt;div style="text-align: justify"&gt; </p>
 <p>
 The line of the raw number of IOPS, labeled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
 </p>
-</div>
-<p><br /></p>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_ibsend_iops64.svg" width="550" /></div>
-<p><br /></p>
-<div style="text-align: justify"> 
+<p>&lt;/div&gt;
+<br />
+&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_ibsend_iops64.svg" width="550" />&lt;/div&gt;
+<br />
+&lt;div style="text-align: justify"&gt; </p>
 <p>
 If one starts ib_send_bw without specifying the queue sizes or whether or not to use CQ moderation, the raw number of IOPS might be higher. This is due to the fact, that the default values of ib_send_bw use a receive queue of 512, a send queue of 128 and CQ moderation of 100, meaning that a new completion is generated only after 100 sends. As comparison, we did this
 measurement too and show the result, labeled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, postlists etc might lead to a higher number of IOPS. 
 </p>
-</div>
+<p>&lt;/div&gt;</p>
 
 <h3 id="multiple-namenode-scalability">Multiple Namenode Scalability</h3>
 
@@ -184,9 +186,9 @@ measurement too and show the result, labeled 'ib_send CQ mod', in the same graph
 To increase the number of IOPS the overall system can handle, we allow starting multiple namenode instances. Hot metadata operations, such as ''getFile()'', are distributed over all running instances of the namenode. ''getFile()'' is implemented such that no synchronization among the namenodes is required. As such, we expect good scalability. The graph below compares the overall IOPS of a system with one namenode to a system with two namenodes and four namenodes.
 </p>
 </div>
-<p><br /></p>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_multi64.svg" width="550" /></div>
-<p><br /></p>
+<p><br />
+&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_multi64.svg" width="550" />&lt;/div&gt;
+<br /></p>
 
 <div style="text-align: justify"> 
 <p>
@@ -246,9 +248,9 @@ namenode over the elapsed runtime of the TeraSort application.
 </p>
 </div>
 
-<p><br /></p>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/terasort_iops.svg" width="550" /></div>
-<p><br /></p>
+<p><br />
+&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/crail-metadata/terasort_iops.svg" width="550" />&lt;/div&gt;
+<br /></p>
 
 <div style="text-align: justify"> 
 <p>
@@ -410,9 +412,9 @@ plot shows the number of IOPS relative to the number of clients.
 </p>
 </div>
 
-<p><br /></p>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_hdfs_iops.svg" width="550" /></div>
-<p><br /></p>
+<p><br />
+&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/crail-metadata/namenode_hdfs_iops.svg" width="550" />&lt;/div&gt;
+<br /></p>
 
 <div style="text-align: justify">
 <p>
@@ -464,9 +466,9 @@ the blog with the latest numbers as soon as the bug is fixed.
 </p>
 </div>
 
-<p><br /></p>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/ramcloud_iops.svg" width="550" /></div>
-<p><br /></p>
+<p><br />
+&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/crail-metadata/ramcloud_iops.svg" width="550" />&lt;/div&gt;
+<br /></p>
 
 <div style="text-align: justify">
 <p>
@@ -495,9 +497,9 @@ of 30Mio/s with 4 namenodes).
 </p>
 </div>
 
-<p><br /></p>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg" width="550" /></div>
-<p><br /></p>
+<p><br />
+&lt;div style="text-align:center"&gt;<img src="http://crail.incubator.apache.org/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg" width="550" />&lt;/div&gt;
+<br /></p>
 
 <div style="text-align: justify">
 <p>
