@@ -26,8 +26,8 @@ categories: [blog, news]
 front_page_news: 5
 
 # Base pathname for links.
-base: 'http://crail.incubator.apache.org'
-#base: 'http://127.0.0.1:4000'
+#base: 'http://crail.incubator.apache.org'
+base: 'http://127.0.0.1:4000'
 
 
 # gem dependencies
@@ -39,6 +39,8 @@ navigation:
       link: /
     - title: Overview
       link: /overview/
+    - title: Downloads
+      link: /download/
     - title: Blog
       link: /blog/
     - title: Community
