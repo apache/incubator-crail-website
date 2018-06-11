@@ -7,8 +7,8 @@ title: Downloads
 
 Apache Crail 1.0-incubating
 
-[zip](https://www.apache.org/dyn/closer.lua/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip) | [sha256](https://dist.apache.org/repos/dist/release/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip.sha256) | [signature](https://dist.apache.org/repos/dist/release/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip.asc)
-[tar.gz](https://www.apache.org/dyn/closer.lua/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz) | [sha256](https://dist.apache.org/repos/dist/release/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz.sha256) | [signature](https://dist.apache.org/repos/dist/release/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz.asc)
+[zip](https://www.apache.org/dyn/closer.lua/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip) | [sha256](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip.sha256) | [signature](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip.asc)
+[tar.gz](https://www.apache.org/dyn/closer.lua/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz) | [sha256](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz.sha256) | [signature](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz.asc)
 
 ### Release Notes ###
 
