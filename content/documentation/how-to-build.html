@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>The Apache Crail (Incubating) Project: Building instructions</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link rel="alternate" type="application/atom+xml" title="Atom"
+            href="http://crail.incubator.apache.org/blog/blog.xml">
+        
+        <meta property="og:image" content="http://crail.incubator.apache.org/img/blog/preview/how-to-build-summary.png" />
+        <meta property="og:image:secure_url" content="http://crail.incubator.apache.org/img/blog/preview/how-to-build-summary.png" />
+    </head>
+
+    <body>
+        <div class="container">
+          <div class="header">
+            <ul class="nav nav-pills pull-right">
+              
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/">
+                    Home
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/overview/">
+                    Overview
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/download/">
+                    Downloads
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/blog/">
+                    Blog
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/community/">
+                    Community
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="http://crail.incubator.apache.org/documentation/">
+                    Documentation
+                  </a>
+                </li>
+              
+            </ul>
+            <a href="http://crail.incubator.apache.org/">
+                <img src="http://crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="http://crail.incubator.apache.org/img/crail_logo.png"
+                    alt="Crail" id="logo">
+            </a>
+          </div>
+
+          
+          
+          <h2>Building instructions</h2>   
+          
+
+          <h2 id="requirements">Requirements</h2>
+
+<ul>
+  <li>Java 8 or higher</li>
+  <li>RDMA-based network, e.g., Infiniband, iWARP, RoCE. There are two options to run Crail without RDMA networking hardware: (a) use SoftiWARP, (b) us the TCP/DRAM storage tier</li>
+  <li>Libdisni.so, available as part of <a href="https://github.com/zrlio/disni">DiSNI</a></li>
+</ul>
+
+<h2 id="building">Building</h2>
+
+<p>To build Crail from source using <a href="http://maven.apache.org/">Apache Maven</a> execute the following steps:</p>
+
+<ol>
+  <li>Obtain a copy of <a href="https://github.com/apache/incubator-crail">Crail</a> from Github</li>
+  <li>Run: mvn -DskipTests install</li>
+  <li>Copy tarball to the cluster and unpack it using tar xvfz crail-1.0-bin.tar.gz</li>
+</ol>
+
+<p>Note: later, when deploying Crail, make sure libdisni.so is part of your LD_LIBRARY_PATH. The easiest way to make it work is to copy libdisni.so into crail-1.0/lib</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>To configure Crail use crail-site.conf.template as a basis and modify it to match your environment.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd crail-1.0/conf
+mv crail-site.conf.template crail-site.conf
+</code></pre></div></div>
+
+<p>There are a general file system properties and specific properties for the different storage tiers. A typical configuration for the general file system section may look as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.namenode.address                crail://namenode:9060
+crail.storage.types                   org.apache.crail.storage.rdma.RdmaStorageTier
+crail.cachepath                       /dev/hugepages/cache
+crail.cachelimit                      12884901888
+crail.blocksize                       1048576
+crail.buffersize                      1048576
+</code></pre></div></div>
+
+<p>In this configuration the namenode is configured to run using port 9060 on host ‘namenode’, which must be a valid host in the cluster. We further configure a single storage tier, in this case the RDMA-based DRAM tier. The cachepath property needs to point to a directory that is used by the file system to allocate memory for the client cache. Up to cachelimit size, all the memory that is used by Crail will be allocated via mmap from this location. Ideally, the directory specified in cachepath points to a hugetlbfs mountpoint. Aside from the general properties, each storage tier needs to be configured separately.</p>
+
+<h3 id="rdmadram-storage">RDMA/DRAM Storage</h3>
+
+<p>For the RDMA/DRAM tier we need to specify the interface that should be used by the storage nodes.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.storage.rdma.interface         eth0
+</code></pre></div></div>
+
+<p>The datapath property specifies a path from which the storage nodes will allocate blocks of memory via mmap. Again, that path best points to a hugetlbfs mountpoint.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.storage.rdma.datapath          /memory/data
+</code></pre></div></div>
+
+<p>You want to specify how much DRAM each datanode should donate into the file system pool using the <code class="highlighter-rouge">storagelimit</code> property. DRAM is allocated in chunks of <code class="highlighter-rouge">allocationsize</code>, which needs to be a multiple of <code class="highlighter-rouge">crail.blocksize</code>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.storage.rdma.allocationsize    1073741824
+crail.storage.rdma.storagelimit      75161927680
+</code></pre></div></div>
+
+<p>Crail supports optimized local operations via memcpy (instead of RDMA) in case a given file operation is backed by a local storage node. The indexpath specifies where Crail will store the necessary metadata that make these optimizations possible. Important: the indexpath must NOT point to a hugetlbfs mountpoint because index files will be updated which not possible in hugetlbfs.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.storage.rdma.localmap          true
+crail.storage.rdma.indexpath         /index
+</code></pre></div></div>
+
+<h3 id="nvmfflash-storage">NVMf/Flash Storage</h3>
+
+<p>Crail is a multi-tiered storage system. Additinoal tiers can be enabled by adding them to the configuration as follows.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.storage.types                  org.apache.crail.storage.rdma.RdmaStorageTier,org.apache.crail.storage.nvmf.NvmfStorageTier
+</code></pre></div></div>
+
+<p>For the NVMf storage tier we need to configure the server IP that is used when listening for new connections. We also need to configure the PCI address of the flash device we want to use, as well as the huge page mount point to be used for allocating memory.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.storage.nvmf.bindip           10.40.0.XX
+crail.storage.nvmf.pcieaddr         0000:11:00.0
+crail.storage.nvmf.hugedir          /dev/hugepages
+crail.storage.nvmf.servermempool    512
+crail.storage.nvmf.clientmempool    512
+</code></pre></div></div>
+
+<h2 id="deploying">Deploying</h2>
+
+<p>For all deployments, make sure you define CRAIL_HOME on each machine to point to the top level Crail directory.</p>
+
+<h3 id="starting-crail-manually">Starting Crail manually</h3>
+
+<p>The simplest way to run Crail is to start it manually on just a handful nodes. You will need to start the Crail namenode, plus at least one datanode. To start the namenode execute the following command on the host that is configured to be the namenode:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd crail-1.0/
+./bin/crail namenode
+</code></pre></div></div>
+
+<p>To start a datanode run the following command on a host in the cluster (ideally this is a different physical machine than the one running the namenode):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail datanode
+</code></pre></div></div>
+
+<p>Now you should have a small deployment up with just one datanode. In this case the datanode is of type RDMA/DRAM, which is the default datnode. If you want to start a different storage tier you can do so by passing a specific datanode class as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail datanode -t org.apache.crail.storage.nvmf.NvmfStorageTier
+</code></pre></div></div>
+
+<p>This would start the shared storage datanode. Note that configuration in crail-site.conf needs to have the specific properties set of this type of datanode, in order for this to work.</p>
+
+<h3 id="larger-deployments">Larger deployments</h3>
+
+<p>To run larger deployments start Crail using</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/start-crail.sh
+</code></pre></div></div>
+
+<p>Similarly, Crail can be stopped by using</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/stop-crail.sh
+</code></pre></div></div>
+
+<p>For this to work include the list of machines to start datanodes in conf/slaves. You can start multiple datanode of different types on the same host as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>host02-ib
+host02-ib -t org.apache.crail.storage.nvmf.NvmfStorageTier
+host03-ib
+</code></pre></div></div>
+
+<p>In this example, we are configuring a Crail cluster with 2 physical hosts but 3 datanodes and two different storage tiers.</p>
+
+<h2 id="crail-shell">Crail Shell</h2>
+
+<p>Crail provides an contains an HDFS adaptor, thus, you can interact with Crail using the HDFS shell:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail fs
+</code></pre></div></div>
+
+<p>Crail, however, does not implement the full HDFS shell functionality. The basic commands to copy file to/from Crail, or to move and delete files, will work.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail fs -mkdir /test
+./bin/crail fs -ls /
+./bin/crail fs -copyFromLocal &lt;path-to-local-file&gt; /test
+./bin/crail fs -cat /test/&lt;file-name&gt;
+</code></pre></div></div>
+
+<p>For the Crail shell to work properly, the HDFS configuration in crail-1.0/conf/core-site.xml needs to be configured accordingly:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;configuration&gt;
+  &lt;property&gt;
+   &lt;name&gt;fs.crail.impl&lt;/name&gt;
+   &lt;value&gt;org.apache.crail.hdfs.CrailHadoopFileSystem&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.defaultFS&lt;/name&gt;
+    &lt;value&gt;crail://namenode:9060&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+    &lt;name&gt;fs.AbstractFileSystem.crail.impl&lt;/name&gt;
+    &lt;value&gt;org.apache.crail.hdfs.CrailHDFS&lt;/value&gt;
+  &lt;/property&gt;
+ &lt;/configuration&gt;
+</code></pre></div></div>
+
+<p>Note that the Crail HDFS interface currently cannot provide the full performance of Crail due to limitations of the HDFS API. In particular, the HDFS <code class="highlighter-rouge">FSDataOutputStream</code> API only support heap-based <code class="highlighter-rouge">byte[]</code> arrays which requires a data copy. Moreover, HDFS operations are synchronous preventing efficient pipelining of operations. Instead, applications that seek the best performance should use the Crail interface directly, as shown next.</p>
+
+<h2 id="programming-against-crail">Programming against Crail</h2>
+
+<p>The best way to program against Crail is to use Maven. Make sure you have the Crail dependency specified in your application pom.xml file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.crail&lt;/groupId&gt;
+  &lt;artifactId&gt;crail-client&lt;/artifactId&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre></div></div>
+
+<p>Then, create a Crail client as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailConfiguration conf = new CrailConfiguration();
+CrailStore store = CrailStore.newInstance(conf);
+</code></pre></div></div>
+
+<p>Make sure the crail-1.0/conf directory is part of the classpath.</p>
+
+<p>Crail supports different file types. The simplest way to create a file in Crail is as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailFile file = store.create(filename, CrailNodeType.DATAFILE, CrailStorageClass.DEFAULT, CrailLocationClass.DEFAULT).get().syncDir();
+</code></pre></div></div>
+
+<p>Aside from the actual filename, the ‘create()’ call takes as input the storage and location classes which are preferences for the storage tier and physical location that this file should be created in. Crail tries to satisfy these preferences later when the file is written. In the example we do not request any particular storage or location affinity.</p>
+
+<p>This ‘create()’ command is non-blocking, calling ‘get()’ on the returning future object awaits the completion of the call. At that time, the file has been created, but its directory entry may not be visible. Therefore, the file may not yet show up in a file enumeration of the given parent directory. Calling ‘syncDir()’ waits to for the directory entry to be completed. Both the ‘get()’ and the ‘syncDir()’ operation can be deffered to a later time at which they may become non-blocking operations.</p>
+
+<p>Once the file is created, a file stream can be obtained for writing:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailBufferedOutputStream outstream = file.getBufferedOutputStream(1024);	
+</code></pre></div></div>
+
+<p>Here, we create a buffered stream so that we can pass heap byte arrays as well. We could also create a non-buffered stream using</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailOutputStream outstream = file.getDirectOutputStream(1024);
+</code></pre></div></div>
+
+<p>In both cases, we pass a write hint (1024 in the example) that indicates to Crail how much data we are intending to write. This allows Crail to optimize metadatanode lookups. Crail never prefetches data, but it may fetch the metadata of the very next operation concurrently with the current data operation if the write hint allows to do so.</p>
+
+<p>Once the stream has been obtained, there exist various ways to write a file. The code snippet below shows the use of the asynchronous interface:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailBuffer dataBuf = fs.allocateBuffer();
+Future&lt;DataResult&gt; future = outputStream.write(dataBuf);
+...
+future.get();
+</code></pre></div></div>
+
+<p>Reading files works very similar to writing. There exist various examples in org.apache.crail.tools.CrailBenchmark.</p>
+
+<h2 id="tcp-storage-tiers-and-rpc-binding">TCP Storage Tiers and RPC binding</h2>
+
+<p>Crail is designed for user-level networking and storage. It does, however, also provide plain TCP-based storage backends for storage and RPC and, thus, can be run easily on any machine without requiring spspecial hardware support. The TCP storage backend can be enabled as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.storage.types		org.apache.crail.storage.tcp.TcpStorageTier
+</code></pre></div></div>
+
+<p>The TCP RPC binding can be enabled as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.namenode.rpctype	org.apache.crail.namenode.rpc.tcp.TcpNameNode
+</code></pre></div></div>
+
+<h2 id="benchmarks">Benchmarks</h2>
+
+<p>Crail provides a set of benchmark tools to measure the performance. Type</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench
+</code></pre></div></div>
+
+<p>to get an overview of the available benchmarks. For instance, to benchmark the sequential write performance, type</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t write -s 1048576 -k 102400 -f /tmp.dat
+</code></pre></div></div>
+
+<p>This will create a file of size 100G, written sequentially in a sequence of 1MB operations.</p>
+
+<p>To read a file sequentially, type</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t read -s 1048576 -k 102400 -f /tmp.dat
+</code></pre></div></div>
+
+<p>This command issues 102400 read operations of 1MB each.</p>
+
+<p>The tool also contains benchmarks to read files randomly, or to measure the performance of opening files, etc.</p>
+
+<h2 id="applications">Applications</h2>
+
+<p>Crail is used by <a href="https://github.com/zrlio/crail-spark-io">Crail-Spark-IO</a>, a high-performance shuffle engine for Spark. <a href="https://github.com/zrlio/crail-terasort">Crail-Terasort</a> is a fast sorting benchmark for Spark based on Crail.</p>
+
+<h2 id="contributions">Contributions</h2>
+
+<p>PRs are always welcome. Please fork, and make necessary modifications 
+you propose, and let us know.</p>
+
+<h2 id="contact">Contact</h2>
+
+<p>Please join the Crail developer mailing list for discussions and notifications. The list is at:</p>
+
+<p>dev@crail.incubator.apache.org.</p>
+
+
+        <br>
+	<br> 
+          <div class="footer">
+            <p>Apache Crail is an effort undergoing <a href="https://incubator.apache.org/">incubation</a> at <a href="https://www.apache.org/">The Apache Software Foundation (ASF)</a>, sponsored by the Apache Incubator PMC. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+            </p>
+          </div>
+
+        </div> <!-- /container -->
+
+        <!-- Support retina images. -->
+        <script type="text/javascript"
+            src="http://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+    </body>
+</html>
