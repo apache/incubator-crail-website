@@ -3782,8 +3782,8 @@ a.list-group-item.active>.badge,.nav-pills>.active>a>.badge {
 		padding-bottom:48px
 	}
 	.container .jumbotron {
-		padding-right:60px;
-		padding-left:60px
+		padding-right:50px;
+		padding-left:50px
 	}
 	.jumbotron h1 {
 		font-size:63px
