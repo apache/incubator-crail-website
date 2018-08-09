@@ -1,4 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2018-07-19T14:09:15+02:00</updated><id>http://crail.incubator.apache.org//</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Sparksummit</title><link href="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html" rel="alternate" type="text/html" title="Sparksummit" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/sparksummit</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html">&lt;p&gt;A Spark serverless architecture powered by Crail will be presented today at the &lt;a href=&quot;https://databricks.com/session/serverless-machine-learning-on-modern-hardware-using-apache-spark&quot;&gt;Spark Summit&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A Spark serverless architecture powered by Crail will be presented today at the Spark Summit</summary></entry><entry><title type="html">Dataworks</title><link href="http://crail.incubator.apache.org//blog/2018/06/dataworks.html" rel="alternate" type="text/html" title="Dataworks" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/dataworks</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/dataworks.html">&lt;p&gt;Apache Crail (incubating) to feature in the &lt;a href=&quot;https://dataworkssummit.com/san-jose-2018/session/data-processing-at-the-speed-of-100-gbpsapache-crail-incubating/&quot;&gt;DataWorks Summit&lt;/a&gt; on June 21st&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail (incubating) to feature in the DataWorks Summit on June 21st</summary></entry><entry><title type="html">Apache Release</title><link href="http://crail.incubator.apache.org//blog/2018/06/apache-release.html" rel="alternate" type="text/html" title="Apache Release" /><published>2018-06-04T00:00:00+02:00</published><updated>2018-06-04T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/apache-release</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/apache-release.html">&lt;p&gt;Apache Crail 1.0 incubator &lt;a href=&quot;http://crail.incubator.apache.org/download&quot;&gt;release&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail 1.0 incubator release</summary></entry><entry><title type="html">Apache</title><link href="http://crail.incubator.apache.org//blog/2018/01/apache.html" rel="alternate" type="text/html" title="Apache" /><published>2018-01-22T00:00:00+01:00</published><updated>2018-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2018/01/apache</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/01/apache.html">&lt;p&gt;Crail is now an Apache Incubator project!&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail is now an Apache Incubator project!</summary></entry><entry><title type="html">Iops</title><link href="http://crail.incubator.apache.org//blog/2017/11/iops.html" rel="alternate" type="text/html" title="Iops" /><published>2017-11-23T00:00:00+01:00</published><updated>2017-11-23T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/iops</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/iops.html">&lt;p&gt;New blog &lt;a href=&quot;http://crail.incubator.apache.org/blog/2017/11/crail-metadata.html&quot;&gt;post&lt;/a&gt; about Crail’s metadata performance and scalability&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about Crail’s metadata performance and scalability</summary></entry><entry><title type="html">Crail Storage Performance – Part III: Metadata</title><link href="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html" rel="alternate" type="text/html" title="Crail Storage Performance -- Part III: Metadata" /><published>2017-11-21T00:00:00+01:00</published><updated>2017-11-21T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/crail-metadata</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2018-08-09T17:20:11+02:00</updated><id>http://crail.incubator.apache.org//</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Sql P1 News</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html" rel="alternate" type="text/html" title="Sql P1 News" /><published>2018-08-09T00:00:00+02:00</published><updated>2018-08-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1-news</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html">&lt;p&gt;A new blog &lt;a href=&quot;http://crail.incubator.apache.org/blog/2018/08/sql-p1.html&quot;&gt;post&lt;/a&gt; discussing file formats performance is now online&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A new blog post discussing file formats performance is now online</summary></entry><entry><title type="html">SQL Performance: Part 1 - Input File Formats</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html" rel="alternate" type="text/html" title="SQL Performance: Part 1 - Input File Formats" /><published>2018-08-08T00:00:00+02:00</published><updated>2018-08-08T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+This is the first blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the  cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are &lt;a href=&quot;https://spark.apache.org/sql/&quot;&gt;Apache Spark/SQL&lt;/a&gt;, &lt;a href=&quot;https://hive.apache.org/&quot;&gt;Apache Hive&lt;/a&gt;, &lt;a href=&quot;https://impala.apache.org/&quot;&gt;Apache Impala&lt;/a&gt;, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;hardware-and-software-configuration&quot;&gt;Hardware and Software Configuration&lt;/h3&gt;
+
+&lt;p&gt;The specific cluster configuration used for the experiments in this blog:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Cluster
+    &lt;ul&gt;
+      &lt;li&gt;4 compute + 1 management node x86_64 cluster&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Node configuration
+    &lt;ul&gt;
+      &lt;li&gt;CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz&lt;/li&gt;
+      &lt;li&gt;DRAM: 256 GB DDR3&lt;/li&gt;
+      &lt;li&gt;Network: 1x100Gbit/s Mellanox ConnectX-5&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Software
+    &lt;ul&gt;
+      &lt;li&gt;Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic&lt;/li&gt;
+      &lt;li&gt;Apache HDFS (2.7.3)&lt;/li&gt;
+      &lt;li&gt;Apache Paruqet (1.8), Apache ORC (1.4), Apache Arrow (0.8), Apache Avro (1.4)&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/apache/incubator-crail/&quot;&gt;Apache Crail (incubating) with NVMeF support&lt;/a&gt;, commit 64e635e5ce9411041bf47fac5d7fadcb83a84355 (since then Crail has a stable source release v1.0 with a newer NVMeF code-base)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;In a typical cloud-based relational data processing setup, the input data is stored on an external data storage solution like HDFS or AWS S3. Data tables and their associated schema are converted into a storage-friendly format for optimal performance. Examples of some popular and familiar file formats are &lt;a href=&quot;https://parquet.apache.org/&quot;&gt;Apache Parquet&lt;/a&gt;, &lt;a href=&quot;https://orc.apache.org/&quot;&gt;Apache ORC&lt;/a&gt;, &lt;a href=&quot;https://avro.apache.org/&quot;&gt;Apache Avro&lt;/a&gt;, &lt;a href=&quot;https://en.wikipedia.org/wiki/JSON&quot;&gt;JSON&lt;/a&gt;, etc. More recently, &lt;a href=&quot;https://arrow.apache.org/&quot;&gt;Apache Arrow&lt;/a&gt; has been introduced to standardize the in-memory columnar data representation between multiple frameworks. There is no one size fits all as all these formats have their own strengths, weaknesses, and features. In this blog, we are specifically interested in the performance of these formats on modern high-performance networking and storage devices.&lt;/p&gt;
+
+&lt;p&gt;To benchmark the performance of file formats, we wrote a set of micro-benchmarks which are available at &lt;a href=&quot;https://github.com/zrlio/fileformat-benchmarks&quot;&gt;https://github.com/zrlio/fileformat-benchmarks&lt;/a&gt;. We cannot use typical SQL micro-benchmarks because every SQL engine has its own favorite file format, on which it performs the best. Hence, in order to ensure parity, we decoupled the performance of reading the input file format from the SQL query processing by writing simple table reading micro-benchmarks. Our benchmark reads in the store_sales table from the TPC-DS dataset (scale factor 100), and calculates a sum of values present in the table. The table contains 23 columns of integers, doubles, and longs.&lt;/p&gt;
+
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/sql-p1/performance-all.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 1: Performance of JSON, Avro, Parquet, ORC, and Arrow on NVMe devices over a 100 Gbps network.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;We evaluate the performance of the benchmark on a 3 node HDFS cluster connected using 100 Gbps RoCE. One datanode in HDFS contains 4 NVMe devices with a collective aggregate bandwidth of 12.5 GB/sec (equals to 100 Gbps, hence, we have a balanced network and storage performance). Figure 1 shows our results where none of the file formats is able to deliver the full hardware performance for reading input files. One third of the performance is already lost in HDFS (maximum throughput 74.9 Gbps out of possible 100 Gbps). The rest of the performance is lost inside the file format implementation, which needs to deal with encoding, buffer and I/O management, compression, etc. The best performer is Apache Arrow which is designed for in-memory columnar datasets. The performance of these file formats are bounded by the performance of the CPU, which is 100% loaded during the experiment. For a detailed analysis of the file formats, please refer to our paper - &lt;a href=&quot;https://www.usenix.org/conference/atc18/presentation/trivedi&quot;&gt;Albis: High-Performance File Format for Big Data Systems (USENIX, ATC’18)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;albis-high-performance-file-format-for-big-data-systems&quot;&gt;Albis: High-Performance File Format for Big Data Systems&lt;/h3&gt;
+
+&lt;p&gt;Based on these findings, we have developed a new file format called Albis. Albis is built on similar design choices as Crail. The top-level idea is to leverage the performance of modern networking and storage devices without being bottleneck by the CPU. While designing Albis we revisited many outdated assumptions about the nature of I/O in a distributed setting, and came up with the following ideas:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;No compression or encoding: Modern network and storage devices are fast. Hence, there is no need to trade CPU cycles for performance. A 4 byte integer should be stored as a 4 byte value.&lt;/li&gt;
+  &lt;li&gt;Keep the data/metadata management simple: Albis splits a table into row and column groups, which are stored in hierarchical files and directories on the underlying file system (e.g., HDFS or Crail).&lt;/li&gt;
+  &lt;li&gt;Careful object materialization using a binary API: To optimize the runtime representation in managed runtimes like the JVM, only objects which are necessary for SQL processing are materialized. Otherwise, a 4 byte integer can be passed around as a byte array (using the binary API of Albis).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/sql-p1/core-scalability.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 2: Core scalability of JSON, Avro, Parquet, ORC, Arrow, and Albis.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Using the Albis format, we revise our previous experiment where we read the input store_sales table from HDFS. In the figure above, we show the performance of Albis and other file formats with number of CPU cores involved. At the right hand of the x-axis, we have performance with all 16 cores engaged, hence, representing the peak possible performance. As evident, Albis delivers 59.9 Gbps out of 74.9 Gbps possible bandwidth with HDFS over NVMe. Albis performance is 1.9 - 21.4x better than other file formats. To give an impression where the performance is coming from, in the table below we show some micro-architectural features for Parquet, ORC, Arrow, and Albis. Our previously discussed design ideas in Albis result in a shorter code path (shown as less instructions required for each row), better cache performance (shows as lower cache misses per row), and clearly better performance (shown as nanoseconds required per row for processing). For a detailed evaluation of Albis please refer to our paper.&lt;/p&gt;
+
+&lt;table style=&quot;width:100%&quot;&gt;
+  &lt;caption&gt; Table 1: Micro-architectural analysis for Parquet, ORC, Arrow, and Albis on a 16-core Xeon machine.&lt;p&gt;&lt;/p&gt;&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Parquet&lt;/th&gt;
+    &lt;th&gt;ORC&lt;/th&gt; 
+    &lt;th&gt;Arrow&lt;/th&gt;
+    &lt;th&gt;Albis&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Instructions/row&lt;/th&gt;
+    &lt;td&gt;6.6K&lt;/td&gt; 
+    &lt;td&gt;4.9K&lt;/td&gt; 
+    &lt;td&gt;1.9K&lt;/td&gt; 
+    &lt;td&gt;1.6K&lt;/td&gt; 
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Cache misses/row&lt;/th&gt;
+    &lt;td&gt;9.2&lt;/td&gt; 
+    &lt;td&gt;4.6&lt;/td&gt; 
+    &lt;td&gt;5.1&lt;/td&gt; 
+    &lt;td&gt;3.0&lt;/td&gt; 
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Nanoseconds/row&lt;/th&gt;
+    &lt;td&gt;105.3&lt;/td&gt; 
+    &lt;td&gt;63.0&lt;/td&gt; 
+    &lt;td&gt;31.2&lt;/td&gt; 
+    &lt;td&gt;20.8&lt;/td&gt; 
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;apache-crail-incubating-with-albis&quot;&gt;Apache Crail (Incubating) with Albis&lt;/h3&gt;
+
+&lt;p&gt;For our final experiment, we try to answer the question what it would take to deliver the full 100 Gbps bandwidth for Albis. Certainly, the first bottleneck is to improve the base storage layer performance. Here we use Apache Crail (Incubating) with its &lt;a href=&quot;https://en.wikipedia.org/wiki/NVM_Express#NVMeOF&quot;&gt;NVMeF&lt;/a&gt; storage tier. This tier uses &lt;a href=&quot;https://github.com/zrlio/jNVMf&quot;&gt;jNVMf library&lt;/a&gt; to implement NVMeF stack in Java. As we have shown in a previous blog &lt;a href=&quot;http://crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html&quot;&gt;post&lt;/a&gt; that Crail’s NVMeF tier can deliver performance (97.8 Gbps) very close to the hardware limits. Hence, Albis with Crail is a perfect setup to evaluate on high-performance NVMe and RDMA devices. Before we get there, let’s get some calculations right. The store_sales table in the TPC-DS dataset has a data density of 93.9% (out of 100 bytes, only 93.9 is data, others are null values). As we measure the goodput, the expected performance of Albis on Crail is 93.9% of 97.8 Gbps, which calculates to 91.8 Gbps. In our experiments, Albis on Crail delivers 85.5 Gbps. Figure 2 shows more detailed results.&lt;/p&gt;
+
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/sql-p1/albis-crail.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 2: Performance of Albis on Crail.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;The left half of the figure shows the performance scalability of Albis on Crail in a setup with 1 core (8.9 Gbps) to 16 cores (85.5 Gbps). In comparison, the right half of the figure shows the performance of Crail on HDFS/NVMe at 59.9 Gbps, and on Crail/NVMe at 85.5 Gbps. The last bar shows the performance of Albis if the benchmark does not materialize Java object values. In this configuration, Albis on Crail delivers 91.3 Gbps, which is very close to the expected peak of 91.8 Gbps.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+In this first blog of a multipart series, we have looked at the data ingestion performance of file formats on high-performance networking and storage devices. We found that popular file formats are in need for a performance revision. Based on our analysis, we designed and implemented Albis - a new file format for storing relational data. Albis and Crail share many design choices. Their combined performance of 85+ Gbps on a 100 Gbps network, gives us confidence in our approach and underlying software philosophy for both, Crail and Albis.
+&lt;/p&gt;
+
+&lt;p&gt;
+Stay tuned for the next part where we look at workload-level performance in Spark/SQL on modern high-performance networking and storage devices. Meanwhile let us know if you have any feedback or comments. 
+&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Animesh Trivedi, Patrick Stuedi, Jonas Pfefferle, Adrian Schuepbach, and Bernard Metzler</name></author><category term="blog" /><summary type="html">This is the first blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are Apache Spark/SQL, Apache Hive, Apache Impala, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.</summary></entry><entry><title type="html">Sparksummit</title><link href="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html" rel="alternate" type="text/html" title="Sparksummit" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/sparksummit</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html">&lt;p&gt;A Spark serverless architecture powered by Crail will be presented today at the &lt;a href=&quot;https://databricks.com/session/serverless-machine-learning-on-modern-hardware-using-apache-spark&quot;&gt;Spark Summit&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A Spark serverless architecture powered by Crail will be presented today at the Spark Summit</summary></entry><entry><title type="html">Dataworks</title><link href="http://crail.incubator.apache.org//blog/2018/06/dataworks.html" rel="alternate" type="text/html" title="Dataworks" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/dataworks</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/dataworks.html">&lt;p&gt;Apache Crail (incubating) to feature in the &lt;a href=&quot;https://dataworkssummit.com/san-jose-2018/session/data-processing-at-the-speed-of-100-gbpsapache-crail-incubating/&quot;&gt;DataWorks Summit&lt;/a&gt; on June 21st&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail (incubating) to feature in the DataWorks Summit on June 21st</summary></entry><entry><title type="html">Apache Release</title><link href="http://crail.incubator.apache.org//blog/2018/06/apache-release.html" rel="alternate" type="text/html" title="Apache Release" /><published>2018-06-04T00:00:00+02:00</published><updated>2018-06-04T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/apache-release</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/apache-release.html">&lt;p&gt;Apache Crail 1.0 incubator &lt;a href=&quot;http://crail.incubator.apache.org/download&quot;&gt;release&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail 1.0 incubator release</summary></entry><entry><title type="html">Apache</title><link href="http://crail.incubator.apache.org//blog/2018/01/apache.html" rel="alternate" type="text/html" title="Apache" /><published>2018-01-22T00:00:00+01:00</published><updated>2018-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2018/01/apache</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/01/apache.html">&lt;p&gt;Crail is now an Apache Incubator project!&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail is now an Apache Incubator project!</summary></entry><entry><title type="html">Iops</title><link href="http://crail.incubator.apache.org//blog/2017/11/iops.html" rel="alternate" type="text/html" title="Iops" /><published>2017-11-23T00:00:00+01:00</published><updated>2017-11-23T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/iops</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/iops.html">&lt;p&gt;New blog &lt;a href=&quot;http://crail.incubator.apache.org/blog/2017/11/crail-metadata.html&quot;&gt;post&lt;/a&gt; about Crail’s metadata performance and scalability&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about Crail’s metadata performance and scalability</summary></entry><entry><title type="html">Crail Storage Performance – Part III: Metadata</title><link href="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html" rel="alternate" type="text/html" title="Crail Storage Performance -- Part III: Metadata" /><published>2017-11-21T00:00:00+01:00</published><updated>2017-11-21T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/crail-metadata</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html">&lt;div style=&quot;text-align: justify&quot;&gt;
 &lt;p&gt;
 This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.
 &lt;/p&gt;
@@ -444,227 +550,4 @@ of operations even compared to a C++-based system like RAMCloud.
 &lt;p&gt;
 In this blog we show three key points of Crail: First, Crail's namenode performs the same as ib_send_bw with realistic parameters in terms of IOPS. This shows that the actual processing of the RPC is implemented efficiently. Second, with only one namenode, Crail performs 10x to 50x better than RAMCloud and HDFS, two popular systems, where RAMCloud is RDMA-based and implemented natively. Third, Crail's metadata service can be scaled out to serve large number of clients. We have shown that Crail offers near linear scaling with up to 4 namenodes, offering a performance that is sufficient to serve several 1000s of clients. 
 &lt;/p&gt;
-&lt;/div&gt;</content><author><name>Adrian Schuepbach and Patrick Stuedi</name></author><category term="blog" /><summary type="html">This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.</summary></entry><entry><title type="html">Floss</title><link href="http://crail.incubator.apache.org//blog/2017/11/floss.html" rel="alternate" type="text/html" title="Floss" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/floss</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/floss.html">&lt;p&gt;Crail features in the &lt;a href=&quot;https://twit.tv/shows/floss-weekly/episodes/458?autostart=false&quot;&gt;FLOSS weekly podcast&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail features in the FLOSS weekly podcast</summary></entry><entry><title type="html">Blog</title><link href="http://crail.incubator.apache.org//blog/2017/11/blog.html" rel="alternate" type="text/html" title="Blog" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/blog</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/blog.html">&lt;p&gt;New blog &lt;a href=&quot;http://crail.incubator.apache.org/blog/2017/11/rdmashuffle.html&quot;&gt;post&lt;/a&gt; about SparkRDMA and Crail shuffle plugins&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about SparkRDMA and Crail shuffle plugins</summary></entry><entry><title type="html">Spark Shuffle: SparkRDMA vs Crail</title><link href="http://crail.incubator.apache.org//blog/2017/11/rdmashuffle.html" rel="alternate" type="text/html" title="Spark Shuffle: SparkRDMA vs Crail" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/rdmashuffle</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/rdmashuffle.html">&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-This blog is comparing the shuffle performance of Crail with SparkRDMA, an alternative RDMA-based shuffle plugin for Spark.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;hardware-configuration&quot;&gt;Hardware Configuration&lt;/h3&gt;
-
-&lt;p&gt;The specific cluster configuration used for the experiments in this blog:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Cluster
-    &lt;ul&gt;
-      &lt;li&gt;8 compute + 1 management node x86_64 cluster&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Node configuration
-    &lt;ul&gt;
-      &lt;li&gt;CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz&lt;/li&gt;
-      &lt;li&gt;DRAM: 96GB DDR3&lt;/li&gt;
-      &lt;li&gt;Network: 1x100Gbit/s Mellanox ConnectX-5&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Software
-    &lt;ul&gt;
-      &lt;li&gt;Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://github.com/zrlio/crail&quot;&gt;Crail 1.0&lt;/a&gt;, commit a45c8382050f471e9342e1c6cf25f9f2001af6b5&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;&quot;&gt;Crail Shuffle plugin&lt;/a&gt;, commit 2273b5dd53405cab3389f5c1fc2ee4cd30f02ae6&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;https://github.com/Mellanox/SparkRDMA&quot;&gt;SparkRDMA&lt;/a&gt;, commit d95ce3e370a8e3b5146f4e0ab5e67a19c6f405a5 (latest master on 8th of November 2017)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-Lately there has been an increasing interest in the community to include RDMA networking into data processing frameworks like Spark and Hadoop. One natural spot to integrate RDMA is in the shuffle operation that involves all-to-all network communication pattern. Naturally, due to its performance requirements the shuffle operation is of interest to us as well, and we have developed a Spark plugin for shuffle. In our previous blog posts, we have already shown that the Crail Shuffler achieves great workload-level speedups compared to vanilla Spark. In this blog post, we take a look at another recently proposed design called &lt;a href=&quot;https://github.com/Mellanox/SparkRDMA&quot;&gt;SparkRDMA&lt;/a&gt; (&lt;a href=&quot;https://issues.apache.org/jira/browse/SPARK-22229&quot;&gt;SPARK-22229 JIRA&lt;/a&gt;). SparkRDMA proposes to improve the shuffle performance of Spark by performing data transfers over RDMA. For this, the code manages its own off-heap memory which needs to be registered with the NIC for RDMA use. It supports two ways to store shuffle data between the stages: (1) shuffle data is stored in regular files (just like vanilla Spark) but the data transfer is implemented via RDMA, (2) data is stored in memory (allocated and registered for RDMA transfer) and the data transfer is implemented via RDMA. We call it the &quot;last-mile&quot; approach where just the networking operations are replaced by the RDMA operations.
-&lt;/p&gt;
-&lt;p&gt;
-In contrast, the Crail shuffler plugin takes a more holistic approach and leverages the high performance of Crail distributed data store to deliver gains. It uses Crail store to efficiently manage I/O resources, storage and networking devices, memory registrations, client sessions, data distribution, etc. Consequently, the shuffle operation becomes as simple as writing and reading files. And recall that Crail store is designed as a fast data bus for the intermediate data. The shuffle operation is just one of many operations that can be accelerated using Crail store. Beyond these operations, the modular architecture of Crail store enables us to seamlessly leverage different storage types (DRAM, NVMe, and more), perform tiering, support disaggregation, share inter-job data, jointly optimize I/O resources for various workloads, etc. These capabilities and performance gains give us confidence in the design choices we made for the Crail project.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;performance-comparison&quot;&gt;Performance comparison&lt;/h3&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;Lets start by quantitatively assessing performance gains from the Crail shuffle plugin and SparkRDMA. As described above, SparkRDMA can be operated in two different modes. Users decide which mode to use by selecting a particular type of shuffle writer (spark.shuffle.rdma.shuffleWriterMethod). The Wrapper shuffle writer writes shuffle data to files between the stages, the Chunked shuffle writer stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/rdma-shuffle/terasort.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-First we run &lt;a href=&quot;https://github.com/zrlio/crail-spark-terasort&quot;&gt;terasort&lt;/a&gt; on our 8+1 machine cluster (see above). We sort 200GB, thus, each node gets 25GB of data (equal distribution). We further did a basic search of the parameter space for each of the systems to find the best possible configuration. In all the experiments we use 8 executors with 12 cores each. Note that in a typical Spark run more CPU cores than assigned are engaged because of garbabge collection, etc. In our test runs assigning 12 cores lead to the best performance.
-&lt;/p&gt;
-&lt;p&gt;
-The plot above shows runtimes of the various configuration we run with terasort. SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. On a quick inspection we found that this overhead stems from memory allocation and registration for the shuffle data that is kept in memory between the stages. Compared to vanilla Spark, Crail's shuffle plugin shows performance improvement of around 235%.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/rdma-shuffle/sql.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-For our second workload we choose the &lt;a href=&quot;https://github.com/zrlio/sql-benchmarks&quot;&gt;SQL equijoin&lt;/a&gt; with a &lt;a href=&quot;https://github.com/zrlio/spark-nullio-fileformat&quot;&gt;special fileformat&lt;/a&gt; that allows data to be generated on the fly. By generating data on the fly we eliminate any costs for reading data from storage and focus entirely on the shuffle performance. The shuffle data size is around 148GB. Here the Wrapper shuffle writer is slightly slower than vanilla Spark but instead the Chunked shuffle writer is roughly the same amount faster. The Crail shuffle plugin again delivers a great performance increase over vanilla Spark.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;Please let us know if your have recommendations about how these experiments can be improved.&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-These benchmarks validate our belief that a &quot;last-mile&quot; integration cannot deliver the same performance gains as a holistic approach, i.e. one has to look at the whole picture in how to integrate RDMA into Spark applications (and for that matter any framework or application). Only replacing the data transfer alone does not lead to the anticipated performance increase. We learned this the hard way when we intially started working on Crail.
-&lt;/p&gt;
-
-&lt;/div&gt;</content><author><name>Jonas Pfefferle, Patrick Stuedi, Animesh Trivedi, Bernard Metzler, Adrian Schuepbach</name></author><category term="blog" /><summary type="html">This blog is comparing the shuffle performance of Crail with SparkRDMA, an alternative RDMA-based shuffle plugin for Spark.</summary></entry><entry><title type="html">Crail Storage Performance – Part II: NVMf</title><link href="http://crail.incubator.apache.org//blog/2017/08/crail-nvme-fabrics-v1.html" rel="alternate" type="text/html" title="Crail Storage Performance -- Part II: NVMf" /><published>2017-08-22T00:00:00+02:00</published><updated>2017-08-22T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2017/08/crail-nvme-fabrics-v1</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/08/crail-nvme-fabrics-v1.html">&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-This is part II of our series of posts discussing Crail's raw storage performance. This part is about Crail's NVMe storage tier, a low-latency flash storage backend for Crail completely based on user-level storage access.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;hardware-configuration&quot;&gt;Hardware Configuration&lt;/h3&gt;
-
-&lt;p&gt;The specific cluster configuration used for the experiments in this blog:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Cluster
-    &lt;ul&gt;
-      &lt;li&gt;8 node OpenPower cluster&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Node configuration
-    &lt;ul&gt;
-      &lt;li&gt;CPU: 2x OpenPOWER Power8 10-core @2.9Ghz&lt;/li&gt;
-      &lt;li&gt;DRAM: 512GB DDR4&lt;/li&gt;
-      &lt;li&gt;4x 512 GB Samsung 960Pro NVMe SSDs (512Byte sector size, no metadata)&lt;/li&gt;
-      &lt;li&gt;Network: 1x100Gbit/s Mellanox ConnectX-4 IB&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Software
-    &lt;ul&gt;
-      &lt;li&gt;RedHat 7.3 with Linux kernel version 3.10&lt;/li&gt;
-      &lt;li&gt;Crail 1.0, internal version 2843&lt;/li&gt;
-      &lt;li&gt;SPDK git commit 5109f56ea5e85b99207556c4ff1d48aa638e7ceb with patches for POWER support&lt;/li&gt;
-      &lt;li&gt;DPDK git commit bb7927fd2179d7482de58d87352ecc50c69da427&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;the-crail-nvmf-storage-tier&quot;&gt;The Crail NVMf Storage Tier&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Crail is a framework that allows arbitrary storage backends to be added by implementing the Crail storage interface. A storage backend manages the point-to-point data transfers on a per block granularity between a Crail client and a set of storage servers. The Crail storage interface essentially consists of three virtual functions, which simplified look like this:
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//Server-side interface: donate storage resources to Crail
-StorageResource allocateResource();
-//Client-side interface: read/write remote/local storage resources
-writeBlock(BlockInfo, ByteBuffer);
-readBlock(BlockInfo, ByteBuffer);
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-A specific implementation of this interface provides an efficient mapping of Crail storage operations to the actual storage and network hardware the backend is exporting. Crail comes with two native storage backends, an RDMA-based DRAM backend and an RDMA-based NVMe backend, but other storage backends are available as well (e.g., Netty) and we plan to provide more custom backends in the future as new storage and network technologies are emerging. 
-&lt;/p&gt;
-&lt;p&gt;
-The Crail NVMf storage backend we evaluate in this blog provides user-level access to local and remote flash through the NVMe over Fabrics protocol. Crail NVMf is implemented using &lt;a href=&quot;https://github.com/zrlio/disni&quot;&gt;DiSNI&lt;/a&gt;, a user-level network and storage interface for Java offering both RDMA and NVMf APIs. DiSNI itself is based on &lt;a href=&quot;http://www.spdk.io&quot;&gt;SPDK&lt;/a&gt; for its NVMf APIs. 
-&lt;/p&gt;
-&lt;p&gt;
-The server side of the NVMf backend is designed in a way that each server process manages exactly one NVMe drive. On hosts with multiple NVMe drives one may start several Crail NVMf servers. A server is setting up an NVMf target through DiSNI and implements the allocateResource() storage interface by allocating storage regions from the NVMe drive (basically splits up the NVMe namespace into smaller segments). The Crail storage runtime makes information about storage regions available to the Crail namenode, from where regions are further broken down into smaller units called blocks that make up files in Crail.
-&lt;/p&gt;
-&lt;p&gt;
-The Crail client runtime invokes the NVMf client interface during file read/write operations for all data transfers on NVMf blocks. Using the block information provided by the namenode, the NVMf storage client implementation is able to connect to the appropriate NVMf target and perform the data operations using DiSNI's NVMf API.
-&lt;/p&gt;
-&lt;p&gt;
-One downside of the NVMe interface is that byte level access is prohibited. Instead data operations have to be issued for entire drive sectors which are typically 512Byte or 4KB large (we used 512Byte sector size in all the experiments shown in this blog). As we wanted to use the standard NVMf protocol (and Crail has a client driven philosophy) we needed to implement byte level access at the client side. For reads this can be achieved in a straight forward way by reading the whole sector and copying out the requested part. For writes that modify a certain subrange of a sector that has already been written before we need to do a read modify write operation.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;performance-comparison-to-native-spdk-nvmf&quot;&gt;Performance comparison to native SPDK NVMf&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-We perform latency and throughput measurement of our Crail NVMf storage tier against a native SPDK NVMf benchmark to determine how much overhead our implementation adds. The first plot shows random read latency on a single 512GB Samsung 960Pro accessed remotely through SPDK. For Crail we also show the time it takes to perform a metadata operations. You can run the Crail benchmark from the command line like this:
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/crail iobench -t readRandom -b false -s &amp;lt;size&amp;gt; -k &amp;lt;iterations&amp;gt; -w 32 -f /tmp.dat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;and SPDK:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./perf -q 1 -s &amp;lt;size&amp;gt; -w randread -r 'trtype:RDMA adrfam:IPv4 traddr:&amp;lt;ip&amp;gt; trsvcid:&amp;lt;port&amp;gt;' -t &amp;lt;time in seconds&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-The main take away from this plot is that the time it takes to perform a random read operation on a NVMe-backed file in Crail takes only about 7 microseconds more time than fetching the same amount of data over a point-to-point SPDK connection. This is impressive because it shows that using Crail a bunch of NVMe drives can be turned into a fully distributed storage space at almost no extra cost. The 7 microseconds are due to Crail having to look up the specific NVMe storage node that holdes the data -- an operation which requires one extra network roundtrip (client to namenode). The experiment represents an extreme case where no metadata is cached at the client. In practice, file blocks are often accessed multiple times in which case the read latency is further reduced. Also note that unlike SPDK which is a native library, Crail delivers data directly into Java off-heap memory. 
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/crail-nvmf/latency.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-The second plot shows sequential read and write throughput with a transfer size of 64KB and 128 outstanding operations. The Crail throughput benchmark can be run like this:
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/crail iobench -t readAsync -s 65536 -k &amp;lt;iterations&amp;gt; -b 128 -w 32 -f /tmp.dat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;and SPDK:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./perf -q 128 -s 65536 -w read -r 'trtype:RDMA adrfam:IPv4 traddr:&amp;lt;ip&amp;gt; trsvcid:&amp;lt;port&amp;gt;' -t &amp;lt;time in seconds&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-For sequential operations in Crail, metadata fetching is inlined with data operations as described in the &lt;a href=&quot;http://crail.incubator.apache.org/blog/2017/08/crail-memory.html&quot;&gt;DRAM&lt;/a&gt; blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier reaches the same throughput as the native SPDK benchmark (device limit).
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/crail-nvmf/throughput.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;sequential-throughput&quot;&gt;Sequential Throughput&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Let us look at the sequential read and write throughput for buffered and direct streams and compare them to a buffered Crail stream on DRAM. All benchmarks are single thread/client performed against 8 storage nodes with 4 drives each, cf. configuration above. In this benchmark we use 32 outstanding operations for the NVMf storage tier buffered stream experiments by using a buffer size of 16MB and a slice size of 512KB, cf. &lt;a href=&quot;http://crail.incubator.apache.org/blog/2017/07/crail-memory.html&quot;&gt;part I&lt;/a&gt;. The buffered stream reaches line speed at a transfer size of around 1KB and shows only slightly slower performance when compared to the DRAM tier buffered stream. However we are only using 2 outstanding operations with the DRAM tier to achieve these results. Basically for sizes smaller than 1KB the buffered stream is limited by the copy speed to fill the application buffer. The direct stream reaches line speed at around 128KB with 128 outstanding operations. Here no copy operation is performed for transfer size greater than 512Byte (sector size). The command to run the Crail buffered stream benchmark:
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/crail iobench -t read -s &amp;lt;size&amp;gt; -k &amp;lt;iterations&amp;gt; -w 32 -f /tmp.dat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;The direct stream benchmark:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/crail iobench -t readAsync -s &amp;lt;size&amp;gt; -k &amp;lt;iterations&amp;gt; -b 128 -w 32 -f /tmp.dat
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/crail-nvmf/throughput2.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;random-read-latency&quot;&gt;Random Read Latency&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Random read latency is limited by the flash technology and we currently see around 70us when performing sector size accesses to the device with the Crail NVMf backend. In comparison, remote DRAM latencies with Crail are about 7-8x faster. However, we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10us. Considering that there is an overhead of around 10us to access a drive with Crail from anywhere in the cluster, using such a device would put random read latencies somewhere around 20us which is only half the performance of our DRAM tier.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/crail-nvmf/latency2.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;tiering-dram---nvmf&quot;&gt;Tiering DRAM - NVMf&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. As described in the &lt;a href=&quot;http://crail.incubator.apache.org/overview/&quot;&gt;overview&lt;/a&gt; section, if you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail by default first uses up all available resources of the faster tier. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash), motivated by the fast network. This is what we call horizontal tiering.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/crail-nvmf/crail_tiering.png&quot; width=&quot;500&quot; vspace=&quot;10&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-In the following 200G Terasort experiment we gradually limit the DRAM resources in Crail while adding more flash to the Crail NVMf storage tier. Note that here Crail is used for both input/output as well as shuffle data. The figure shows that by putting all the data in flash we only increase the sorting time by around 48% compared to the configuration where all the data resides in DRAM. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease. Also, note that even with 100% of the data in NVMe, Spark/Crail is still faster than vanilla Spark with all the data in memory. The vanilla Spark experiment uses Alluxio for input/output and RamFS for the shuffle data.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;http://crail.incubator.apache.org/img/blog/crail-nvmf/tiering.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-
-&lt;p&gt;To summarize, in this blog we have shown that the NVMf storage backend for Crail – due to its efficient user-level implementation – offers latencies and throughput very close to the hardware speed. The Crail NVMf storage tier can be used conveniently in combination with the Crail DRAM tier to either save cost or to handle situations where the available DRAM is not sufficient to store the working set of a data processing workload.&lt;/p&gt;</content><author><name>Jonas Pfefferle</name></author><category term="blog" /><summary type="html">This is part II of our series of posts discussing Crail's raw storage performance. This part is about Crail's NVMe storage tier, a low-latency flash storage backend for Crail completely based on user-level storage access.</summary></entry></feed>
+&lt;/div&gt;</content><author><name>Adrian Schuepbach and Patrick Stuedi</name></author><category term="blog" /><summary type="html">This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.</summary></entry><entry><title type="html">Floss</title><link href="http://crail.incubator.apache.org//blog/2017/11/floss.html" rel="alternate" type="text/html" title="Floss" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/floss</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/floss.html">&lt;p&gt;Crail features in the &lt;a href=&quot;https://twit.tv/shows/floss-weekly/episodes/458?autostart=false&quot;&gt;FLOSS weekly podcast&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail features in the FLOSS weekly podcast</summary></entry><entry><title type="html">Blog</title><link href="http://crail.incubator.apache.org//blog/2017/11/blog.html" rel="alternate" type="text/html" title="Blog" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/blog</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/blog.html">&lt;p&gt;New blog &lt;a href=&quot;http://crail.incubator.apache.org/blog/2017/11/rdmashuffle.html&quot;&gt;post&lt;/a&gt; about SparkRDMA and Crail shuffle plugins&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about SparkRDMA and Crail shuffle plugins</summary></entry></feed>
