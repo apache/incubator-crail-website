@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>The Apache Crail (Incubating) Project: SQL Performance: Part 1 - Input File Formats</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="http://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
-        <link href="http://crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
         <link rel="alternate" type="application/atom+xml" title="Atom"
-            href="http://crail.incubator.apache.org/blog/blog.xml">
+            href="//crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="http://crail.incubator.apache.org/img/blog/preview/sql-p1-summary.png" />
-        <meta property="og:image:secure_url" content="http://crail.incubator.apache.org/img/blog/preview/sql-p1-summary.png" />
+        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/sql-p1-summary.png" />
+        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/sql-p1-summary.png" />
     </head>
 
     <body>
@@ -21,50 +21,50 @@
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/">
+                  <a href="//crail.incubator.apache.org/">
                     Home
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/overview/">
+                  <a href="//crail.incubator.apache.org/overview/">
                     Overview
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/download/">
+                  <a href="//crail.incubator.apache.org/download/">
                     Downloads
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/blog/">
+                  <a href="//crail.incubator.apache.org/blog/">
                     Blog
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/community/">
+                  <a href="//crail.incubator.apache.org/community/">
                     Community
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/documentation/">
+                  <a href="//crail.incubator.apache.org/documentation/">
                     Documentation
                   </a>
                 </li>
               
             </ul>
-            <a href="http://crail.incubator.apache.org/">
-                <img src="http://crail.incubator.apache.org/img/crail_logo.png"
-                    srcset="http://crail.incubator.apache.org/img/crail_logo.png"
+            <a href="//crail.incubator.apache.org/">
+                <img src="//crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
                     alt="Crail" id="logo">
             </a>
           </div>
@@ -114,11 +114,11 @@ This is the first blog post in a multi-part series where we will focus on relati
 
 <p>In a typical cloud-based relational data processing setup, the input data is stored on an external data storage solution like HDFS or AWS S3. Data tables and their associated schema are converted into a storage-friendly format for optimal performance. Examples of some popular and familiar file formats are <a href="https://parquet.apache.org/">Apache Parquet</a>, <a href="https://orc.apache.org/">Apache ORC</a>, <a href="https://avro.apache.org/">Apache Avro</a>, <a href="https://en.wikipedia.org/wiki/JSON">JSON</a>, etc. More recently, <a href="https://arrow.apache.org/">Apache Arrow</a> has been introduced to standardize the in-memory columnar data representation between multiple frameworks. There is no one size fits all as all these formats have their own strengths, weaknesses, and features. In this blog, we are specifically interested in the performance of these formats on modern high-performance networking and storage devices.</p>
 
-<figure><div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sql-p1/outline.svg" width="550" /><figcaption>Figure 1: The benchmarking setup with HDFS and file formats on a 100 Gbps network with NVMe flash devices. All formats contains routines for compression, encoding, and value materialization with associated I/O buffer management and data copies routines.<p></p></figcaption></div></figure>
+<figure><div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/sql-p1/outline.svg" width="550" /><figcaption>Figure 1: The benchmarking setup with HDFS and file formats on a 100 Gbps network with NVMe flash devices. All formats contains routines for compression, encoding, and value materialization with associated I/O buffer management and data copies routines.<p></p></figcaption></div></figure>
 
 <p>To benchmark the performance of file formats, we wrote a set of micro-benchmarks which are available at <a href="https://github.com/zrlio/fileformat-benchmarks">https://github.com/zrlio/fileformat-benchmarks</a>. We cannot use typical SQL micro-benchmarks because every SQL engine has its own favorite file format, on which it performs the best. Hence, in order to ensure parity, we decoupled the performance of reading the input file format from the SQL query processing by writing simple table reading micro-benchmarks. Our benchmark reads in the store_sales table from the TPC-DS dataset (scale factor 100), and calculates a sum of values present in the table. The table contains 23 columns of integers, doubles, and longs.</p>
 
-<figure><div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sql-p1/performance-all.svg" width="550" /><figcaption>Figure 2: Performance of JSON, Avro, Parquet, ORC, and Arrow on NVMe devices over a 100 Gbps network.<p></p></figcaption></div></figure>
+<figure><div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/sql-p1/performance-all.svg" width="550" /><figcaption>Figure 2: Performance of JSON, Avro, Parquet, ORC, and Arrow on NVMe devices over a 100 Gbps network.<p></p></figcaption></div></figure>
 
 <p>We evaluate the performance of the benchmark on a 3 node HDFS cluster connected using 100 Gbps RoCE. One datanode in HDFS contains 4 NVMe devices with a collective aggregate bandwidth of 12.5 GB/sec (equals to 100 Gbps, hence, we have a balanced network and storage performance). Figure 2 shows our results where none of the file formats is able to deliver the full hardware performance for reading input files. One third of the performance is already lost in HDFS (maximum throughput 74.9 Gbps out of possible 100 Gbps). The rest of the performance is lost inside the file format implementation, which needs to deal with encoding, buffer and I/O management, compression, etc. The best performer is Apache Arrow which is designed for in-memory columnar datasets. The performance of these file formats are bounded by the performance of the CPU, which is 100% loaded during the experiment. For a detailed analysis of the file formats, please refer to our paper - <a href="https://www.usenix.org/conference/atc18/presentation/trivedi">Albis: High-Performance File Format for Big Data Systems (USENIX, ATC’18)</a>.</p>
 
@@ -132,7 +132,7 @@ This is the first blog post in a multi-part series where we will focus on relati
   <li>Careful object materialization using a binary API: To optimize the runtime representation in managed runtimes like the JVM, only objects which are necessary for SQL processing are materialized. Otherwise, a 4 byte integer can be passed around as a byte array (using the binary API of Albis).</li>
 </ul>
 
-<figure><div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sql-p1/core-scalability.svg" width="550" /><figcaption>Figure 3: Core scalability of JSON, Avro, Parquet, ORC, Arrow, and Albis on HDFS/NVMe.<p></p></figcaption></div></figure>
+<figure><div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/sql-p1/core-scalability.svg" width="550" /><figcaption>Figure 3: Core scalability of JSON, Avro, Parquet, ORC, Arrow, and Albis on HDFS/NVMe.<p></p></figcaption></div></figure>
 
 <p>Using the Albis format, we revise our previous experiment where we read the input store_sales table from HDFS. In the figure above, we show the performance of Albis and other file formats with number of CPU cores involved. At the right hand of the x-axis, we have performance with all 16 cores engaged, hence, representing the peak possible performance. As evident, Albis delivers 59.9 Gbps out of 74.9 Gbps possible bandwidth with HDFS over NVMe. Albis performance is 1.9 - 21.4x better than other file formats. To give an impression where the performance is coming from, in the table below we show some micro-architectural features for Parquet, ORC, Arrow, and Albis. Our previously discussed design ideas in Albis result in a shorter code path (shown as less instructions required for each row), better cache performance (shows as lower cache misses per row), and clearly better performance (shown as nanoseconds required per row for processing). For a detailed evaluation of Albis please refer to our paper.</p>
 
@@ -171,9 +171,9 @@ This is the first blog post in a multi-part series where we will focus on relati
 
 <h3 id="apache-crail-incubating-with-albis">Apache Crail (Incubating) with Albis</h3>
 
-<p>For our final experiment, we try to answer the question what it would take to deliver the full 100 Gbps bandwidth for Albis. Certainly, the first bottleneck is to improve the base storage layer performance. Here we use Apache Crail (Incubating) with its <a href="https://en.wikipedia.org/wiki/NVM_Express#NVMeOF">NVMeF</a> storage tier. This tier uses <a href="https://github.com/zrlio/jNVMf">jNVMf library</a> to implement NVMeF stack in Java. As we have shown in a previous blog <a href="http://crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html">post</a> that Crail’s NVMeF tier can deliver performance (97.8 Gbps) very close to the hardware limits. Hence, Albis with Crail is a perfect setup to evaluate on high-performance NVMe and RDMA devices. Before we get there, let’s get some calculations right. The store_sales table in the TPC-DS dataset has a data density of 93.9% (out of 100 bytes, only 93.9 is data, others are null values). As we measure the goodput, the expected performance of Albis on Crail is 93.9% of 97.8 Gbps, which calculates to 91.8 Gbps. In our experiments, Albis on Crail delivers 85.5 Gbps. Figure 4 shows more detailed results.</p>
+<p>For our final experiment, we try to answer the question what it would take to deliver the full 100 Gbps bandwidth for Albis. Certainly, the first bottleneck is to improve the base storage layer performance. Here we use Apache Crail (Incubating) with its <a href="https://en.wikipedia.org/wiki/NVM_Express#NVMeOF">NVMeF</a> storage tier. This tier uses <a href="https://github.com/zrlio/jNVMf">jNVMf library</a> to implement NVMeF stack in Java. As we have shown in a previous blog <a href="//crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html">post</a> that Crail’s NVMeF tier can deliver performance (97.8 Gbps) very close to the hardware limits. Hence, Albis with Crail is a perfect setup to evaluate on high-performance NVMe and RDMA devices. Before we get there, let’s get some calculations right. The store_sales table in the TPC-DS dataset has a data density of 93.9% (out of 100 bytes, only 93.9 is data, others are null values). As we measure the goodput, the expected performance of Albis on Crail is 93.9% of 97.8 Gbps, which calculates to 91.8 Gbps. In our experiments, Albis on Crail delivers 85.5 Gbps. Figure 4 shows more detailed results.</p>
 
-<figure><div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/sql-p1/albis-crail.svg" width="550" /><figcaption>Figure 4: Performance of Albis on Crail.<p></p></figcaption></div></figure>
+<figure><div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/sql-p1/albis-crail.svg" width="550" /><figcaption>Figure 4: Performance of Albis on Crail.<p></p></figcaption></div></figure>
 
 <p>The left half of the figure shows the performance scalability of Albis on Crail in a setup with 1 core (8.9 Gbps) to 16 cores (85.5 Gbps). In comparison, the right half of the figure shows the performance of Crail on HDFS/NVMe at 59.9 Gbps, and on Crail/NVMe at 85.5 Gbps. The last bar shows the performance of Albis if the benchmark does not materialize Java object values. In this configuration, Albis on Crail delivers 91.3 Gbps, which is very close to the expected peak of 91.8 Gbps.</p>
 
@@ -227,6 +227,6 @@ s.setAttribute('data-timestamp', +new Date());
 
         <!-- Support retina images. -->
         <script type="text/javascript"
-            src="http://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
     </body>
 </html>

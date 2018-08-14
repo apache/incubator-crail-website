@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>The Apache Crail (Incubating) Project: Spark Shuffle: SparkRDMA vs Crail</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="http://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
-        <link href="http://crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
         <link rel="alternate" type="application/atom+xml" title="Atom"
-            href="http://crail.incubator.apache.org/blog/blog.xml">
+            href="//crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="http://crail.incubator.apache.org/img/blog/preview/rdmashuffle-summary.png" />
-        <meta property="og:image:secure_url" content="http://crail.incubator.apache.org/img/blog/preview/rdmashuffle-summary.png" />
+        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/rdmashuffle-summary.png" />
+        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/rdmashuffle-summary.png" />
     </head>
 
     <body>
@@ -21,50 +21,50 @@
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/">
+                  <a href="//crail.incubator.apache.org/">
                     Home
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/overview/">
+                  <a href="//crail.incubator.apache.org/overview/">
                     Overview
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/download/">
+                  <a href="//crail.incubator.apache.org/download/">
                     Downloads
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/blog/">
+                  <a href="//crail.incubator.apache.org/blog/">
                     Blog
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/community/">
+                  <a href="//crail.incubator.apache.org/community/">
                     Community
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="http://crail.incubator.apache.org/documentation/">
+                  <a href="//crail.incubator.apache.org/documentation/">
                     Documentation
                   </a>
                 </li>
               
             </ul>
-            <a href="http://crail.incubator.apache.org/">
-                <img src="http://crail.incubator.apache.org/img/crail_logo.png"
-                    srcset="http://crail.incubator.apache.org/img/crail_logo.png"
+            <a href="//crail.incubator.apache.org/">
+                <img src="//crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
                     alt="Crail" id="logo">
             </a>
           </div>
@@ -125,7 +125,7 @@ In contrast, the Crail shuffler plugin takes a more holistic approach and levera
 <p>Lets start by quantitatively assessing performance gains from the Crail shuffle plugin and SparkRDMA. As described above, SparkRDMA can be operated in two different modes. Users decide which mode to use by selecting a particular type of shuffle writer (spark.shuffle.rdma.shuffleWriterMethod). The Wrapper shuffle writer writes shuffle data to files between the stages, the Chunked shuffle writer stores shuffle data in memory. We evaluate both writer methods for terasort and SQL equijoin.
 </p>
 </div>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/rdma-shuffle/terasort.svg" width="550" /></div>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/rdma-shuffle/terasort.svg" width="550" /></div>
 <p><br /></p>
 <div style="text-align: justify">
 <p>
@@ -135,7 +135,7 @@ First we run <a href="https://github.com/zrlio/crail-spark-terasort">terasort</a
 The plot above shows runtimes of the various configuration we run with terasort. SparkRDMA with the Wrapper shuffle writer performance slightly better (3-4%) than vanilla Spark whereas the Chunked shuffle writer shows a 30% overhead. On a quick inspection we found that this overhead stems from memory allocation and registration for the shuffle data that is kept in memory between the stages. Compared to vanilla Spark, Crail's shuffle plugin shows performance improvement of around 235%.
 </p>
 </div>
-<div style="text-align:center"><img src="http://crail.incubator.apache.org/img/blog/rdma-shuffle/sql.svg" width="550" /></div>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/rdma-shuffle/sql.svg" width="550" /></div>
 <p><br /></p>
 
 <div style="text-align: justify">
@@ -197,6 +197,6 @@ s.setAttribute('data-timestamp', +new Date());
 
         <!-- Support retina images. -->
         <script type="text/javascript"
-            src="http://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
     </body>
 </html>
