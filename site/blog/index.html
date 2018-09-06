@@ -17,7 +17,11 @@ tags: [] #list of tags that you want to show in description of blog
         </h3>
         {% endif %}
     </a>
-    <p class="post-meta">Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}</p>
+		{% if post.mode == "guest" %}
+    <p class="post-meta"><b>User Post</b> by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}</p>
+		{% else %}
+    <p class="post-meta"><b>Developer Post</b> by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}</p>
+    {% endif %}
 </div>
 <hr>
 {% endfor %}

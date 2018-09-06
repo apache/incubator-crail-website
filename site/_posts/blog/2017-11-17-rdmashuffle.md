@@ -3,7 +3,7 @@ layout: post
 title: "Spark Shuffle: SparkRDMA vs Crail"
 author: Jonas Pfefferle, Patrick Stuedi, Animesh Trivedi, Bernard Metzler, Adrian Schuepbach
 category: blog
-comments: true
+mode: guest
 ---
 
 <div style="text-align: justify">

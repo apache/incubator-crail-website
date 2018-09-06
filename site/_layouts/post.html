@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<p class="meta">{{ page.date | date_to_string }}</p>
+<p class="meta">{{ page.date | date_to_string }}, {% if page.mode == "guest" %} <mark>this is a blog post from a user of the Crail project.</mark> {% endif %} </p>
 
 <div class="post">
 {{ content }}
