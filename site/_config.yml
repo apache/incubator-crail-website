@@ -26,7 +26,7 @@ categories: [blog, news]
 front_page_news: 5
 
 # Base pathname for links.
-#base: '//crail.incubator.apache.org'
+base: '//crail.incubator.apache.org'
 #base: '//127.0.0.1:4000/'
 
 
