@@ -3,16 +3,21 @@ layout: default
 title: Downloads
 ---
 
+Apache Crail 1.1-incubating
+
 ### Source Release ###
 
-Apache Crail 1.0-incubating
+[tar.gz](https://www.apache.org/dyn/closer.lua/incubator/crail/1.1-incubating/apache-crail-1.1-incubating-src.tar.gz) | [sha512](https://www.apache.org/dist/incubator/crail/1.1-incubating/apache-crail-1.1-incubating-src.tar.gz.sha512) | [signature](https://www.apache.org/dist/incubator/crail/1.1-incubating/apache-crail-1.1-incubating-src.tar.gz.asc)
 
-[zip](https://www.apache.org/dyn/closer.lua/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip) | [sha256](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip.sha256) | [signature](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.zip.asc)
-[tar.gz](https://www.apache.org/dyn/closer.lua/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz) | [sha256](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz.sha256) | [signature](https://www.apache.org/dist/incubator/crail/1.0-incubating/apache-crail-1.0-incubating-src.tar.gz.asc)
+### Non-Official Binary Release ###
+
+**DISCLAIMER**: This is **NOT** an official Apache binary release. Use at your own risk.
+
+[tar.gz](https://www.apache.org/dyn/closer.lua/incubator/crail/1.1-incubating/apache-crail-1.1-incubating-bin.tar.gz) | [sha512](https://www.apache.org/dist/incubator/crail/1.1-incubating/apache-crail-1.1-incubating-bin.tar.gz.sha512) | [signature](https://www.apache.org/dist/incubator/crail/1.1-incubating/apache-crail-1.1-incubating-bin.tar.gz.asc)
 
 ### Release Notes ###
 
-The latest release notes can be found [here](https://github.com/apache/incubator-crail/blob/master/HISTORY.md)
+The latest release notes can be found [here](https://github.com/apache/incubator-crail/blob/v1.1/HISTORY.md)
 
 ### Previous Releases ###
 
