@@ -1,0 +1,215 @@
+/* Space out content a bit */
+ html {
+    overflow:scroll;    
+} 
+
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+  text-align: center;
+  font-size: 0.8em;
+  clear: both;
+}
+.footer p {
+  margin: 0.1em 0;
+}
+.footer a:link, .footer a:visited {
+  color: #777;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 767px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Jumbotron */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron p {
+    font-size: 15px;
+}
+.jumbotron {
+    padding-top: 18px;
+    padding-bottom: 10px;
+}
+
+/* Group logo */
+#logo {
+    height: 35px;
+    margin: 2px 0 8px 0;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .footer {
+    clear: both;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+
+/* Slightly better-looking header on mobile. */
+@media screen and (max-width: 767px) {
+    .nav-pills {
+        display: block;
+        margin: 0 auto 1em;
+    }
+    #logo {
+        display: block;
+        clear: both;
+        margin: 1em auto;
+    }
+}
+
+/* Photo */
+.inset-image {
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* People list */
+
+dl.people dl {
+  width: 100%;
+  clear: both;
+  overflow: hidden; 
+  margin: 0;
+}
+
+dl.people dt {
+  clear: both;
+  float: left;
+  content: " ";
+  width: 15%;
+  margin-bottom: 2em;
+  margin: 0;
+}
+
+dl.people dd {
+  width: 85%; 
+  min-height: 6.5em;
+  margin-bottom: 1em;
+}
+
+
+
+/* Front page news. */
+ul.news .date {
+    color: #999;
+    font-weight: bold;
+    display: block;
+}
+ul.news > li {
+    margin-top: 1em;
+}
+ul.news .shortnews .date {
+    float: left;
+    margin-right: 1em;
+}
+ul.news .bloglink a {
+    font-size: 1.4em;
+}
+
+.illustration {
+    float: right;
+    margin: 0 0 1em 1em;
+}
+
+ul.double-col {
+   columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+   overflow:hidden;
+   width: 800px;
+}
+
+div.bio {
+    margin: 0 0 1em 1em;
+}
+
+ul.double-col li {
+    clear: both;
+    height: auto;
+    display: inline;
+    vertical-align: middle;
+    width: 100%;
+    margin: .5rem 0rem;
+    float: left;
+}
+
+.col-md-8 {
+}
+
+.col-md-4 {
+}
+
+table tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+
+table tr:nth-child(even) {
+    background-color: #F5F5F5;
+}
+
+table tr:first-child th {
+  border-top: 1;
+}
+
+table tr:last-child td {
+  border-bottom: 1;
+}
+
+table tr td:first-child, table tr th:first-child {
+  border-left: 1;
+}
+
+table tr td:last-child, table tr th:last-child {
+  border-right: 1;
+}
+table, th {
+    background-color: #F5F5F5;
+    border-color: lightgrey;
+}
+
+th, td {
+    border: 0.75px solid grey;
+    padding: 7px;
+    line-height: 24px;
+    border-color: lightgrey;
+}

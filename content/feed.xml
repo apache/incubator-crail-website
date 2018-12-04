@@ -1,1 +1,556 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-12-04T15:32:22+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">The Apache Crail (Incubating) Project</title></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2018-12-04T15:47:54+01:00</updated><id>http://crail.incubator.apache.org//</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Sql P1 News</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html" rel="alternate" type="text/html" title="Sql P1 News" /><published>2018-08-09T00:00:00+02:00</published><updated>2018-08-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1-news</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html">&lt;p&gt;A new blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2018/08/sql-p1.html&quot;&gt;post&lt;/a&gt; discussing file formats performance is now online&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A new blog post discussing file formats performance is now online</summary></entry><entry><title type="html">SQL Performance: Part 1 - Input File Formats</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html" rel="alternate" type="text/html" title="SQL Performance: Part 1 - Input File Formats" /><published>2018-08-08T00:00:00+02:00</published><updated>2018-08-08T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+This is the first user blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the  cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are &lt;a href=&quot;https://spark.apache.org/sql/&quot;&gt;Apache Spark/SQL&lt;/a&gt;, &lt;a href=&quot;https://hive.apache.org/&quot;&gt;Apache Hive&lt;/a&gt;, &lt;a href=&quot;https://impala.apache.org/&quot;&gt;Apache Impala&lt;/a&gt;, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;hardware-and-software-configuration&quot;&gt;Hardware and Software Configuration&lt;/h3&gt;
+
+&lt;p&gt;The specific cluster configuration used for the experiments in this blog:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Cluster
+    &lt;ul&gt;
+      &lt;li&gt;4 compute + 1 management node x86_64 cluster&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Node configuration
+    &lt;ul&gt;
+      &lt;li&gt;CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz&lt;/li&gt;
+      &lt;li&gt;DRAM: 256 GB DDR3&lt;/li&gt;
+      &lt;li&gt;Network: 1x100Gbit/s Mellanox ConnectX-5&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Software
+    &lt;ul&gt;
+      &lt;li&gt;Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic&lt;/li&gt;
+      &lt;li&gt;Apache HDFS (2.7.3)&lt;/li&gt;
+      &lt;li&gt;Apache Paruqet (1.8), Apache ORC (1.4), Apache Arrow (0.8), Apache Avro (1.4)&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/apache/incubator-crail/&quot;&gt;Apache Crail (incubating) with NVMeF support&lt;/a&gt;, commit 64e635e5ce9411041bf47fac5d7fadcb83a84355 (since then Crail has a stable source release v1.0 with a newer NVMeF code-base)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;overview&quot;&gt;Overview&lt;/h3&gt;
+
+&lt;p&gt;In a typical cloud-based relational data processing setup, the input data is stored on an external data storage solution like HDFS or AWS S3. Data tables and their associated schema are converted into a storage-friendly format for optimal performance. Examples of some popular and familiar file formats are &lt;a href=&quot;https://parquet.apache.org/&quot;&gt;Apache Parquet&lt;/a&gt;, &lt;a href=&quot;https://orc.apache.org/&quot;&gt;Apache ORC&lt;/a&gt;, &lt;a href=&quot;https://avro.apache.org/&quot;&gt;Apache Avro&lt;/a&gt;, &lt;a href=&quot;https://en.wikipedia.org/wiki/JSON&quot;&gt;JSON&lt;/a&gt;, etc. More recently, &lt;a href=&quot;https://arrow.apache.org/&quot;&gt;Apache Arrow&lt;/a&gt; has been introduced to standardize the in-memory columnar data representation between multiple frameworks. To be precise, Arrow is not a storage format but it defines an &lt;a href=&quot;https://github.com/apache/arrow/blob/master/format/IPC.md&quot;&gt;interprocess communication (IPC) format&lt;/a&gt; that can be used to store data in a stroage system (our binding for reading Arrow IPC messages from HDFS is available &lt;a href=&quot;https://github.com/zrlio/fileformat-benchmarks/blob/master/src/main/java/com/github/animeshtrivedi/FileBench/HdfsSeekableByteChannel.java&quot;&gt;here&lt;/a&gt;). There is no one size fits all as all these formats have their own strengths, weaknesses, and features. In this blog, we are specifically interested in the performance of these formats on modern high-performance networking and storage devices.&lt;/p&gt;
+
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/outline.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 1: The benchmarking setup with HDFS and file formats on a 100 Gbps network with NVMe flash devices. All formats contains routines for compression, encoding, and value materialization with associated I/O buffer management and data copies routines.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;To benchmark the performance of file formats, we wrote a set of micro-benchmarks which are available at &lt;a href=&quot;https://github.com/zrlio/fileformat-benchmarks&quot;&gt;https://github.com/zrlio/fileformat-benchmarks&lt;/a&gt;. We cannot use typical SQL micro-benchmarks because every SQL engine has its own favorite file format, on which it performs the best. Hence, in order to ensure parity, we decoupled the performance of reading the input file format from the SQL query processing by writing simple table reading micro-benchmarks. Our benchmark reads in the store_sales table from the TPC-DS dataset (scale factor 100), and calculates a sum of values present in the table. The table contains 23 columns of integers, doubles, and longs.&lt;/p&gt;
+
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/performance-all.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 2: Performance of JSON, Avro, Parquet, ORC, and Arrow on NVMe devices over a 100 Gbps network.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;We evaluate the performance of the benchmark on a 3 node HDFS cluster connected using 100 Gbps RoCE. One datanode in HDFS contains 4 NVMe devices with a collective aggregate bandwidth of 12.5 GB/sec (equals to 100 Gbps, hence, we have a balanced network and storage performance). Figure 2 shows our results where none of the file formats is able to deliver the full hardware performance for reading input files. One third of the performance is already lost in HDFS (maximum throughput 74.9 Gbps out of possible 100 Gbps). The rest of the performance is lost inside the file format implementation, which needs to deal with encoding, buffer and I/O management, compression, etc. The best performer is Apache Arrow which is designed for in-memory columnar datasets. The performance of these file formats are bounded by the performance of the CPU, which is 100% loaded during the experiment. For a detailed analysis of the file formats, please refer to our paper - &lt;a href=&quot;https://www.usenix.org/conference/atc18/presentation/trivedi&quot;&gt;Albis: High-Performance File Format for Big Data Systems (USENIX, ATC’18)&lt;/a&gt;. As a side-note on the Arrow performance - we have evaluated the performance of &lt;em&gt;implementation of Arrow’s Java library&lt;/em&gt;. As this library has been focused on interactions with off-heap memory, there is a head room for optimizing the HDFS/on-heap reading path of Arrow’s Java library.&lt;/p&gt;
+
+&lt;h3 id=&quot;albis-high-performance-file-format-for-big-data-systems&quot;&gt;Albis: High-Performance File Format for Big Data Systems&lt;/h3&gt;
+
+&lt;p&gt;Based on these findings, we have developed a new file format called Albis. Albis is built on similar design choices as Crail. The top-level idea is to leverage the performance of modern networking and storage devices without being bottleneck by the CPU. While designing Albis we revisited many outdated assumptions about the nature of I/O in a distributed setting, and came up with the following ideas:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;No compression or encoding: Modern network and storage devices are fast. Hence, there is no need to trade CPU cycles for performance. A 4 byte integer should be stored as a 4 byte value.&lt;/li&gt;
+  &lt;li&gt;Keep the data/metadata management simple: Albis splits a table into row and column groups, which are stored in hierarchical files and directories on the underlying file system (e.g., HDFS or Crail).&lt;/li&gt;
+  &lt;li&gt;Careful object materialization using a binary API: To optimize the runtime representation in managed runtimes like the JVM, only objects which are necessary for SQL processing are materialized. Otherwise, a 4 byte integer can be passed around as a byte array (using the binary API of Albis).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/core-scalability.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 3: Core scalability of JSON, Avro, Parquet, ORC, Arrow, and Albis on HDFS/NVMe.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Using the Albis format, we revise our previous experiment where we read the input store_sales table from HDFS. In the figure above, we show the performance of Albis and other file formats with number of CPU cores involved. At the right hand of the x-axis, we have performance with all 16 cores engaged, hence, representing the peak possible performance. As evident, Albis delivers 59.9 Gbps out of 74.9 Gbps possible bandwidth with HDFS over NVMe. Albis performance is 1.9 - 21.4x better than other file formats. To give an impression where the performance is coming from, in the table below we show some micro-architectural features for Parquet, ORC, Arrow, and Albis. Our previously discussed design ideas in Albis result in a shorter code path (shown as less instructions required for each row), better cache performance (shows as lower cache misses per row), and clearly better performance (shown as nanoseconds required per row for processing). For a detailed evaluation of Albis please refer to our paper.&lt;/p&gt;
+
+&lt;table style=&quot;width:100%&quot;&gt;
+  &lt;caption&gt; Table 1: Micro-architectural analysis for Parquet, ORC, Arrow, and Albis on a 16-core Xeon machine.&lt;p&gt;&lt;/p&gt;&lt;/caption&gt;
+  &lt;tr&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;Parquet&lt;/th&gt;
+    &lt;th&gt;ORC&lt;/th&gt; 
+    &lt;th&gt;Arrow&lt;/th&gt;
+    &lt;th&gt;Albis&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Instructions/row&lt;/th&gt;
+    &lt;td&gt;6.6K&lt;/td&gt; 
+    &lt;td&gt;4.9K&lt;/td&gt; 
+    &lt;td&gt;1.9K&lt;/td&gt; 
+    &lt;td&gt;1.6K&lt;/td&gt; 
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Cache misses/row&lt;/th&gt;
+    &lt;td&gt;9.2&lt;/td&gt; 
+    &lt;td&gt;4.6&lt;/td&gt; 
+    &lt;td&gt;5.1&lt;/td&gt; 
+    &lt;td&gt;3.0&lt;/td&gt; 
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Nanoseconds/row&lt;/th&gt;
+    &lt;td&gt;105.3&lt;/td&gt; 
+    &lt;td&gt;63.0&lt;/td&gt; 
+    &lt;td&gt;31.2&lt;/td&gt; 
+    &lt;td&gt;20.8&lt;/td&gt; 
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;apache-crail-incubating-with-albis&quot;&gt;Apache Crail (Incubating) with Albis&lt;/h3&gt;
+
+&lt;p&gt;For our final experiment, we try to answer the question what it would take to deliver the full 100 Gbps bandwidth for Albis. Certainly, the first bottleneck is to improve the base storage layer performance. Here we use Apache Crail (Incubating) with its &lt;a href=&quot;https://en.wikipedia.org/wiki/NVM_Express#NVMeOF&quot;&gt;NVMeF&lt;/a&gt; storage tier. This tier uses &lt;a href=&quot;https://github.com/zrlio/jNVMf&quot;&gt;jNVMf library&lt;/a&gt; to implement NVMeF stack in Java. As we have shown in a previous blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html&quot;&gt;post&lt;/a&gt; that Crail’s NVMeF tier can deliver performance (97.8 Gbps) very close to the hardware limits. Hence, Albis with Crail is a perfect setup to evaluate on high-performance NVMe and RDMA devices. Before we get there, let’s get some calculations right. The store_sales table in the TPC-DS dataset has a data density of 93.9% (out of 100 bytes, only 93.9 is data, others are null values). As we measure the goodput, the expected performance of Albis on Crail is 93.9% of 97.8 Gbps, which calculates to 91.8 Gbps. In our experiments, Albis on Crail delivers 85.5 Gbps. Figure 4 shows more detailed results.&lt;/p&gt;
+
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/albis-crail.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 4: Performance of Albis on Crail.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;The left half of the figure shows the performance scalability of Albis on Crail in a setup with 1 core (8.9 Gbps) to 16 cores (85.5 Gbps). In comparison, the right half of the figure shows the performance of Crail on HDFS/NVMe at 59.9 Gbps, and on Crail/NVMe at 85.5 Gbps. The last bar shows the performance of Albis if the benchmark does not materialize Java object values. In this configuration, Albis on Crail delivers 91.3 Gbps, which is very close to the expected peak of 91.8 Gbps.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+In this first blog of a multipart series, we have looked at the data ingestion performance of file formats on high-performance networking and storage devices. We found that popular file formats are in need for a performance revision. Based on our analysis, we designed and implemented Albis - a new file format for storing relational data. Albis and Crail share many design choices. Their combined performance of 85+ Gbps on a 100 Gbps network, gives us confidence in our approach and underlying software philosophy for both, Crail and Albis. 
+&lt;/p&gt;
+
+&lt;p&gt;
+Stay tuned for the next part where we look at workload-level performance in Spark/SQL on modern high-performance networking and storage devices. Meanwhile let us know if you have any feedback or comments. 
+&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Animesh Trivedi</name></author><category term="blog" /><summary type="html">This is the first user blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are Apache Spark/SQL, Apache Hive, Apache Impala, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.</summary></entry><entry><title type="html">Sparksummit</title><link href="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html" rel="alternate" type="text/html" title="Sparksummit" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/sparksummit</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html">&lt;p&gt;A Spark serverless architecture powered by Crail will be presented today at the &lt;a href=&quot;https://databricks.com/session/serverless-machine-learning-on-modern-hardware-using-apache-spark&quot;&gt;Spark Summit&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A Spark serverless architecture powered by Crail will be presented today at the Spark Summit</summary></entry><entry><title type="html">Dataworks</title><link href="http://crail.incubator.apache.org//blog/2018/06/dataworks.html" rel="alternate" type="text/html" title="Dataworks" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/dataworks</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/dataworks.html">&lt;p&gt;Apache Crail (incubating) to feature in the &lt;a href=&quot;https://dataworkssummit.com/san-jose-2018/session/data-processing-at-the-speed-of-100-gbpsapache-crail-incubating/&quot;&gt;DataWorks Summit&lt;/a&gt; on June 21st&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail (incubating) to feature in the DataWorks Summit on June 21st</summary></entry><entry><title type="html">Apache Release</title><link href="http://crail.incubator.apache.org//blog/2018/06/apache-release.html" rel="alternate" type="text/html" title="Apache Release" /><published>2018-06-04T00:00:00+02:00</published><updated>2018-06-04T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/apache-release</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/apache-release.html">&lt;p&gt;Apache Crail 1.0 incubator &lt;a href=&quot;//crail.incubator.apache.org/download&quot;&gt;release&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail 1.0 incubator release</summary></entry><entry><title type="html">Apache</title><link href="http://crail.incubator.apache.org//blog/2018/01/apache.html" rel="alternate" type="text/html" title="Apache" /><published>2018-01-22T00:00:00+01:00</published><updated>2018-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2018/01/apache</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/01/apache.html">&lt;p&gt;Crail is now an Apache Incubator project!&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail is now an Apache Incubator project!</summary></entry><entry><title type="html">Iops</title><link href="http://crail.incubator.apache.org//blog/2017/11/iops.html" rel="alternate" type="text/html" title="Iops" /><published>2017-11-23T00:00:00+01:00</published><updated>2017-11-23T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/iops</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/iops.html">&lt;p&gt;New blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/11/crail-metadata.html&quot;&gt;post&lt;/a&gt; about Crail’s metadata performance and scalability&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about Crail’s metadata performance and scalability</summary></entry><entry><title type="html">Crail Storage Performance – Part III: Metadata</title><link href="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html" rel="alternate" type="text/html" title="Crail Storage Performance -- Part III: Metadata" /><published>2017-11-21T00:00:00+01:00</published><updated>2017-11-21T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/crail-metadata</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;hardware-configuration&quot;&gt;Hardware Configuration&lt;/h3&gt;
+
+&lt;p&gt;The specific cluster configuration used for the experiments in this blog:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Cluster
+    &lt;ul&gt;
+      &lt;li&gt;8 node x86_64 cluster&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Node configuration
+    &lt;ul&gt;
+      &lt;li&gt;CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz&lt;/li&gt;
+      &lt;li&gt;DRAM: 96GB DDR3&lt;/li&gt;
+      &lt;li&gt;Network: 1x100Gbit/s Mellanox ConnectX-5&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Software
+    &lt;ul&gt;
+      &lt;li&gt;Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic&lt;/li&gt;
+      &lt;li&gt;Crail 1.0, internal version 2993&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;crail-metadata-operation-overview&quot;&gt;Crail Metadata Operation Overview&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+As described in &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-memory.html&quot;&gt;part I&lt;/a&gt;, Crail data operations are composed of actual data transfers and metadata operations. Examples of metadata operations are operations for creating or modifying the state of a file, or operations to lookup the storage server that stores a particular range (block) of a file. In Crail, all the metadata is managed by the namenode(s) (as opposed to the data which is managed by the storage nodes). Clients interact with Crail namenodes via Remote Procedure Calls (RPCs). Crail supports multiple RPC protocols for different types of networks and also offers a pluggable RPC interface so that new RPC bindings can be implemented easily. On RDMA networks, the default DaRPC (&lt;a href=&quot;https://dl.acm.org/citation.cfm?id=2670994&quot;&gt;DaRPC paper&lt;/a&gt;, &lt;a href=&quot;http://github.com/zrlio/darpc&quot;&gt;DaRPC GitHub&lt;/a&gt;) based RPC binding provides the best performance. The figure below gives an overview of the Crail metadata processing in a DaRPC configuration. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/rpc.png&quot; width=&quot;480&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Crail supports partitioning of metadata across several namenods. Thereby, metadata operations issued by clients are hashed to a particular namenode depending on the name of object the operation attempts to create or retrieve. With the DaRPC binding, RPC messages are exchanged using RDMA send/recv operations. At the server, RPC processing is parallelized across different cores. To minimize locking and cache contention, each core handles a disjoint set of client connections. Connections assigned to the same core share the same RDMA completion queue which is processed exclusively by that given core. All the network queues, including send-, recv- and completion queues are mapped into user-space and accessed directly from within the JVM process. Since Crail offers a hierarchical storage namespace, metadata operations to create, delete or rename new storage resources effectively result in modifications to a tree-like data structure at the namenode. These structural operations require a somewhat more expensive locking than the more lightweight operations used to lookup the file status or to extend a file with a new storage block. Consequently, Crail namenodes use two separate data structures to manage metadata: (a) a basic tree data structure that requires directory-based locking, and (b) a fast lock-free map to lookup of storage resources that are currently being read or written.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;experimental-setup&quot;&gt;Experimental Setup&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In two of the previous blogs (&lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-memory.html&quot;&gt;DRAM&lt;/a&gt;, &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html&quot;&gt;NVMf&lt;/a&gt;) we have already shown that Crail metadata operations are very low latency. Essentially a single metadata operation issued by a remote client takes 5-6 microseconds, which is only slightly more than the raw network latency of the RDMA network fabric. In this blog, we want to explore the scalability of Crail's metadata management, that is, the number of clients Crail can support, or how Crail scales as the cluster size increases. The level of scalability of Crail is mainly determined by the number of metadata operations Crail can process concurrently, a metric that is often referred to as IOPS. The higher the number of IOPS the system can handle, the more clients can concurrently use Crail without performance loss. 
+&lt;/p&gt;
+&lt;p&gt;
+An important metadata operation is ''getFile()'', which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation (used by clients to query which storage nodes holds a particular block). In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-memory.html&quot;&gt;DRAM&lt;/a&gt;). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. The basic command of the benchmark as executed by each of the individual clients is given by the following command:
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/crail iobench -t getMultiFileAsync -f / -k 10000000 -b 128
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Where ''-t'' specifies the benchmark to run, ''-f'' specifies the path on the
+Crail file system to be used for the benchmark, ''-k'' specifies the number of
+iterations to be performed by the benchmark
+(how many times will the benchmark execute ''getFile()'') and
+''-b'' specifies the maximum number of requests in flight.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;single-namenode-scalability&quot;&gt;Single Namenode Scalability&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In the first experiment, we measure the aggregated number of metadata operations a single Crail namenode can handle per second. The namenode runs on 8 physical cores with hyper-threading disabled. The result is shown in the first graph below, labeled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightly, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
+&lt;/p&gt;
+&lt;p&gt; 
+As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The basic ib_send_bw command is given below:
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ib_send_bw -s 1 -Q 1 -r 32 -t 32 -n 10000000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Where ''-s 1'' specifies to send packets with a payload of 1 (we don't want to
+measure the transmission time of data, just the number of I/O operations),
+''-Q 1'' specifies not to do CQ moderation, ''-r 32'' specifies the receive
+queue length to be 32, ''-t 32'' specifies the send queue length to be 32
+and ''-n'' specifies the number of
+iterations to be performed by ib_send_bw.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+The line of the raw number of IOPS, labeled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/namenode_ibsend_iops64.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+If one starts ib_send_bw without specifying the queue sizes or whether or not to use CQ moderation, the raw number of IOPS might be higher. This is due to the fact, that the default values of ib_send_bw use a receive queue of 512, a send queue of 128 and CQ moderation of 100, meaning that a new completion is generated only after 100 sends. As comparison, we did this
+measurement too and show the result, labeled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, postlists etc might lead to a higher number of IOPS. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;multiple-namenode-scalability&quot;&gt;Multiple Namenode Scalability&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+To increase the number of IOPS the overall system can handle, we allow starting multiple namenode instances. Hot metadata operations, such as ''getFile()'', are distributed over all running instances of the namenode. ''getFile()'' is implemented such that no synchronization among the namenodes is required. As such, we expect good scalability. The graph below compares the overall IOPS of a system with one namenode to a system with two namenodes and four namenodes.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/namenode_multi64.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+We show in this graph that the system can handle around 17Mio IOPS with two namenodes and 28Mio IOPS with four namenodes (with more than 64 clients we measured the number of IOPS to be slightly higher than 30Mio IOPS). Having multiple namenode instances matters especially with a higher number of clients. In the graph we see that the more clients we have the more we can benefit from a second namenode instance or even more instances.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+We only have 7 physical nodes available to run the client processes. This
+means, after 7 client processes, processes start sharing a physical machine.
+With 64 client processes, each machine runs 9 (10 in one case) client
+instances, which share the cores and the resources of the RDMA hardware.
+We believe this is the reason, why the graphs appear not to scale linearly.
+The number of total IOPS is client-bound, not namenode-bound.
+With more physical machines, we believe that scalability could be shown
+much better. Again, there is absolutely no communication among the
+namenodes happening, which should lead to linear scalability.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;cluster-sizes&quot;&gt;Cluster sizes&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Let us look at a concrete application, which ideally runs on a large cluster:
+TeraSort. In a previous blog, &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/01/sorting.html&quot;&gt;sorting&lt;/a&gt;,
+we analyze performance characteristics of TeraSort on Crail on a big cluster
+of 128 nodes, where we run 384 executors in total. This already proves that
+Crail can at least handle 384 clients. Now we analyze the theoretical number
+of clients without performance loss at the namenode. Still this theoretical
+number is not a hard limit on the number of clients. Just adding more
+clients would start dropping the number of IOPS per client (not at the
+namenode).
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In contrast to the benchmarks above, a real-world application, like TeraSort,
+does not issue RPC requests in a tight loop. It rather does sorting
+(computation), file reading and writing and and of course a certain amount of
+RPCs to manage the files.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+We would like to know how many RPCs a run of TeraSort generates and therefore
+how big the load in terms of number of IOPS is at the namenode for a
+real-world application.
+We run TeraSort on a data set of 200GB and measured the
+number of IOPS at the namenode with 4 executors, 8 executors and 12 executors.
+Every executor runs 12 cores. For this experiment, we use a single namenode
+instance. We plot the distribution of the number of IOPS measured at the
+namenode over the elapsed runtime of the TeraSort application.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/terasort_iops.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+From the graph we pick the peak number of IOPS measured
+throughout the execution time for all three cases. The following table
+shows the three peak IOPS numbers:
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;center&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;#Executor nodes&lt;/th&gt;
+      &lt;th&gt;Measured IOPS&lt;/th&gt;
+      &lt;th&gt;% of single namenode&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td align=&quot;right&quot;&gt;4&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;32k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;0.32%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td align=&quot;right&quot;&gt;8&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;67k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;0.67%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td align=&quot;right&quot;&gt;12&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;107k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;1.07%&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+From this table we see that it scales linearly. Even more important,
+we notice that with 12 nodes we still use only around 1% of the
+number of IOPS a single namenode can handle.
+If we extrapolate this to a
+100%, we can handle a cluster size of almost 1200 nodes (1121 clients being just
+below 10Mio IOPS at the namenode). The
+extrapolated numbers would look like this:
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;center&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;#Namenodes&lt;/th&gt;
+      &lt;th&gt;Max IOPS by  namenodes&lt;/th&gt;
+      &lt;th&gt;#Executor nodes&lt;/th&gt;
+      &lt;th&gt;Extrapolated IOPS&lt;/th&gt;
+      &lt;th&gt;% of all namenodes&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td align=&quot;right&quot;&gt;1&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;10000k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;1121&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;9996k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;99.96%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td align=&quot;right&quot;&gt;1&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;10000k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;1200&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;10730k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;107.3%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td align=&quot;right&quot;&gt;2&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;17000k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;1906&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;16995k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;99.97%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td align=&quot;right&quot;&gt;4&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;30000k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;3364&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;29995k&lt;/td&gt;
+      &lt;td align=&quot;right&quot;&gt;99.98%&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/center&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Of course we know that there is no system with perfect linear scalability.
+But even if we would loose 50% of the number of IOPS (compared to the
+theoretical maximum) on a big cluster, Crail could still handle a cluster size
+of 600 nodes and a single namenode without any performance loss at the
+namenode.
+Should we still want to run an application like TeraSort on a bigger cluster,
+we can add a second namenode or have even more instances of namenodes
+to ensure that clients do not suffer from contention in terms of IOPS at
+the namenode.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+We believe that the combination of benchmarks above, the scalability
+experiments and the real-world
+application of TeraSort shows clearly that Crail and Crail's namenode can handle
+a big cluster of at least several hundreds of nodes, theoretically up to
+1200 nodes with a single namenode and even more with multiple namenodes.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;system-comparison&quot;&gt;System comparison&lt;/h3&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+In this section we compare the number of IOPS Crail can handle to
+two other systems:
+&lt;a href=&quot;http://hadoop.apache.org/&quot;&gt;Hadoop's HDFS namenode&lt;/a&gt; and
+&lt;a href=&quot;https://ramcloud.atlassian.net/wiki/spaces/RAM/overview&quot;&gt;RAMCloud&lt;/a&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+HDFS is a well known distributed file system. Like Crail, HDFS runs
+a namenode and several datanodes. The namenode implements similar functionality
+as Crail's namenode, while HDFS's datanodes provide additional functionality,
+like replication, for example. We are interested in the
+number of IOPS the namenode can handle. As such, the datanode's functionality
+is not relevant for this experiment. HDFS is implemented in Java like Crail.
+Due to this high similarity in terms of functionality and language used to
+implement the system, HDFS is a good candidate to compare Crail to.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+HDFS does not use RDMA to send RPCs. Instead, RPCs are sent over a regular
+IP network. In our case, it is the same 100Gbit/s ethernet-based RoCE network.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+To measure the number of IOPS HDFS's namenode can handle, we run the same
+experiment as for Crail. The clients issue a ''getFile()'' RPC to the
+namenode and we vary the number of clients from 1 to 64. The following
+plot shows the number of IOPS relative to the number of clients.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/namenode_hdfs_iops.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+The graph shows that the namenode can handle around 200000 IOPS. One reason
+for the difference to the number of IOPS of Crail is surely that HDFS does not
+use the capabilities offered by the RDMA network, while Crail does. However
+this cannot be the only reason, why the namenode cannot handle more than
+200000 IOPS. We would need to analyze more deeply where the bottleneck is
+to find an answer. We believe that the amount of code which
+gets executed at probably various layers of the software stack
+is too big to achieve high performance in terms of IOPS.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+RAMCloud is a fast key-value store, which makes use of the RDMA network
+to reach low latency and high throughput. It runs one master coordinator and
+and optionally several slave coordinators, which can take over, if the master
+coordinator fails. Coordinator persistence can be achieved
+by external persistent storage, like Zookeeper or LogCabin.
+RAMCloud runs several storage servers, which
+store key-value pairs in RAM. Optionally, replicas can be stored on secondary
+storage, which provides persistence. RAMCloud is implemented in C++. Therefore
+it is natively compiled code.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+We are interested in the number of IOPS RAMCloud can handle. We decided
+to run the readThroughput benchmark of RAMCloud's ClusterPerf program, which
+measures the number of object reads per second. This is probably the closest
+benchmark to the RPC benchmark of Crail and HDFS.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+For a fair comparison, we run RAMCloud without any persistence, so without
+Zookeeper and without replicas to secondary storage. We run one coordinator
+and one storage server, which is somewhat similar to running one namenode
+in the Crail and HDFS cases. Also, we wanted to vary the number of clients
+from 1 to 64. At the moment we can only get results for up to 16 clients.
+We asked the RAMCloud developers for possible reasons and got to know that the
+reason is a starvation bug in the benchmark (not in the RAMCloud system
+itself). The RAMCloud developers are looking into this issue. We will update
+the blog with the latest numbers as soon as the bug is fixed.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/ramcloud_iops.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+RAMCloud reaches a peak of 1.12Mio IOPS with 14 clients. The utilization of the
+dispatcher thread is at 100% already with 10 clients. Even with more clients,
+the number of IOPS won't get higher than 1.12Mio, because the
+dispatcher thread is the bottleneck, as can be seen in the graph.
+In addition, we got a confirmation from the developers that more than
+10 clients will not increase the number of IOPS.
+So we think that the measurements are not unfair, even if we do not have
+results for more than 16 clients. Again, we we will update the blog
+with a higher number of clients, as soon as the bug is fixed.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+Let us now summarize the number of IOPS of all three systems in one plot
+below. For a fair comparison, Crail runs only one namenode for this
+experiments and we compare the results to RAMCloud with one coordinator and
+one storage server (without replication as described above) and the one
+namenode instance of HDFS. We see that Crail's single namenode can handle
+a much bigger number of RPCs compared to the other two systems (remember
+that Crail can run multiple namenodes and we measured a number of IOPS
+of 30Mio/s with 4 namenodes).
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+HDFS is deployed on production clusters and handles real workloads
+with roughly 200000 IOPS. We believe that Crail, which can handle a much
+bigger number of IOPS, is able to run real workloads on very large
+clusters. A common assumption is that Java-based implementations suffer from
+performance loss. We show that a Java-based system can handle a high amount
+of operations even compared to a C++-based system like RAMCloud.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In this blog we show three key points of Crail: First, Crail's namenode performs the same as ib_send_bw with realistic parameters in terms of IOPS. This shows that the actual processing of the RPC is implemented efficiently. Second, with only one namenode, Crail performs 10x to 50x better than RAMCloud and HDFS, two popular systems, where RAMCloud is RDMA-based and implemented natively. Third, Crail's metadata service can be scaled out to serve large number of clients. We have shown that Crail offers near linear scaling with up to 4 namenodes, offering a performance that is sufficient to serve several 1000s of clients. 
+&lt;/p&gt;
+&lt;/div&gt;</content><author><name>Adrian Schuepbach and Patrick Stuedi</name></author><category term="blog" /><summary type="html">This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.</summary></entry><entry><title type="html">Floss</title><link href="http://crail.incubator.apache.org//blog/2017/11/floss.html" rel="alternate" type="text/html" title="Floss" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/floss</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/floss.html">&lt;p&gt;Crail features in the &lt;a href=&quot;https://twit.tv/shows/floss-weekly/episodes/458?autostart=false&quot;&gt;FLOSS weekly podcast&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail features in the FLOSS weekly podcast</summary></entry><entry><title type="html">Blog</title><link href="http://crail.incubator.apache.org//blog/2017/11/blog.html" rel="alternate" type="text/html" title="Blog" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/blog</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/blog.html">&lt;p&gt;New blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/11/rdmashuffle.html&quot;&gt;post&lt;/a&gt; about SparkRDMA and Crail shuffle plugins&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about SparkRDMA and Crail shuffle plugins</summary></entry></feed>

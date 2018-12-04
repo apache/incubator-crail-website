@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>The Apache Crail (Incubating) Project: Crail Storage Performance -- Part II: NVMf</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link rel="alternate" type="application/atom+xml" title="Atom"
+            href="//crail.incubator.apache.org/blog/blog.xml">
+        
+        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/crail-nvme-fabrics-v1-summary.png" />
+        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/crail-nvme-fabrics-v1-summary.png" />
+    </head>
+
+    <body>
+        <div class="container">
+          <div class="header">
+            <ul class="nav nav-pills pull-right">
+              
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/">
+                    Home
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/overview/">
+                    Overview
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/download/">
+                    Downloads
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/blog/">
+                    Blog
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/community/">
+                    Community
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/documentation/">
+                    Documentation
+                  </a>
+                </li>
+              
+            </ul>
+            <a href="//crail.incubator.apache.org/">
+                <img src="//crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
+                    alt="Crail" id="logo">
+            </a>
+          </div>
+
+          
+          
+          <h2>Crail Storage Performance -- Part II: NVMf</h2>   
+          
+
+          <p class="meta">22 Aug 2017,  </p>
+
+<div class="post">
+<div style="text-align: justify">
+<p>
+This is part II of our series of posts discussing Crail's raw storage performance. This part is about Crail's NVMe storage tier, a low-latency flash storage backend for Crail completely based on user-level storage access.
+</p>
+</div>
+
+<h3 id="hardware-configuration">Hardware Configuration</h3>
+
+<p>The specific cluster configuration used for the experiments in this blog:</p>
+
+<ul>
+  <li>Cluster
+    <ul>
+      <li>8 node OpenPower cluster</li>
+    </ul>
+  </li>
+  <li>Node configuration
+    <ul>
+      <li>CPU: 2x OpenPOWER Power8 10-core @2.9Ghz</li>
+      <li>DRAM: 512GB DDR4</li>
+      <li>4x 512 GB Samsung 960Pro NVMe SSDs (512Byte sector size, no metadata)</li>
+      <li>Network: 1x100Gbit/s Mellanox ConnectX-4 IB</li>
+    </ul>
+  </li>
+  <li>Software
+    <ul>
+      <li>RedHat 7.3 with Linux kernel version 3.10</li>
+      <li>Crail 1.0, internal version 2843</li>
+      <li>SPDK git commit 5109f56ea5e85b99207556c4ff1d48aa638e7ceb with patches for POWER support</li>
+      <li>DPDK git commit bb7927fd2179d7482de58d87352ecc50c69da427</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="the-crail-nvmf-storage-tier">The Crail NVMf Storage Tier</h3>
+
+<div style="text-align: justify"> 
+<p>
+Crail is a framework that allows arbitrary storage backends to be added by implementing the Crail storage interface. A storage backend manages the point-to-point data transfers on a per block granularity between a Crail client and a set of storage servers. The Crail storage interface essentially consists of three virtual functions, which simplified look like this:
+</p>
+</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//Server-side interface: donate storage resources to Crail
+StorageResource allocateResource();
+//Client-side interface: read/write remote/local storage resources
+writeBlock(BlockInfo, ByteBuffer);
+readBlock(BlockInfo, ByteBuffer);
+</code></pre></div></div>
+<div style="text-align: justify"> 
+<p>
+A specific implementation of this interface provides an efficient mapping of Crail storage operations to the actual storage and network hardware the backend is exporting. Crail comes with two native storage backends, an RDMA-based DRAM backend and an RDMA-based NVMe backend, but other storage backends are available as well (e.g., Netty) and we plan to provide more custom backends in the future as new storage and network technologies are emerging. 
+</p>
+<p>
+The Crail NVMf storage backend we evaluate in this blog provides user-level access to local and remote flash through the NVMe over Fabrics protocol. Crail NVMf is implemented using <a href="https://github.com/zrlio/disni">DiSNI</a>, a user-level network and storage interface for Java offering both RDMA and NVMf APIs. DiSNI itself is based on <a href="http://www.spdk.io">SPDK</a> for its NVMf APIs. 
+</p>
+<p>
+The server side of the NVMf backend is designed in a way that each server process manages exactly one NVMe drive. On hosts with multiple NVMe drives one may start several Crail NVMf servers. A server is setting up an NVMf target through DiSNI and implements the allocateResource() storage interface by allocating storage regions from the NVMe drive (basically splits up the NVMe namespace into smaller segments). The Crail storage runtime makes information about storage regions available to the Crail namenode, from where regions are further broken down into smaller units called blocks that make up files in Crail.
+</p>
+<p>
+The Crail client runtime invokes the NVMf client interface during file read/write operations for all data transfers on NVMf blocks. Using the block information provided by the namenode, the NVMf storage client implementation is able to connect to the appropriate NVMf target and perform the data operations using DiSNI's NVMf API.
+</p>
+<p>
+One downside of the NVMe interface is that byte level access is prohibited. Instead data operations have to be issued for entire drive sectors which are typically 512Byte or 4KB large (we used 512Byte sector size in all the experiments shown in this blog). As we wanted to use the standard NVMf protocol (and Crail has a client driven philosophy) we needed to implement byte level access at the client side. For reads this can be achieved in a straight forward way by reading the whole sector and copying out the requested part. For writes that modify a certain subrange of a sector that has already been written before we need to do a read modify write operation.
+</p>
+</div>
+
+<h3 id="performance-comparison-to-native-spdk-nvmf">Performance comparison to native SPDK NVMf</h3>
+
+<div style="text-align: justify"> 
+<p>
+We perform latency and throughput measurement of our Crail NVMf storage tier against a native SPDK NVMf benchmark to determine how much overhead our implementation adds. The first plot shows random read latency on a single 512GB Samsung 960Pro accessed remotely through SPDK. For Crail we also show the time it takes to perform a metadata operations. You can run the Crail benchmark from the command line like this:
+</p>
+</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t readRandom -b false -s &lt;size&gt; -k &lt;iterations&gt; -w 32 -f /tmp.dat
+</code></pre></div></div>
+<p>and SPDK:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./perf -q 1 -s &lt;size&gt; -w randread -r 'trtype:RDMA adrfam:IPv4 traddr:&lt;ip&gt; trsvcid:&lt;port&gt;' -t &lt;time in seconds&gt;
+</code></pre></div></div>
+<div style="text-align: justify"> 
+<p>
+The main take away from this plot is that the time it takes to perform a random read operation on a NVMe-backed file in Crail takes only about 7 microseconds more time than fetching the same amount of data over a point-to-point SPDK connection. This is impressive because it shows that using Crail a bunch of NVMe drives can be turned into a fully distributed storage space at almost no extra cost. The 7 microseconds are due to Crail having to look up the specific NVMe storage node that holdes the data -- an operation which requires one extra network roundtrip (client to namenode). The experiment represents an extreme case where no metadata is cached at the client. In practice, file blocks are often accessed multiple times in which case the read latency is further reduced. Also note that unlike SPDK which is a native library, Crail delivers data directly into Java off-heap memory. 
+</p>
+</div>
+
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-nvmf/latency.svg" width="550" /></div>
+<p><br /></p>
+
+<div style="text-align: justify"> 
+<p>
+The second plot shows sequential read and write throughput with a transfer size of 64KB and 128 outstanding operations. The Crail throughput benchmark can be run like this:
+</p>
+</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t readAsync -s 65536 -k &lt;iterations&gt; -b 128 -w 32 -f /tmp.dat
+</code></pre></div></div>
+<p>and SPDK:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./perf -q 128 -s 65536 -w read -r 'trtype:RDMA adrfam:IPv4 traddr:&lt;ip&gt; trsvcid:&lt;port&gt;' -t &lt;time in seconds&gt;
+</code></pre></div></div>
+<div style="text-align: justify"> 
+<p>
+For sequential operations in Crail, metadata fetching is inlined with data operations as described in the <a href="//crail.incubator.apache.org/blog/2017/08/crail-memory.html">DRAM</a> blog. This is possible as long as the data transfer has a lower latency than the metadata RPC, which is typically the case. As a consequence, our NVMf storage tier reaches the same throughput as the native SPDK benchmark (device limit).
+</p>
+</div>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-nvmf/throughput.svg" width="550" /></div>
+
+<h3 id="sequential-throughput">Sequential Throughput</h3>
+
+<div style="text-align: justify"> 
+<p>
+Let us look at the sequential read and write throughput for buffered and direct streams and compare them to a buffered Crail stream on DRAM. All benchmarks are single thread/client performed against 8 storage nodes with 4 drives each, cf. configuration above. In this benchmark we use 32 outstanding operations for the NVMf storage tier buffered stream experiments by using a buffer size of 16MB and a slice size of 512KB, cf. <a href="//crail.incubator.apache.org/blog/2017/07/crail-memory.html">part I</a>. The buffered stream reaches line speed at a transfer size of around 1KB and shows only slightly slower performance when compared to the DRAM tier buffered stream. However we are only using 2 outstanding operations with the DRAM tier to achieve these results. Basically for sizes smaller than 1KB the buffered stream is limited by the copy speed to fill the application buffer. The direct stream reaches line speed at around 128KB with 128 outstanding operations. Here no copy operation is performed for transfer size greater than 512Byte (sector size). The command to run the Crail buffered stream benchmark:
+</p>
+</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t read -s &lt;size&gt; -k &lt;iterations&gt; -w 32 -f /tmp.dat
+</code></pre></div></div>
+<p>The direct stream benchmark:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t readAsync -s &lt;size&gt; -k &lt;iterations&gt; -b 128 -w 32 -f /tmp.dat
+</code></pre></div></div>
+
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-nvmf/throughput2.svg" width="550" /></div>
+
+<h3 id="random-read-latency">Random Read Latency</h3>
+
+<div style="text-align: justify"> 
+<p>
+Random read latency is limited by the flash technology and we currently see around 70us when performing sector size accesses to the device with the Crail NVMf backend. In comparison, remote DRAM latencies with Crail are about 7-8x faster. However, we believe that this will change in the near future with new technologies like PCM. Intel's Optane drives already can deliver random read latencies of around 10us. Considering that there is an overhead of around 10us to access a drive with Crail from anywhere in the cluster, using such a device would put random read latencies somewhere around 20us which is only half the performance of our DRAM tier.
+</p>
+</div>
+
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-nvmf/latency2.svg" width="550" /></div>
+
+<h3 id="tiering-dram---nvmf">Tiering DRAM - NVMf</h3>
+
+<div style="text-align: justify"> 
+<p>
+In this paragraph we show how Crail can leverage flash memory when there is not sufficient DRAM available in the cluster to hold all the data. As described in the <a href="//crail.incubator.apache.org/overview/">overview</a> section, if you have multiple storage tiers deployed in Crail, e.g. the DRAM tier and the NVMf tier, Crail by default first uses up all available resources of the faster tier. Basically a remote resource of a faster tier (e.g. remote DRAM) is preferred over a slower local resource (e.g., local flash), motivated by the fast network. This is what we call horizontal tiering.
+</p>
+</div>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-nvmf/crail_tiering.png" width="500" vspace="10" /></div>
+<p><br /></p>
+<div style="text-align: justify"> 
+<p>
+In the following 200G Terasort experiment we gradually limit the DRAM resources in Crail while adding more flash to the Crail NVMf storage tier. Note that here Crail is used for both input/output as well as shuffle data. The figure shows that by putting all the data in flash we only increase the sorting time by around 48% compared to the configuration where all the data resides in DRAM. Considering the cost of DRAM and the advances in technology described above we believe cheaper NVM storage can replace DRAM for most of the applications with only a minor performance decrease. Also, note that even with 100% of the data in NVMe, Spark/Crail is still faster than vanilla Spark with all the data in memory. The vanilla Spark experiment uses Alluxio for input/output and RamFS for the shuffle data.
+</p>
+</div>
+
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-nvmf/tiering.svg" width="550" /></div>
+
+<p>To summarize, in this blog we have shown that the NVMf storage backend for Crail – due to its efficient user-level implementation – offers latencies and throughput very close to the hardware speed. The Crail NVMf storage tier can be used conveniently in combination with the Crail DRAM tier to either save cost or to handle situations where the available DRAM is not sufficient to store the working set of a data processing workload.</p>
+
+
+</div>
+
+<!-- 
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//crail-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+-->
+
+
+        <br>
+	<br> 
+          <div class="footer">
+            <p>Apache Crail is an effort undergoing <a href="https://incubator.apache.org/">incubation</a> at <a href="https://www.apache.org/">The Apache Software Foundation (ASF)</a>, sponsored by the Apache Incubator PMC. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+            </p>
+          </div>
+
+        </div> <!-- /container -->
+
+        <!-- Support retina images. -->
+        <script type="text/javascript"
+            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+    </body>
+</html>
