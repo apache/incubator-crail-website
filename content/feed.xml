@@ -1,4 +1,162 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2018-12-04T15:47:54+01:00</updated><id>http://crail.incubator.apache.org//</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Sql P1 News</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html" rel="alternate" type="text/html" title="Sql P1 News" /><published>2018-08-09T00:00:00+02:00</published><updated>2018-08-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1-news</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html">&lt;p&gt;A new blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2018/08/sql-p1.html&quot;&gt;post&lt;/a&gt; discussing file formats performance is now online&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A new blog post discussing file formats performance is now online</summary></entry><entry><title type="html">SQL Performance: Part 1 - Input File Formats</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html" rel="alternate" type="text/html" title="SQL Performance: Part 1 - Input File Formats" /><published>2018-08-08T00:00:00+02:00</published><updated>2018-08-08T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.6.2">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2019-01-25T13:43:10+01:00</updated><id>http://crail.incubator.apache.org//</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Crail Python API: Python -&amp;gt; C/C++ call overhead</title><link href="http://crail.incubator.apache.org//blog/2019/01/python.html" rel="alternate" type="text/html" title="Crail Python API: Python -&gt; C/C++ call overhead" /><published>2019-01-22T00:00:00+01:00</published><updated>2019-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2019/01/python</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/01/python.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+With python being used in many machine learning applications, serverless frameworks, etc.
+as the go-to language, we believe a Crail client Python API would be a useful tool to
+broaden the use-case for Crail.
+Since the Crail core is written in Java, performance has always been a concern due to
+just-in-time compilation, garbage collection, etc.
+However with careful engineering (Off heap buffers, stateful verbs calls, ...)
+we were able to show that Crail can devliever similar or better performance compared
+to other statically compiled storage systems. So how can we engineer the Python
+library to deliver the best possible performance?
+&lt;/p&gt;
+&lt;p&gt;
+Python's reference implementation, also the most widely-used, CPython has historically
+always been an interpreter and not a JIT compiler like PyPy. We will focus on
+CPython since its alternatives are in general not plug-and-play replacements.
+&lt;/p&gt;
+&lt;p&gt;
+Crail is client-driven so most of its logic is implemented in the client library.
+For this reason we do not want to reimplement the client logic for every new
+language we want to support as it would result in a maintance nightmare.
+However interfacing with Java is not feasible since it encurs in to much overhead
+so we decided to implement a C++ client (more on this in a later blog post).
+The C++ client allows us to use a foreign function interface in Python to call
+C++ functions directly from Python.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;options-options-options&quot;&gt;Options, Options, Options&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;
+There are two high-level concepts of how to integrate (C)Python and C: extension
+modules and embedding.
+&lt;/p&gt;
+&lt;p&gt;
+Embedding Python uses Python as a component in an application. Our aim is to
+develop a Python API to be used by other Python applications so embeddings are
+not what we look for.
+&lt;/p&gt;
+&lt;p&gt;
+Extension modules are shared libraries that extend the Python interpreter.
+For this use-case CPython offers a C API to interact with the Python interpreter
+and allows to define modules, objects and functions in C which can be called
+from Python. Note that there is also the option to extend the Python interpreter
+through a Python library like ctypes or cffi. They are generally easier to
+use and should preserve portability (extension modules are CPython specific).
+However they do not give as much flexibility as extension modules and incur
+in potentially more overhead (see below). There are multiple wrapper frameworks
+available for CPython's C API to ease development of extension modules.
+Here is an overview of frameworks and libraries we tested:
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cython.org/&quot;&gt;&lt;strong&gt;Cython:&lt;/strong&gt;&lt;/a&gt; optimising static compiler for Python and the Cython programming
+language (based on Pyrex). C/C++ function, objects, etc. can be directly
+accessed from Cython. The compiler generates C code from Cython which interfaces
+with the CPython C-API.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.swig.org/&quot;&gt;&lt;strong&gt;SWIG:&lt;/strong&gt;&lt;/a&gt; (Simplified Wrapper and Interface Generator) is a tool to connect
+C/C++ with various high-level languages. C/C++ interfaces that should be available
+in Python have to be defined in a SWIG interface file. The interface files
+are compiled to C/C++ wrapper files which interface with the CPython C-API.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.boost.org/&quot;&gt;&lt;strong&gt;Boost.Python:&lt;/strong&gt;&lt;/a&gt; is a C++ library that wraps CPython’s C-API. It uses
+advanced metaprogramming techniques to simplify the usage and allows wrapping
+C++ interfaces non-intrusively.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://docs.python.org/3.7/library/ctypes.html#module-ctypes&quot;&gt;&lt;strong&gt;ctypes:&lt;/strong&gt;&lt;/a&gt;
+is a foreign function library. It allows calling C functions in shared libraries
+with predefined compatible data types. It does not require writing any glue code
+and does not interface with the CPython C-API directly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;benchmarks&quot;&gt;Benchmarks&lt;/h3&gt;
+
+&lt;p&gt;In this blog post we focus on the overhead of calling a C/C++ function from Python.
+We vary the number of arguments, argument types and the return types. We also
+test passing strings to C/C++ since it is part of the Crail API e.g. when
+opening or creating a file. Some frameworks expect &lt;code class=&quot;highlighter-rouge&quot;&gt;bytes&lt;/code&gt; when passing a string
+to a underlying &lt;code class=&quot;highlighter-rouge&quot;&gt;const char *&lt;/code&gt;, some allow to pass a &lt;code class=&quot;highlighter-rouge&quot;&gt;str&lt;/code&gt; and others allow both.
+If C++ is supported by the framework we also test passing a &lt;code class=&quot;highlighter-rouge&quot;&gt;std::string&lt;/code&gt; to a
+C++ function. Note that we perform all benchmarks with CPython version 3.5.2.
+We measure the time it takes to call the Python function until it returns.
+The C/C++ functions are empty, except a &lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt; statement where necessary.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/python_c/python_c_foo.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;The plot shows that adding more arguments to a function increases runtime.
+Introducing the first argument increases the runtime the most. Adding a the integer
+return type only increased runtime slightly.&lt;/p&gt;
+
+&lt;p&gt;As expected, cytpes as the only test which is not based on extension modules
+performed the worst. Function call overhead for a function without return value
+and any arguments is almost 300ns and goes up to 1/2 a microsecond with 4
+arguments. Considering that RDMA writes can be performed below 1us this would
+introduce a major overhead (more on this below in the discussion section).&lt;/p&gt;
+
+&lt;p&gt;SWIG and Boost.Python show similar performance where Boost is slightly slower and
+out of the implementations based on extension modules is the slowest.
+Cython is also based on extension modules so it was a surprise to us that it showed
+the best performance of all methods tested. Investigating the performance difference
+between Cython and our extension module implementation we found that Cython makes
+better use of the C-API.&lt;/p&gt;
+
+&lt;p&gt;Our extension module implementation follows the official tutorial and uses
+&lt;code class=&quot;highlighter-rouge&quot;&gt;PyArg_ParseTuple&lt;/code&gt; to parse the arguments. However as shown below we found that
+manually unpacking the arguments with &lt;code class=&quot;highlighter-rouge&quot;&gt;PyArg_UnpackTuple&lt;/code&gt; already significantly
+increased the performance. Although these numbers still do not match Cython’s
+performance we did not further investigate possible optimizations
+to our code.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/python_c/python_c_foo_opt.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s take a look at the string performance. &lt;code class=&quot;highlighter-rouge&quot;&gt;bytes&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;str&lt;/code&gt; is used whereever
+applicable. To pass strings as bytes the ‘b’ prefix is used.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/python_c/python_c_foo_str.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;Again Cython and the extension module implementation with manual unpacking seem to
+deliver the best performance. Passing a 64bit value in form of a &lt;code class=&quot;highlighter-rouge&quot;&gt;const char *&lt;/code&gt;
+pointer seems to be slightly faster than passing an integer argument (up to 20%).
+Passing the string to a C++ function which takes a &lt;code class=&quot;highlighter-rouge&quot;&gt;std::string&lt;/code&gt;
+is ~50% slower than passing a &lt;code class=&quot;highlighter-rouge&quot;&gt;const char *&lt;/code&gt;, probably because of the
+instantiation of the underlying data buffer and copying however we have not
+confirmed this.&lt;/p&gt;
+
+&lt;h3 id=&quot;discussion&quot;&gt;Discussion&lt;/h3&gt;
+
+&lt;p&gt;One might think a difference of 100ns should not really matter and you should
+anyway not call to often into C/C++. However we believe that this is not true
+when it comes to latency sensitive or high IOPS applications. For example
+using RDMA one can perform IO operations below a 1us RTT so 100ns is already
+a 10% performance hit. Also batching operations (to reduce amount of calls to C)
+is not feasible for low latency operations since it typically incurs in wait
+time until the batch size is large enough to be posted. Furthermore, even in high
+IOPS applications batching is not always feasible and might lead to undesired
+latency increase.&lt;/p&gt;
+
+&lt;p&gt;Efficient IO is typically performed through an asynchronous
+interface to allow not having to wait for IO to complete to perform the next
+operation. Even with an asynchronous interface, not only the latency of the operation
+is affected but the call overhead also limits the maximum IOPS. For example,
+in the best case scenario, our async call only takes one pointer as an argument so
+100ns call overhead. And say our C library is capable of posting 5 million requests
+per seconds (and is limited by the speed of posting not the device) that calculates
+to 200ns per operation. If we introduce a 100ns overhead we limit the IOPS to 3.3
+million operations per second which is a 1/3 decrease in performance. This is
+already significant consider using ctypes for such an operation now we are
+talking about limiting the throughput by a factor of 3.&lt;/p&gt;
+
+&lt;p&gt;Besides performance another aspect is the usability of the different approaches.
+Considering only ease of use &lt;em&gt;ctypes&lt;/em&gt; is a clear winner for us. However it only
+supports to interface with C and is slow. &lt;em&gt;Cython&lt;/em&gt;, &lt;em&gt;SWIG&lt;/em&gt; and &lt;em&gt;Boost.Python&lt;/em&gt;
+require a similar amount of effort to declare the interfaces, however here
+&lt;em&gt;Cython&lt;/em&gt; clearly wins the performance crown. Writing your own &lt;em&gt;extension module&lt;/em&gt;
+is feasible however as shown above to get the best performance one needs
+a good understanding of the CPython C-API/internals. From the tested approaches
+this one requires the most glue code.&lt;/p&gt;</content><author><name>Jonas Pfefferle</name></author><category term="blog" /><summary type="html">With python being used in many machine learning applications, serverless frameworks, etc. as the go-to language, we believe a Crail client Python API would be a useful tool to broaden the use-case for Crail. Since the Crail core is written in Java, performance has always been a concern due to just-in-time compilation, garbage collection, etc. However with careful engineering (Off heap buffers, stateful verbs calls, ...) we were able to show that Crail can devliever similar or better performance compared to other statically compiled storage systems. So how can we engineer the Python library to deliver the best possible performance? Python's reference implementation, also the most widely-used, CPython has historically always been an interpreter and not a JIT compiler like PyPy. We will focus on CPython since its alternatives are in general not plug-and-play replacements. Crail is client-driven so most of its logic is implemented in the client library. For this reason we do not want to reimplement the client logic for every new language we want to support as it would result in a maintance nightmare. However interfacing with Java is not feasible since it encurs in to much overhead so we decided to implement a C++ client (more on this in a later blog post). The C++ client allows us to use a foreign function interface in Python to call C++ functions directly from Python.</summary></entry><entry><title type="html">Sql P1 News</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html" rel="alternate" type="text/html" title="Sql P1 News" /><published>2018-08-09T00:00:00+02:00</published><updated>2018-08-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1-news</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html">&lt;p&gt;A new blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2018/08/sql-p1.html&quot;&gt;post&lt;/a&gt; discussing file formats performance is now online&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A new blog post discussing file formats performance is now online</summary></entry><entry><title type="html">SQL Performance: Part 1 - Input File Formats</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html" rel="alternate" type="text/html" title="SQL Performance: Part 1 - Input File Formats" /><published>2018-08-08T00:00:00+02:00</published><updated>2018-08-08T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html">&lt;div style=&quot;text-align: justify&quot;&gt;
 &lt;p&gt;
 This is the first user blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the  cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are &lt;a href=&quot;https://spark.apache.org/sql/&quot;&gt;Apache Spark/SQL&lt;/a&gt;, &lt;a href=&quot;https://hive.apache.org/&quot;&gt;Apache Hive&lt;/a&gt;, &lt;a href=&quot;https://impala.apache.org/&quot;&gt;Apache Impala&lt;/a&gt;, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.
 &lt;/p&gt;
@@ -553,4 +711,4 @@ of operations even compared to a C++-based system like RAMCloud.
 &lt;p&gt;
 In this blog we show three key points of Crail: First, Crail's namenode performs the same as ib_send_bw with realistic parameters in terms of IOPS. This shows that the actual processing of the RPC is implemented efficiently. Second, with only one namenode, Crail performs 10x to 50x better than RAMCloud and HDFS, two popular systems, where RAMCloud is RDMA-based and implemented natively. Third, Crail's metadata service can be scaled out to serve large number of clients. We have shown that Crail offers near linear scaling with up to 4 namenodes, offering a performance that is sufficient to serve several 1000s of clients. 
 &lt;/p&gt;
-&lt;/div&gt;</content><author><name>Adrian Schuepbach and Patrick Stuedi</name></author><category term="blog" /><summary type="html">This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.</summary></entry><entry><title type="html">Floss</title><link href="http://crail.incubator.apache.org//blog/2017/11/floss.html" rel="alternate" type="text/html" title="Floss" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/floss</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/floss.html">&lt;p&gt;Crail features in the &lt;a href=&quot;https://twit.tv/shows/floss-weekly/episodes/458?autostart=false&quot;&gt;FLOSS weekly podcast&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail features in the FLOSS weekly podcast</summary></entry><entry><title type="html">Blog</title><link href="http://crail.incubator.apache.org//blog/2017/11/blog.html" rel="alternate" type="text/html" title="Blog" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/blog</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/blog.html">&lt;p&gt;New blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/11/rdmashuffle.html&quot;&gt;post&lt;/a&gt; about SparkRDMA and Crail shuffle plugins&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about SparkRDMA and Crail shuffle plugins</summary></entry></feed>
+&lt;/div&gt;</content><author><name>Adrian Schuepbach and Patrick Stuedi</name></author><category term="blog" /><summary type="html">This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.</summary></entry><entry><title type="html">Floss</title><link href="http://crail.incubator.apache.org//blog/2017/11/floss.html" rel="alternate" type="text/html" title="Floss" /><published>2017-11-17T00:00:00+01:00</published><updated>2017-11-17T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/floss</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/floss.html">&lt;p&gt;Crail features in the &lt;a href=&quot;https://twit.tv/shows/floss-weekly/episodes/458?autostart=false&quot;&gt;FLOSS weekly podcast&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail features in the FLOSS weekly podcast</summary></entry></feed>
