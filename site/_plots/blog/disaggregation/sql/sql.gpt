@@ -1,0 +1,34 @@
+#set term svg size 640,300 font "Times-Roman, 13"
+#set term svg size 740,450 font "Times-Roman, 24"
+#set term pdf 
+set term pdf color size 4,2.2 font "Times-Roman, 14"
+
+set output "sql.pdf"
+
+set yrange [0:20]
+set xrange [-0.5:3.5]
+set ylabel "Runtime (seconds)"
+set grid ytics mytic
+set key right
+
+set style line 1 lc rgb "#000000" pt 6 lw 1.5 ps 0
+set style line 2 lc rgb "#000000" pt 6 lw 1.5 ps 0
+set style line 3 lc rgb "#000000" pt 6 lw 1.5 ps 0
+set style line 4 lc rgb "#000000"  pt 6 lw 1.5 ps 0
+
+#set ytics  0,20,120
+set ytics ("  0" 0, "  5" 5, " 10" 10, " 15" 15, " 20" 20)
+set xtics ("co-located" -0.2, "100 Gb/s TCP" 0.1, "disaggregated" 0.8, "10 Gb/s TCP" 1.1, "disaggregated" 1.8, "100 Gb/s TCP" 2.1, "disaggregated" 2.8, "100 Gb/s RDMA" 3.1) rotate by 45 right
+
+#set label "Crail" at 0.9,55
+#set label "DRAM" at 0.9,40
+
+#set label "Crail" at 1.9,67
+#set label "NVMe" at 1.9,52
+
+#set label "Vanilla" at 2.77,120
+
+plot "sql1.dat" using ($0):($1):(0.25)  title "Vanilla/Spark" with boxes fill solid lc "blue",\
+"sql2.dat" using ($0):($1):(0.25)  title "Spark/Crail" with boxes fill solid lc "red"
+
+
