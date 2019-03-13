@@ -45,7 +45,7 @@ Remember that a Crail storage server is entirely a control path entity, responsi
 
 <div style="text-align: justify"> 
 <p>
-In all of the previously discussed configurations there is a one-to-one mapping between storage media type and storage tier. There are situations, however, where it can be useful to configure multiple storage tiers of a particular media type. For instance, consider a setup where the compute nodes have access to disaggregated flash (e.g., on a remote rack) but are also attached to some amount of local flash. In this case, you may want to priotize the use flash in the same rack over disaggregated flash in a different rack. And of course you want to also priortize DRAM over any flash if DRAM is available. The way this is done in Crail is through storage and location classes. A reasonable configuration would be to create three storage classes. The first storage class contains the combined DRAM of all compute nodes, the second storage class constains all of the local flash, and the third storage class represents disaggregated flash. The figure below illustrates such a configuration with three storage classes in a simplified single-rack deployment.
+In all of the previously discussed configurations there is a one-to-one mapping between storage media type and storage tier. There are situations, however, where it can be useful to configure multiple storage tiers of a particular media type. For instance, consider a setup where the compute nodes have access to disaggregated flash (e.g., on a remote rack) but are also attached to some amount of local flash. In this case, you may want to priotize the use of flash in the same rack over disaggregated flash in a different rack. And of course you want to also priortize DRAM over any flash if DRAM is available. The way this is done in Crail is through storage and location classes. A reasonable configuration would be to create three storage classes. The first storage class contains the combined DRAM of all compute nodes, the second storage class contains all of the local flash, and the third storage class represents disaggregated flash. The figure below illustrates such a configuration with three storage classes in a simplified single-rack deployment.
 </p> 
 </div>  
 
@@ -110,7 +110,7 @@ In this case, Crail would first try to allocate storage blocks local to the clie
 
 <div style="text-align: justify"> 
 <p>
-During the deployment of Crail, one has to decide on the storage capacity of each individual storage tier or storage class, which is a non-trivial task. One approach is to provision sufficient capacity to make sure that under normal operation storage demands can be served by the the highest performing storage class, and then allocate additional resources in the local and disaggregated flash tiers to absorb the peak demands. 
+During the deployment of Crail, one has to decide on the storage capacity of each individual storage tier or storage class, which is a non-trivial task. One approach is to provision sufficient capacity to make sure that under normal operation the storage demands can be served by the the highest performing storage class, and then allocate additional resources in the local and disaggregated flash tiers to absorb the peak storage demands. 
 </p>
 </div> 
 
@@ -129,7 +129,7 @@ Ideally, we would want individual storage tiers to be elastic in a way that stor
 
 <div style="text-align: justify"> 
 <p>
-In this blog we discussed various configuration options in Crail for deploying tiered disaggrated storage. Crail allows mixing tradional non-disaggregated storage with disaggregated storage in a single storage namespace and thereby is able to seamlessly absorb peak storage demands while offering excellent performance during regular operation. Storage classes and location classes in Crail further provide fine-grained control over how storage resources are provisoned and allocated. In the future, we are considering to make resource provisioning in Crail dynamic and automatic, similar to <a href="https://www.usenix.org/system/files/osdi18-klimovic.pdf">Pocket</a>. 
+In this blog we discussed various configuration options in Crail for deploying tiered disaggrated storage. Crail allows mixing tradional non-disaggregated storage with disaggregated storage in a single storage namespace and is thereby able to seamlessly absorb peak storage demands while offering excellent performance during regular operation. Storage classes and location classes in Crail further provide fine-grained control over how storage resources are provisoned and allocated. In the future, we are considering to make resource provisioning in Crail dynamic and automatic, similar to <a href="https://www.usenix.org/system/files/osdi18-klimovic.pdf">Pocket</a>. 
  </p>
  </div>
 
