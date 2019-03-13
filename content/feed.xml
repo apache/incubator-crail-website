@@ -1,4 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2019-03-04T23:59:09+01:00</updated><id>http://crail.incubator.apache.org//feed.xml</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Shuffle Disaggregation using RDMA accessible remote DRAM and NVMe Flash</title><link href="http://crail.incubator.apache.org//blog/2019/03/disaggregation.html" rel="alternate" type="text/html" title="Shuffle Disaggregation using RDMA accessible remote DRAM and NVMe Flash" /><published>2019-03-04T00:00:00+01:00</published><updated>2019-03-04T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2019/03/disaggregation</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/03/disaggregation.html">&lt;div style=&quot;text-align: justify&quot;&gt; 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2019-03-13T15:49:58+01:00</updated><id>http://crail.incubator.apache.org//feed.xml</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Deployment Options for Tiered Storage Disaggregation</title><link href="http://crail.incubator.apache.org//blog/2019/03/deployment.html" rel="alternate" type="text/html" title="Deployment Options for Tiered Storage Disaggregation" /><published>2019-03-13T00:00:00+01:00</published><updated>2019-03-13T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2019/03/deployment</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/03/deployment.html">&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In the last &lt;a href=&quot;http://crail.incubator.apache.org/blog/2019/03/disaggregation.html&quot;&gt;blog post&lt;/a&gt; we discussed the basic design of the Crail disaggregated shuffler as well as its performance under different configurations for two workloads. In this short follow-up blog we briefly describe the various options in Crail for deploying disaggregated storage. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;mixing-disaggregated-and-co-located-configurations&quot;&gt;Mixing Disaggregated and Co-located Configurations&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In a traditional &quot;non-disaggregated&quot; Crail deployment, the Crail storage servers are deployed co-located with the compute nodes running the data processing workloads. By contrast, a disaggregated Crail deployment refers to a setup where the Crail storage servers -- or more precisely, the storage resources exposed by the storage servers -- are seperated (via a network) from the compute servers running the data processing workloads. Storage disaggregation may be implemented at the level of an entire data center (by provisioning dedicated compute and storage racks), or at the level of individual racks (by dedicating some nodes in a rack exlusively for storage). 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Remember that Crail is a tiered storage system where each storage tier consists of a subset of storage servers. Crail permits each storage tier (e.g., RDMA/DRAM, NVMf/flash, etc.) to be deployed and configured independently. This means we can decide to disaggregate one storage tier but use a co-located setup for another tier. For instance, it is more natural to disaggregate the flash storage tier than to disaggregate the memory tier. High-density all-flash storage enclosures are commonly available and often provide NVMe over Fabrics (NVMf) connectivity, thus, exposing such a flash enclosure in Crail is straightforward. High-density memory servers, on the other hand (e.g., AWS x1e.32xlarge), would be wasted if we were not using the CPU to run memory intensive computations. Exporting the memory of compute servers into Crail, however, may still make sense as it allows any server to operate on remote memory as soon as it runs out of local memory. The figure below illustrates three possible configurations of Crail for a single rack deployment: 
+ &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/three_options.svg&quot; width=&quot;580&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt; 
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Non-disaggrageted (left): each each compute server exports some of its local DRAM and flash into Crail by running one Crail storage server instance for each storage type.&lt;/li&gt;
+  &lt;li&gt;Complete disaggregation (middle): the compute servers do not participate in Crail storage. Instead, dedicated storage servers for DRAM and flash are deployed. The storage servers export their storage resources into Crail by running corresponding Crail storage servers.&lt;/li&gt;
+  &lt;li&gt;Mixed disaggregation (right): each compute server exports some of its local DRAM into Crail. The Crail storage space is then augmented by disaggregated flash.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Remember that a Crail storage server is entirely a control path entity, responsible for (a) registering storage resources (and corresponding access endpoints) with Crail metadata servers, and (b) monitoring the health of the storage resources and reporting this information to the Crail metadata servers. Therefore, a storage server does not necessarily need to run co-located with the storage resource it exports. For instance, one may export an all-flash storage enclosure in Crail by deploying a Crail storage server on one of the compute nodes. 
+ &lt;/p&gt;
+ &lt;/div&gt;
+
+&lt;h3 id=&quot;fine-grained-tiering-using-storage-and-location-classes&quot;&gt;Fine-grained Tiering using Storage and Location Classes&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In all of the previously discussed configurations there is a one-to-one mapping between storage media type and storage tier. There are situations, however, where it can be useful to configure multiple storage tiers of a particular media type. For instance, consider a setup where the compute nodes have access to disaggregated flash (e.g., on a remote rack) but are also attached to some amount of local flash. In this case, you may want to priotize the use flash in the same rack over disaggregated flash in a different rack. And of course you want to also priortize DRAM over any flash if DRAM is available. The way this is done in Crail is through storage and location classes. A reasonable configuration would be to create three storage classes. The first storage class contains the combined DRAM of all compute nodes, the second storage class constains all of the local flash, and the third storage class represents disaggregated flash. The figure below illustrates such a configuration with three storage classes in a simplified single-rack deployment.
+&lt;/p&gt; 
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/storage_class.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt; 
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Storage classes can easily be defined in the slaves file as follows (see the &lt;a href=&quot;https://incubator-crail.readthedocs.io/en/latest/config.html#storage-tiers&quot;&gt;Crail documentation&lt;/a&gt; for details):
+&lt;/p&gt; 
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ cat $CRAIL_HOME/conf/slaves
+clusternode1 -t org.apache.crail.storage.rdma.RdmaStorageTier -c 0
+clusternode2 -t org.apache.crail.storage.rdma.RdmaStorageTier -c 0
+clusternode1 -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 1
+clusternode2 -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 1
+disaggnode -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+One can also manually attach a storage server to a particular storage class:
+ &lt;/p&gt;
+ &lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clusternode2:~$ $CRAIL_HOME/bin/crail datanode -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Remember that the storage class ID is implicitly ordering the storage tiers. During writes, Crail either allocates blocks from the highest priority tier that has free space, or from a specific tier if explicitly requested. The following timeline shows a set of Crail operations and a possible resource allocation in a 3-tier Crail deployment (abbreviations: &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;W-A&lt;/font&gt; refers to the create and write operation of a file &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;A&lt;/font&gt;, &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;D-A&lt;/font&gt; refers to the deletion of file &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;A&lt;/font&gt;). Note that at time &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;t10&lt;/font&gt; the system runs out of DRAM space across the entire rack, forcing file &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;C&lt;/font&gt; to be partially allocated in local flash. At time &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;t11&lt;/font&gt; the system runs out of tier 1 storage, forcing file &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;D&lt;/font&gt; to be partially allocated in disaggregated flash. Subsequently, a set of delete operations (time &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;t13&lt;/font&gt; and &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;t14&lt;/font&gt;) free up space in tier 0, allowing file &lt;font face=&quot;Courier&quot; color=&quot;blue&quot;&gt;F&lt;/font&gt; to be allocated in DRAM. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/timeline.svg&quot; width=&quot;300&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt; 
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+If applications want to further prioritize the specific local resource of a machine over any other resource in the same storage class they can do so via the location class parameter when creating an object in Crail. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailLocationClass local = fs.getLocationClass();
+CrailFile file = fs.create(&quot;/tmp.dat&quot;, CrailNodeType.DATAFILE, CrailStorageClass.DEFAULT, local).get().asFile();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In this case, Crail would first try to allocate storage blocks local to the client machine. Note also that the location class preference is always weighed lower than the storage class preference, therefore Crail would still prioritize a remote block over a local block if the remote block is part of a higher priority storage class. In any case, if no local block can be found, Crail falls back to the default policy of filling up storage tiers in their oder of preference. 
+ &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;resource-provisioning&quot;&gt;Resource Provisioning&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+During the deployment of Crail, one has to decide on the storage capacity of each individual storage tier or storage class, which is a non-trivial task. One approach is to provision sufficient capacity to make sure that under normal operation storage demands can be served by the the highest performing storage class, and then allocate additional resources in the local and disaggregated flash tiers to absorb the peak demands. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/resource_provisioning.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;&lt;br /&gt; 
+&lt;br /&gt;&lt;/p&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+Ideally, we would want individual storage tiers to be elastic in a way that storage capacities can be adjutsed dynamically (and automatically) based on the load. Currently, Crail does not provide elastic storage tiers (adding storage servers on the fly is always possible, but not removing). In a recent research system named &lt;a href=&quot;https://www.usenix.org/system/files/osdi18-klimovic.pdf&quot;&gt;Pocket&lt;/a&gt;, however, we have been exploring how to build elastic storage in the context of serverless computing and in the future we might integrate some of these ideas into Crail as well. 
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+
+&lt;div style=&quot;text-align: justify&quot;&gt; 
+&lt;p&gt;
+In this blog we discussed various configuration options in Crail for deploying tiered disaggrated storage. Crail allows mixing tradional non-disaggregated storage with disaggregated storage in a single storage namespace and thereby is able to seamlessly absorb peak storage demands while offering excellent performance during regular operation. Storage classes and location classes in Crail further provide fine-grained control over how storage resources are provisoned and allocated. In the future, we are considering to make resource provisioning in Crail dynamic and automatic, similar to &lt;a href=&quot;https://www.usenix.org/system/files/osdi18-klimovic.pdf&quot;&gt;Pocket&lt;/a&gt;. 
+ &lt;/p&gt;
+ &lt;/div&gt;</content><author><name>Patrick Stuedi</name></author><category term="blog" /><summary type="html">In the last blog post we discussed the basic design of the Crail disaggregated shuffler as well as its performance under different configurations for two workloads. In this short follow-up blog we briefly describe the various options in Crail for deploying disaggregated storage.</summary></entry><entry><title type="html">Shuffle Disaggregation using RDMA accessible remote DRAM and NVMe Flash</title><link href="http://crail.incubator.apache.org//blog/2019/03/disaggregation.html" rel="alternate" type="text/html" title="Shuffle Disaggregation using RDMA accessible remote DRAM and NVMe Flash" /><published>2019-03-04T00:00:00+01:00</published><updated>2019-03-04T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2019/03/disaggregation</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/03/disaggregation.html">&lt;div style=&quot;text-align: justify&quot;&gt; 
 &lt;p&gt;
 One of the goals of Crail has always been to enable efficient storage disaggregation for distributed data processing workloads. Separating storage from compute resources in a cluster is known to have several interesting benefits. For instance, it allows storage resources to scale independently from compute resources, or to run storage systems on specialized hardware (e.g., storage servers with a weak CPU attached to a fast network) for better performance and reduced cost. Storage disaggregation also simplifies system maintenance as one can uprade compute and storage resources at different cycles. 
 &lt;/p&gt;
@@ -459,450 +583,4 @@ In this first blog of a multipart series, we have looked at the data ingestion p
 &lt;p&gt;
 Stay tuned for the next part where we look at workload-level performance in Spark/SQL on modern high-performance networking and storage devices. Meanwhile let us know if you have any feedback or comments. 
 &lt;/p&gt;
-&lt;/div&gt;</content><author><name>Animesh Trivedi</name></author><category term="blog" /><summary type="html">This is the first user blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are Apache Spark/SQL, Apache Hive, Apache Impala, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.</summary></entry><entry><title type="html">Dataworks</title><link href="http://crail.incubator.apache.org//blog/2018/06/dataworks.html" rel="alternate" type="text/html" title="Dataworks" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/dataworks</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/dataworks.html">&lt;p&gt;Apache Crail (incubating) to feature in the &lt;a href=&quot;https://dataworkssummit.com/san-jose-2018/session/data-processing-at-the-speed-of-100-gbpsapache-crail-incubating/&quot;&gt;DataWorks Summit&lt;/a&gt; on June 21st&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail (incubating) to feature in the DataWorks Summit on June 21st</summary></entry><entry><title type="html">Sparksummit</title><link href="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html" rel="alternate" type="text/html" title="Sparksummit" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/sparksummit</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html">&lt;p&gt;A Spark serverless architecture powered by Crail will be presented today at the &lt;a href=&quot;https://databricks.com/session/serverless-machine-learning-on-modern-hardware-using-apache-spark&quot;&gt;Spark Summit&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A Spark serverless architecture powered by Crail will be presented today at the Spark Summit</summary></entry><entry><title type="html">Apache Release</title><link href="http://crail.incubator.apache.org//blog/2018/06/apache-release.html" rel="alternate" type="text/html" title="Apache Release" /><published>2018-06-04T00:00:00+02:00</published><updated>2018-06-04T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/apache-release</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/apache-release.html">&lt;p&gt;Apache Crail 1.0 incubator &lt;a href=&quot;//crail.incubator.apache.org/download&quot;&gt;release&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail 1.0 incubator release</summary></entry><entry><title type="html">Apache</title><link href="http://crail.incubator.apache.org//blog/2018/01/apache.html" rel="alternate" type="text/html" title="Apache" /><published>2018-01-22T00:00:00+01:00</published><updated>2018-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2018/01/apache</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/01/apache.html">&lt;p&gt;Crail is now an Apache Incubator project!&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail is now an Apache Incubator project!</summary></entry><entry><title type="html">Iops</title><link href="http://crail.incubator.apache.org//blog/2017/11/iops.html" rel="alternate" type="text/html" title="Iops" /><published>2017-11-23T00:00:00+01:00</published><updated>2017-11-23T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/iops</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/iops.html">&lt;p&gt;New blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/11/crail-metadata.html&quot;&gt;post&lt;/a&gt; about Crail’s metadata performance and scalability&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about Crail’s metadata performance and scalability</summary></entry><entry><title type="html">Crail Storage Performance – Part III: Metadata</title><link href="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html" rel="alternate" type="text/html" title="Crail Storage Performance -- Part III: Metadata" /><published>2017-11-21T00:00:00+01:00</published><updated>2017-11-21T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/crail-metadata</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/crail-metadata.html">&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;hardware-configuration&quot;&gt;Hardware Configuration&lt;/h3&gt;
-
-&lt;p&gt;The specific cluster configuration used for the experiments in this blog:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Cluster
-    &lt;ul&gt;
-      &lt;li&gt;8 node x86_64 cluster&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Node configuration
-    &lt;ul&gt;
-      &lt;li&gt;CPU: 2 x Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz&lt;/li&gt;
-      &lt;li&gt;DRAM: 96GB DDR3&lt;/li&gt;
-      &lt;li&gt;Network: 1x100Gbit/s Mellanox ConnectX-5&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Software
-    &lt;ul&gt;
-      &lt;li&gt;Ubuntu 16.04.3 LTS (Xenial Xerus) with Linux kernel version 4.10.0-33-generic&lt;/li&gt;
-      &lt;li&gt;Crail 1.0, internal version 2993&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;crail-metadata-operation-overview&quot;&gt;Crail Metadata Operation Overview&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-As described in &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-memory.html&quot;&gt;part I&lt;/a&gt;, Crail data operations are composed of actual data transfers and metadata operations. Examples of metadata operations are operations for creating or modifying the state of a file, or operations to lookup the storage server that stores a particular range (block) of a file. In Crail, all the metadata is managed by the namenode(s) (as opposed to the data which is managed by the storage nodes). Clients interact with Crail namenodes via Remote Procedure Calls (RPCs). Crail supports multiple RPC protocols for different types of networks and also offers a pluggable RPC interface so that new RPC bindings can be implemented easily. On RDMA networks, the default DaRPC (&lt;a href=&quot;https://dl.acm.org/citation.cfm?id=2670994&quot;&gt;DaRPC paper&lt;/a&gt;, &lt;a href=&quot;http://github.com/zrlio/darpc&quot;&gt;DaRPC GitHub&lt;/a&gt;) based RPC binding provides the best performance. The figure below gives an overview of the Crail metadata processing in a DaRPC configuration. 
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/rpc.png&quot; width=&quot;480&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Crail supports partitioning of metadata across several namenods. Thereby, metadata operations issued by clients are hashed to a particular namenode depending on the name of object the operation attempts to create or retrieve. With the DaRPC binding, RPC messages are exchanged using RDMA send/recv operations. At the server, RPC processing is parallelized across different cores. To minimize locking and cache contention, each core handles a disjoint set of client connections. Connections assigned to the same core share the same RDMA completion queue which is processed exclusively by that given core. All the network queues, including send-, recv- and completion queues are mapped into user-space and accessed directly from within the JVM process. Since Crail offers a hierarchical storage namespace, metadata operations to create, delete or rename new storage resources effectively result in modifications to a tree-like data structure at the namenode. These structural operations require a somewhat more expensive locking than the more lightweight operations used to lookup the file status or to extend a file with a new storage block. Consequently, Crail namenodes use two separate data structures to manage metadata: (a) a basic tree data structure that requires directory-based locking, and (b) a fast lock-free map to lookup of storage resources that are currently being read or written.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;experimental-setup&quot;&gt;Experimental Setup&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-In two of the previous blogs (&lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-memory.html&quot;&gt;DRAM&lt;/a&gt;, &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html&quot;&gt;NVMf&lt;/a&gt;) we have already shown that Crail metadata operations are very low latency. Essentially a single metadata operation issued by a remote client takes 5-6 microseconds, which is only slightly more than the raw network latency of the RDMA network fabric. In this blog, we want to explore the scalability of Crail's metadata management, that is, the number of clients Crail can support, or how Crail scales as the cluster size increases. The level of scalability of Crail is mainly determined by the number of metadata operations Crail can process concurrently, a metric that is often referred to as IOPS. The higher the number of IOPS the system can handle, the more clients can concurrently use Crail without performance loss. 
-&lt;/p&gt;
-&lt;p&gt;
-An important metadata operation is ''getFile()'', which is used by clients to lookup the status of a file (whether the file exists, what size it has, etc.). The ''getFile()'' operation is served by Crail's fast lock-free map and in spirit is very similar to the ''getBlock()'' metadata operation (used by clients to query which storage nodes holds a particular block). In a typical Crail use case, ''getFile()'' and ''getBlock()'' are responsible for the peak metadata load at a namenode. In this experiment, we measure the achievable IOPS on the server side in an artificial configuration with many clients distributed across the cluster issuing ''getFile()'' in a tight loop. Note that the client side RPC interface in Crail is asynchronous, thus, clients can issue multiple metadata operations without blocking while asynchronously waiting for the result. In the experiments below, each client may have a maximum of 128 ''getFile()'' operations outstanding at any point in time. In a practical scenario, Crail clients may also have multiple metadata operations in flight either because clients are shared by different cores, or because Crail interleaves metadata and data operations (see &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-memory.html&quot;&gt;DRAM&lt;/a&gt;). What makes the benchmark artificial is that clients exclusively focus on generating load for the namenode and thereby are neither performing data operations nor are they doing any compute. The basic command of the benchmark as executed by each of the individual clients is given by the following command:
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./bin/crail iobench -t getMultiFileAsync -f / -k 10000000 -b 128
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Where ''-t'' specifies the benchmark to run, ''-f'' specifies the path on the
-Crail file system to be used for the benchmark, ''-k'' specifies the number of
-iterations to be performed by the benchmark
-(how many times will the benchmark execute ''getFile()'') and
-''-b'' specifies the maximum number of requests in flight.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;single-namenode-scalability&quot;&gt;Single Namenode Scalability&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-In the first experiment, we measure the aggregated number of metadata operations a single Crail namenode can handle per second. The namenode runs on 8 physical cores with hyper-threading disabled. The result is shown in the first graph below, labeled ''Namenode IOPS''. The namenode only gets saturated with more than 16 clients. The graph shows that the namenode can handle close to 10 million ''getFile()'' operations per second. With significantly more clients, the overall number of IOPS drops slightly, as more resources are being allocated on the single RDMA card, which basically creates a contention on hardware resources.
-&lt;/p&gt;
-&lt;p&gt; 
-As comparison, we measure the raw number of IOPS, which can be executed on the RDMA network. We measure the raw number using ib_send_bw. We configured ib_send_bw with the same parameters in terms of RDMA configuration as the namenode. This means, we instructed ib_send_bw not to do CQ moderation, and to use a receive queue and a send queue of length 32, which equals the length of the namenode queues. Note that the default configuration of ib_send_bw uses CQ moderation and does preposting of send operations, which can only be done, if the operation is known in advance. This is not the case in a real system, like crail's namenode. The basic ib_send_bw command is given below:
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ib_send_bw -s 1 -Q 1 -r 32 -t 32 -n 10000000
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Where ''-s 1'' specifies to send packets with a payload of 1 (we don't want to
-measure the transmission time of data, just the number of I/O operations),
-''-Q 1'' specifies not to do CQ moderation, ''-r 32'' specifies the receive
-queue length to be 32, ''-t 32'' specifies the send queue length to be 32
-and ''-n'' specifies the number of
-iterations to be performed by ib_send_bw.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-The line of the raw number of IOPS, labeled ''ib send'' is shown in the same graph. With this measurement we show that Crail's namenode IOPS are similar to the raw ib_send_bw IOPS with the same configuration.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/namenode_ibsend_iops64.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-If one starts ib_send_bw without specifying the queue sizes or whether or not to use CQ moderation, the raw number of IOPS might be higher. This is due to the fact, that the default values of ib_send_bw use a receive queue of 512, a send queue of 128 and CQ moderation of 100, meaning that a new completion is generated only after 100 sends. As comparison, we did this
-measurement too and show the result, labeled 'ib_send CQ mod', in the same graph. Fine tuning of receive and send queue sizes, CQ moderation size, postlists etc might lead to a higher number of IOPS. 
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;multiple-namenode-scalability&quot;&gt;Multiple Namenode Scalability&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-To increase the number of IOPS the overall system can handle, we allow starting multiple namenode instances. Hot metadata operations, such as ''getFile()'', are distributed over all running instances of the namenode. ''getFile()'' is implemented such that no synchronization among the namenodes is required. As such, we expect good scalability. The graph below compares the overall IOPS of a system with one namenode to a system with two namenodes and four namenodes.
-&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/namenode_multi64.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-We show in this graph that the system can handle around 17Mio IOPS with two namenodes and 28Mio IOPS with four namenodes (with more than 64 clients we measured the number of IOPS to be slightly higher than 30Mio IOPS). Having multiple namenode instances matters especially with a higher number of clients. In the graph we see that the more clients we have the more we can benefit from a second namenode instance or even more instances.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-We only have 7 physical nodes available to run the client processes. This
-means, after 7 client processes, processes start sharing a physical machine.
-With 64 client processes, each machine runs 9 (10 in one case) client
-instances, which share the cores and the resources of the RDMA hardware.
-We believe this is the reason, why the graphs appear not to scale linearly.
-The number of total IOPS is client-bound, not namenode-bound.
-With more physical machines, we believe that scalability could be shown
-much better. Again, there is absolutely no communication among the
-namenodes happening, which should lead to linear scalability.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;cluster-sizes&quot;&gt;Cluster sizes&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Let us look at a concrete application, which ideally runs on a large cluster:
-TeraSort. In a previous blog, &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/01/sorting.html&quot;&gt;sorting&lt;/a&gt;,
-we analyze performance characteristics of TeraSort on Crail on a big cluster
-of 128 nodes, where we run 384 executors in total. This already proves that
-Crail can at least handle 384 clients. Now we analyze the theoretical number
-of clients without performance loss at the namenode. Still this theoretical
-number is not a hard limit on the number of clients. Just adding more
-clients would start dropping the number of IOPS per client (not at the
-namenode).
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-In contrast to the benchmarks above, a real-world application, like TeraSort,
-does not issue RPC requests in a tight loop. It rather does sorting
-(computation), file reading and writing and and of course a certain amount of
-RPCs to manage the files.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-We would like to know how many RPCs a run of TeraSort generates and therefore
-how big the load in terms of number of IOPS is at the namenode for a
-real-world application.
-We run TeraSort on a data set of 200GB and measured the
-number of IOPS at the namenode with 4 executors, 8 executors and 12 executors.
-Every executor runs 12 cores. For this experiment, we use a single namenode
-instance. We plot the distribution of the number of IOPS measured at the
-namenode over the elapsed runtime of the TeraSort application.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/terasort_iops.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-From the graph we pick the peak number of IOPS measured
-throughout the execution time for all three cases. The following table
-shows the three peak IOPS numbers:
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;center&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;#Executor nodes&lt;/th&gt;
-      &lt;th&gt;Measured IOPS&lt;/th&gt;
-      &lt;th&gt;% of single namenode&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td align=&quot;right&quot;&gt;4&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;32k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;0.32%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td align=&quot;right&quot;&gt;8&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;67k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;0.67%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td align=&quot;right&quot;&gt;12&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;107k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;1.07%&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/center&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-From this table we see that it scales linearly. Even more important,
-we notice that with 12 nodes we still use only around 1% of the
-number of IOPS a single namenode can handle.
-If we extrapolate this to a
-100%, we can handle a cluster size of almost 1200 nodes (1121 clients being just
-below 10Mio IOPS at the namenode). The
-extrapolated numbers would look like this:
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;center&gt;
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;#Namenodes&lt;/th&gt;
-      &lt;th&gt;Max IOPS by  namenodes&lt;/th&gt;
-      &lt;th&gt;#Executor nodes&lt;/th&gt;
-      &lt;th&gt;Extrapolated IOPS&lt;/th&gt;
-      &lt;th&gt;% of all namenodes&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td align=&quot;right&quot;&gt;1&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;10000k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;1121&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;9996k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;99.96%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td align=&quot;right&quot;&gt;1&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;10000k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;1200&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;10730k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;107.3%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td align=&quot;right&quot;&gt;2&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;17000k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;1906&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;16995k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;99.97%&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td align=&quot;right&quot;&gt;4&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;30000k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;3364&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;29995k&lt;/td&gt;
-      &lt;td align=&quot;right&quot;&gt;99.98%&lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/center&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-Of course we know that there is no system with perfect linear scalability.
-But even if we would loose 50% of the number of IOPS (compared to the
-theoretical maximum) on a big cluster, Crail could still handle a cluster size
-of 600 nodes and a single namenode without any performance loss at the
-namenode.
-Should we still want to run an application like TeraSort on a bigger cluster,
-we can add a second namenode or have even more instances of namenodes
-to ensure that clients do not suffer from contention in terms of IOPS at
-the namenode.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-We believe that the combination of benchmarks above, the scalability
-experiments and the real-world
-application of TeraSort shows clearly that Crail and Crail's namenode can handle
-a big cluster of at least several hundreds of nodes, theoretically up to
-1200 nodes with a single namenode and even more with multiple namenodes.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;system-comparison&quot;&gt;System comparison&lt;/h3&gt;
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-In this section we compare the number of IOPS Crail can handle to
-two other systems:
-&lt;a href=&quot;http://hadoop.apache.org/&quot;&gt;Hadoop's HDFS namenode&lt;/a&gt; and
-&lt;a href=&quot;https://ramcloud.atlassian.net/wiki/spaces/RAM/overview&quot;&gt;RAMCloud&lt;/a&gt;.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-HDFS is a well known distributed file system. Like Crail, HDFS runs
-a namenode and several datanodes. The namenode implements similar functionality
-as Crail's namenode, while HDFS's datanodes provide additional functionality,
-like replication, for example. We are interested in the
-number of IOPS the namenode can handle. As such, the datanode's functionality
-is not relevant for this experiment. HDFS is implemented in Java like Crail.
-Due to this high similarity in terms of functionality and language used to
-implement the system, HDFS is a good candidate to compare Crail to.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-HDFS does not use RDMA to send RPCs. Instead, RPCs are sent over a regular
-IP network. In our case, it is the same 100Gbit/s ethernet-based RoCE network.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-To measure the number of IOPS HDFS's namenode can handle, we run the same
-experiment as for Crail. The clients issue a ''getFile()'' RPC to the
-namenode and we vary the number of clients from 1 to 64. The following
-plot shows the number of IOPS relative to the number of clients.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/namenode_hdfs_iops.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-The graph shows that the namenode can handle around 200000 IOPS. One reason
-for the difference to the number of IOPS of Crail is surely that HDFS does not
-use the capabilities offered by the RDMA network, while Crail does. However
-this cannot be the only reason, why the namenode cannot handle more than
-200000 IOPS. We would need to analyze more deeply where the bottleneck is
-to find an answer. We believe that the amount of code which
-gets executed at probably various layers of the software stack
-is too big to achieve high performance in terms of IOPS.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-RAMCloud is a fast key-value store, which makes use of the RDMA network
-to reach low latency and high throughput. It runs one master coordinator and
-and optionally several slave coordinators, which can take over, if the master
-coordinator fails. Coordinator persistence can be achieved
-by external persistent storage, like Zookeeper or LogCabin.
-RAMCloud runs several storage servers, which
-store key-value pairs in RAM. Optionally, replicas can be stored on secondary
-storage, which provides persistence. RAMCloud is implemented in C++. Therefore
-it is natively compiled code.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-We are interested in the number of IOPS RAMCloud can handle. We decided
-to run the readThroughput benchmark of RAMCloud's ClusterPerf program, which
-measures the number of object reads per second. This is probably the closest
-benchmark to the RPC benchmark of Crail and HDFS.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-For a fair comparison, we run RAMCloud without any persistence, so without
-Zookeeper and without replicas to secondary storage. We run one coordinator
-and one storage server, which is somewhat similar to running one namenode
-in the Crail and HDFS cases. Also, we wanted to vary the number of clients
-from 1 to 64. At the moment we can only get results for up to 16 clients.
-We asked the RAMCloud developers for possible reasons and got to know that the
-reason is a starvation bug in the benchmark (not in the RAMCloud system
-itself). The RAMCloud developers are looking into this issue. We will update
-the blog with the latest numbers as soon as the bug is fixed.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/ramcloud_iops.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-RAMCloud reaches a peak of 1.12Mio IOPS with 14 clients. The utilization of the
-dispatcher thread is at 100% already with 10 clients. Even with more clients,
-the number of IOPS won't get higher than 1.12Mio, because the
-dispatcher thread is the bottleneck, as can be seen in the graph.
-In addition, we got a confirmation from the developers that more than
-10 clients will not increase the number of IOPS.
-So we think that the measurements are not unfair, even if we do not have
-results for more than 16 clients. Again, we we will update the blog
-with a higher number of clients, as soon as the bug is fixed.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-Let us now summarize the number of IOPS of all three systems in one plot
-below. For a fair comparison, Crail runs only one namenode for this
-experiments and we compare the results to RAMCloud with one coordinator and
-one storage server (without replication as described above) and the one
-namenode instance of HDFS. We see that Crail's single namenode can handle
-a much bigger number of RPCs compared to the other two systems (remember
-that Crail can run multiple namenodes and we measured a number of IOPS
-of 30Mio/s with 4 namenodes).
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/crail-metadata/max_iops_crail_hdfs_ramcloud.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt;
-&lt;p&gt;
-HDFS is deployed on production clusters and handles real workloads
-with roughly 200000 IOPS. We believe that Crail, which can handle a much
-bigger number of IOPS, is able to run real workloads on very large
-clusters. A common assumption is that Java-based implementations suffer from
-performance loss. We show that a Java-based system can handle a high amount
-of operations even compared to a C++-based system like RAMCloud.
-&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-
-&lt;div style=&quot;text-align: justify&quot;&gt; 
-&lt;p&gt;
-In this blog we show three key points of Crail: First, Crail's namenode performs the same as ib_send_bw with realistic parameters in terms of IOPS. This shows that the actual processing of the RPC is implemented efficiently. Second, with only one namenode, Crail performs 10x to 50x better than RAMCloud and HDFS, two popular systems, where RAMCloud is RDMA-based and implemented natively. Third, Crail's metadata service can be scaled out to serve large number of clients. We have shown that Crail offers near linear scaling with up to 4 namenodes, offering a performance that is sufficient to serve several 1000s of clients. 
-&lt;/p&gt;
-&lt;/div&gt;</content><author><name>Adrian Schuepbach and Patrick Stuedi</name></author><category term="blog" /><summary type="html">This is part III of our series of posts discussing Crail's raw storage performance. This part is about Crail's metadata performance and scalability.</summary></entry></feed>
+&lt;/div&gt;</content><author><name>Animesh Trivedi</name></author><category term="blog" /><summary type="html">This is the first user blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are Apache Spark/SQL, Apache Hive, Apache Impala, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.</summary></entry><entry><title type="html">Dataworks</title><link href="http://crail.incubator.apache.org//blog/2018/06/dataworks.html" rel="alternate" type="text/html" title="Dataworks" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/dataworks</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/dataworks.html">&lt;p&gt;Apache Crail (incubating) to feature in the &lt;a href=&quot;https://dataworkssummit.com/san-jose-2018/session/data-processing-at-the-speed-of-100-gbpsapache-crail-incubating/&quot;&gt;DataWorks Summit&lt;/a&gt; on June 21st&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail (incubating) to feature in the DataWorks Summit on June 21st</summary></entry><entry><title type="html">Sparksummit</title><link href="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html" rel="alternate" type="text/html" title="Sparksummit" /><published>2018-06-05T00:00:00+02:00</published><updated>2018-06-05T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/sparksummit</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/sparksummit.html">&lt;p&gt;A Spark serverless architecture powered by Crail will be presented today at the &lt;a href=&quot;https://databricks.com/session/serverless-machine-learning-on-modern-hardware-using-apache-spark&quot;&gt;Spark Summit&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A Spark serverless architecture powered by Crail will be presented today at the Spark Summit</summary></entry><entry><title type="html">Apache Release</title><link href="http://crail.incubator.apache.org//blog/2018/06/apache-release.html" rel="alternate" type="text/html" title="Apache Release" /><published>2018-06-04T00:00:00+02:00</published><updated>2018-06-04T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/06/apache-release</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/06/apache-release.html">&lt;p&gt;Apache Crail 1.0 incubator &lt;a href=&quot;//crail.incubator.apache.org/download&quot;&gt;release&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Apache Crail 1.0 incubator release</summary></entry><entry><title type="html">Apache</title><link href="http://crail.incubator.apache.org//blog/2018/01/apache.html" rel="alternate" type="text/html" title="Apache" /><published>2018-01-22T00:00:00+01:00</published><updated>2018-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2018/01/apache</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/01/apache.html">&lt;p&gt;Crail is now an Apache Incubator project!&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">Crail is now an Apache Incubator project!</summary></entry><entry><title type="html">Iops</title><link href="http://crail.incubator.apache.org//blog/2017/11/iops.html" rel="alternate" type="text/html" title="Iops" /><published>2017-11-23T00:00:00+01:00</published><updated>2017-11-23T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2017/11/iops</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2017/11/iops.html">&lt;p&gt;New blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/11/crail-metadata.html&quot;&gt;post&lt;/a&gt; about Crail’s metadata performance and scalability&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New blog post about Crail’s metadata performance and scalability</summary></entry></feed>
