@@ -15,5 +15,6 @@ Read the docs (rtd) build is available at: [https://incubator-crail.readthedocs.
 
 ## Papers
 
+  * [Unification of Temporary Storage in the NodeKernel Architecture](https://www.usenix.org/system/files/atc19-stuedi.pdf), USENIX ATC'19
   * Crail: A High-Performance I/O Architecture for Distributed Data Processing, In the IEEE Bulletin of the Technical Committee on Data Engineering, Special Issue on Distributed Data Management with RDMA, Volume 40, pages 40-52, March, 2017.
 
