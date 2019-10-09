@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>The Apache Crail (Incubating) Project: YCSB Benchmark with Crail on DRAM, Flash and Optane over RDMA and NVMe-over-Fabrics</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link rel="alternate" type="application/atom+xml" title="Atom"
+            href="//crail.incubator.apache.org/blog/blog.xml">
+        
+        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/ycsb-summary.png" />
+        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/ycsb-summary.png" />
+    </head>
+
+    <body>
+        <div class="container">
+          <div class="header">
+            <ul class="nav nav-pills pull-right">
+              
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/">
+                    Home
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/overview/">
+                    Overview
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/download/">
+                    Downloads
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/blog/">
+                    Blog
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/community/">
+                    Community
+                  </a>
+                </li>
+              
+                
+                <li >
+                  <a href="//crail.incubator.apache.org/documentation/">
+                    Documentation
+                  </a>
+                </li>
+              
+            </ul>
+            <a href="//crail.incubator.apache.org/">
+                <img src="//crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
+                    alt="Crail" id="logo">
+            </a>
+          </div>
+
+          
+          
+          <h2>YCSB Benchmark with Crail on DRAM, Flash and Optane over RDMA and NVMe-over-Fabrics</h2>   
+          
+
+          <p class="meta">09 Oct 2019,  </p>
+
+<div class="post">
+<div style="text-align: justify"> 
+<p>
+Recently, suppport for Crail has been added to the <a href="https://github.com/brianfrankcooper/YCSB">YCSB</a> benchmark suite. In this blog we describe how to run the benchmark and briefly show some performance comparisons between Crail and other key-value stores running on DRAM, Flash and Optane such as <a href="https://www.aerospike.com">Aerospike</a> or <a href="https://ramcloud.atlassian.net/wiki/spaces/RAM/overview">RAMCloud</a>. 
+</p>
+</div>
+
+<h3 id="the-crail-key-value-storage-namespace">The Crail Key-Value Storage Namespace</h3>
+
+<div style="text-align: justify"> 
+<p>
+Remember that Crail exports a hierarchical storage namespace where individual nodes in the storage hierarchy can have different types. Supported node types are Directory (Dir), File, Table, KeyValue (KV) and Bag. Each node type has slightly different properties and operations users can execute on them, but also restricts the possible node types of its child nodes. For instance, directories offer efficient enumeration of all of its children, but restricts children to be either of type Directory of File. Table nodes allow users to insert or retrieve KV nodes using a PUT/GET API, but restricts the children to be of type KV. All nodes, independent of their type, are identified using path names encoding the location in the storage hierarchy, similar to files and directories in a file system. All nodes further consist of metadata, managed by one of Crail's metadata servers, and an arbitrary large data sets, distributed across Crail's storage servers. For a more detailed description of Crail's node types please consider our recent <a href="https://www.usenix.org/conference/atc19/presentation/stuedi">USENIX ATC'19 </a> paper. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/storage_namespace.svg" width="400" /></div>
+<p><br /> 
+<br /></p>
+
+<div style="text-align: justify"> 
+<p>
+In this blog we focus on Crail's KeyValue API available to users through the Table and KV node types. Creating a new table and inserting a key-value pair into it can be done as follows.
+ </p>
+</div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailStore crail = CrailStore.newInstance();
+CrailTable table = fs.create("/tab1", CrailNodeType.TABLE, ..., ...).get();
+CrailKeyValue kv = fs.create("/tab1/key1", CrailNodeType.KEYVALUE, ..., ...).get();
+</code></pre></div></div>
+
+<div style="text-align: justify"> 
+<p>
+Here the table's name is "/tab1" and the key of the key-value pair is "key1". Unlike in a traditional key-value store where the value of a key is defined when inserting the key, in Crail the value of the key consists of an arbitrary size append-only data set, that is, a user may set the value of a key by appending data to it as follows. 
+ </p>
+</div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailOutputStream stream = kv.getOutputStream();
+CrailBuffer buf = CrailBuffer.wrap("data".bytes());
+stream.append(buf);
+</code></pre></div></div>
+<div style="text-align: justify"> 
+<p>
+Lookup and reading of a key-value pair is done in a similar fashion. 
+ </p>
+</div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailStore crail = CrailStore.newInstance();
+CrailKeyValue kv = fs.lookup("/tab1/key1").get().asKeyValue();
+CrailInputStream stream = kv.getInputStream();
+CrailBuffer buf = crail.createBuffer();
+stream.read(buf);
+</code></pre></div></div>
+
+<div style="text-align: justify"> 
+<p>
+Note that multiple clients may concurrently try to create a key-value pair with the same name in the same table. In that case Crail provides last-put-wins semantics where the most recently created key-value pair prevails. Clients currently reading or writing a stale key-value pair will be notified about the staleness of their object upon the next data access. 
+ </p>
+</div>
+
+<h3 id="running-ycsb-with-crail">Running YCSB with Crail</h3>
+
+<div style="text-align: justify"> 
+<p>
+The <a href="https://github.com/brianfrankcooper/YCSB">YCSB</a> benchmark is a popular benchmark to measure the performance of key-value stores in terms of PUT/GET latency and throughput for different workloads. We recently contributed support for Crail to the benchmark and we are excited that the Crail binding got accepted and integrated into the benchmark last June. With Crail, users can now run NoSQL workloads over Crail's RDMA and NVMe-over-fabrics storage tiers. 
+</p> 
+</div>
+
+<div style="text-align: justify"> 
+<p>
+In order to run the benchmark simply clone the YCSB repository and build the Crail binding as follows. 
+</p> 
+</div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ git clone http://github.com/brianfrankcooper/YCSB.git
+crail@clustermaster:~$ cd YCSB
+crail@clustermaster:~$ mvn -pl com.yahoo.ycsb:crail-binding -am clean package
+</code></pre></div></div>
+
+<div style="text-align: justify"> 
+<p>
+You need to have a Crail deployment up and running to run the YCSB benchmark. Follow the <a href="https://incubator-crail.readthedocs.io/en/latest">Crail documentation</a> if you need help with configuring and deploying Crail. Once Crail is up and accessible, data can be generated and loaded into Crail as follows. 
+</p> 
+</div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ ./bin/ycsb load crail -s -P workloads/workloada -P large.dat -p crail.enumeratekeys=true &gt;outputLoad.txt
+</code></pre></div></div>
+
+<div style="text-align: justify"> 
+<p>
+In this case we are running workload A which is an update heavy workload. Different workloads for different read/update ratios can be specified using the -P switch. The size of the data -- or more precisely -- the number of records to be written, can be defined via the YSCB property "recordcount". You can define arbitrary number of YSCB properties in a file (e.g., "large.dat") and pass the name of the file to the YSCB benchmark when loading the data. Note the Crail YCSB binding will pick up all the Crail configuration parameters defined in "$CRAIL_HOME/crail-site.conf". In the above example we further use "crail.enumeratekeys=true" which is a parameter specific to the Crail YCSB binding that enables enumeration of Crail tables. Enumeration support is convenient as it allows browsing of tables using the Crail command line tools. During actual performance measurements, however, it is recommended to turn off enumeration support which is faster. 
+</p> 
+</div>
+
+<div style="text-align: justify"> 
+<p>
+So far we have just loaded the data. Let's now run the actual benchmark which consists of a series of read and update operations. 
+</p> 
+</div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ ./bin/ycsb run crail -s -P workloads/workloada
+</code></pre></div></div>
+
+<h3 id="ycsb-benchmark-performance-for-dram--intel-optane">YCSB Benchmark Performance for DRAM &amp; Intel Optane</h3>
+
+<div style="text-align: justify"> 
+<p>
+We ran workload B of the YSCB benchmark using the Crail binding. Workload B has 95% read and 5% update operations and the records are selected with a Zipfian distribution. The two figures below show the update latencies for two different sizes of key-value pairs, 1K (10 fields of 100 bytes per KV pair) and 100K (10 fields of 10KB per KV pair). We show the cumulative distribution function of the latency for both Crail's DRAM/RDMA storage tier and the NVMf storage tier running on Intel Optane SSDs. As a reference we also report the update performance for RAMCloud and Aerospike on the same hardware, that is, RAMCLoud on RDMA and Aerospike on Optane. All Crail experiments run in a single namenode single datanode configuration with the YSCB benchmark executing remote to both namenode and datanode.
+</p>
+<p>
+Looking at small KV pairs first (left figure below), we can see that Crail's DRAM storage tier delivers update latencies that are about 5-10us higher than those of RAMCloud for a large fraction of updates. At the same time, Crail's Optane storage tier delivers update latencies that are substantially better than those of Aerospike on Optane, namely, 50us for Crail vs 100us for Aerospike for a large fraction of updates.  
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/ycsb_put.svg" width="700" /></div>
+<p><br /> 
+<br /></p>
+
+<div style="text-align: justify"> 
+<p>
+The reason Crail trails RAMCloud for small KV pairs is because Crail's internal message flow for implementing a PUT operation is more complex than the message flow of a PUT in most other distributed key-value stores. This is illustrated by the two figures below. A PUT operation in Crail (left figure below) essentially requires two metadata operations to create and close the key-value obejct, and one data operation to write the actual "value". Involving the metadata server adds flexibility because it allows Crail to dynamically choose the best storage server or the best storage tier for the given value, but it also adds two extra roundtrips compared to a PUT in a traditional key-value store (right figure below). In Crail we have designed the RPC subsystem between clients and metadata servers to be extremely light and low-latency, which in turn allowed us to favor flexibility over absolut lowest performance during PUT/GET operations. As can be seen, despite two extra roundtrips during a PUT compared to RAMCloud, the overall overhead is only 5-10us. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/crail_put_anatomy.svg" width="550" /></div>
+<p><br /> 
+<br /></p>
+
+<div style="text-align: justify"> 
+<p>
+Talking about Crail's superior Optane performance compared to Aerospike (in the CDF plot above) there are really two main reasons leading to this result. First, Aerospike uses synchronous I/O and multiple I/O threads, which cause contention and spend a significant amount of execution time in synchronization functions. Crail on the other hand uses asynchronous I/O and executes I/O requests in one context, avoiding context switching and synchronization completely. Second, Crail uses the NVMe-over-fabrics protocol which is based on RDMA and eliminates data copies at both client and server ends and generally reduces the code path that is executed during put/get operations. 
+</p>
+<p>
+One observation from the above YSCB experiment is that as we move toward larger key-value sizes (right figure above), Crail's update latency for DRAM is looking substantially better than the udpate latency of RAMCloud. We believe that Crail's use of one-side RDMA operations and the fact that data is placed directly into application target buffers are key factors that play into this result. Both factors reduce data copies, an important optimization as the data gets bigger. In contrast to Crail, RAMCloud uses two-sided RDMA operations and user data is always copied into separate I/O buffers which is costly for large key-value pairs. 
+</p>
+<p>
+Besides update latency, we are also showing read latency in the CDF figure below. Here Crail's absolut and relative performance compared to the latency of RAMCloud and Aerospike looks even better than in the case of updates. The main reason is that, compared to a PUT, Crail's internal message flow for a GET is simpler consisting of a metadata lookup and a data read but no close operation. Consequently, Crail's read latency for small KV pairs (1K) almost matches the read latency of RAMCloud. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/ycsb_get.svg" width="700" /></div>
+<p><br /> 
+<br /></p>
+
+<h3 id="pushing-the-throughput-limits">Pushing the throughput limits</h3>
+
+<div style="text-align: justify"> 
+<p>
+When measuring the latency performance of a system, what you actually want to see is how the latency is affected as the system gets increasingly loaded. The YCSB benchmark is based on a synchronous database interface for updates and reads which means that in order to create high system load one essentially needs a large number of threads, and, most likely a large number of machines. Crail, on the other hand, does have an asynchronous interface and it is relatively straightforward to manage multiple simultaneous outstanding operations per client. 
+</p>
+<p>
+We used Crail's asynchronous API to benchmark Crail's key-value performance under load. In a first set of experiments, we increase the number of clients from 1 to 64 but each client always only has one outstanding PUT/GET operation in flight. The two figures below show the latency (shown on the y-axis) of Crail's DRAM, Optane and Flash tiers under increasing load measured in terms of operations per second (shown on the x-axis). As can be seen, Crail delivers stable latencies up to a reasonably high throughput. For DRAM, the get latencies stay at 12-15μs up to 4M IOPS, at which point the metadata server became the bottleneck (note: Crail's metadata plane can be scaled out by adding more metadata servers if needed). For the Optane NVM configuration, latencies stay at 20μs up until almost 1M IOPS, which is very close to the device limit. The Flash latencies are higher but the Samsung drives combined also have a higher throughput limit. In fact, 64 clients with queue depth 1 could not saturate the Samsung devices.
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/iops_qd1.svg" width="650" /></div>
+<p><br /> 
+<br /></p>
+
+<div style="text-align: justify"> 
+<p>
+In order to generate a higher load, we measured throughput and latencies for the case where each client always has four operations in flight. As shown in the figure below, using a queue depth of 4 generally achieves a higher throughput up to a point where the hardware limit is reached, the device queues are overloaded (e.g., for NVM Optane) and latencies sky rock. For instance, at the point before the exponential increase in the latencies, Crail delivers GET latencies of 30.1μs at 4.2M IOPS (DRAM), 60.7μs for 1.1M IOPS (Optane), and 99.86μs for 640.3K IOPS (Flash). The situation for PUT is similar (not shown), though generally with lower performance. 
+</p>
+</div>
+
+<p><br /></p>
+<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/iops_qd4.svg" width="650" /></div>
+<p><br /> 
+<br /></p>
+
+<h3 id="summary">Summary</h3>
+
+<div style="text-align: justify"> 
+<p>
+Previous blog posts have mostly focused on Crail's file system interface. In this blog we gave a brief overview of the key-value interface in Crail and showed some performance results using the Crail YSCB binding that got added to the YSCB benchmark suite earlier this year. The results indicate the Crail offers comparable or superior performance than the other state-of-the-art key-value stores for DRAM, NVM (Intel Optane) and Flash. Moreoever, measurements have shown that Crail provides stable latencies very close to the hardware limits even under high load serving millions of operations per second. 
+ </p>
+ </div>
+
+
+</div>
+
+<!-- 
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//crail-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+-->
+
+
+        <br>
+	<br> 
+          <div class="footer">
+            <p>Apache Crail is an effort undergoing <a href="https://incubator.apache.org/">incubation</a> at <a href="https://www.apache.org/">The Apache Software Foundation (ASF)</a>, sponsored by the Apache Incubator PMC. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+            </p>
+          </div>
+
+        </div> <!-- /container -->
+
+        <!-- Support retina images. -->
+        <script type="text/javascript"
+            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+    </body>
+</html>
