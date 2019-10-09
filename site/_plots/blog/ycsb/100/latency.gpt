@@ -1,0 +1,29 @@
+set term pdf truecolor size 2.5,2.0 font "Times-Roman, 12"
+
+set output "ycsb_small.pdf"
+
+set xrange [0:200]
+set yrange [0:1]
+set xlabel "latency [us]"
+set ylabel "CDF"
+
+
+set style line 1 lc rgb "#4dafa4" lw 4
+set style line 2 lc rgb "#ff7f00" lw 4
+set style line 3 lc rgb "#e41a1c" lw 4
+set style line 4 lc rgb "#377eb8" lw 4
+set style line 5 lc rgb "#377eb8" lw 4
+set style line 6 lc rgb "#377eb8" lw 4
+set style line 7 lc rgb "#377e00" lw 4
+
+set style increment user
+set style data lines
+set nokey
+
+
+plot "crail_dram_get.dat" using 2:($3/47523) smooth bezier ti "Crail - DRAM", \
+ "crail_optane_get.dat" using 2:($3/47687) smooth bezier ti "Crail - Optane",\
+ "ramcloud_dram_get.dat" using 2:($3/95014) smooth bezier ti "Ramcloud",\
+ "as_optane_get.dat" using 2:($3/94987) smooth bezier ti "Airospike - Optane"
+
+

@@ -1,0 +1,163 @@
+#set term pdf monochrome size 4.0,2.5 font "Times-Roman, 21"
+set term pdf truecolor size 2.5,2.2 font "Times-Roman, 12"
+
+set output "GET_multiclient_1.pdf"
+
+set ylabel "Latency [us]"
+set xlabel "IOPS"
+
+#set style line 1 lc rgb "#000000" pt 1 dt 1 lw 2 ps 0.8
+#set style line 2 lc rgb "#000000" pt 2 dt '.' lw 2 ps 0.8
+#set style line 3 lc rgb "#000000" pt 3 dt 4 lw 2 ps 0.8
+#set style line 4 lc rgb "#000000"  pt 8 dt 5 lw 2 ps 0.8
+
+set style line 1 lc rgb "#4dafa4" lw 4
+set style line 2 lc rgb "#ff7f00" lw 4
+set style line 3 lc rgb "#e41a1c" lw 4
+set style line 4 lc rgb "#377eb8" lw 4
+set style line 5 lc rgb "#377eb8" lw 4
+set style line 6 lc rgb "#377eb8" lw 4
+set style line 7 lc rgb "#377e00" lw 4
+
+set style increment user
+set style data lines
+set nokey
+
+
+set style increment user
+
+set key left center
+
+set logscale x
+set xrange [10000:10000000]
+set yrange [0:100]
+set style data linespoints
+
+plot    "getKey/dram_1" using 3:2 title "DRAM", \
+        "getKey/optane_1" using 3:2 title "Optane", \
+        "getKey/samsung_1" using 3:2 title "Flash"
+
+set output "GET_multiclient_4.pdf"
+
+set yrange [0:300]
+set key left top
+
+plot    "getKey/dram_4" using 3:2 title "DRAM", \
+        "getKey/optane_4" using 3:2 title "Optane", \
+        "getKey/samsung_4" using 3:2 title "Flash"
+
+set output "GET_multiclient_16.pdf"
+set yrange [0:1200]
+plot    "getKey/dram_16" using 3:2 title "DRAM", \
+        "getKey/optane_16" using 3:2 title "Optane", \
+        "getKey/samsung_16" using 3:2 title "Flash"
+
+set yrange [0:100]
+set output "PUT_multiclient_1.pdf"
+
+plot    "putKey/dram_1" using 3:2 title "DRAM", \
+        "putKey/optane_1" using 3:2 title "Optane", \
+        "putKey/samsung_1" using 3:2 title "Flash"
+
+set output "PUT_multiclient_4.pdf"
+
+set key left top
+set yrange [0:300]
+
+plot    "putKey/dram_4" using 3:2 title "DRAM", \
+        "putKey/optane_4" using 3:2 title "Optane", \
+        "putKey/samsung_4" using 3:2 title "Flash"
+
+set output "PUT_multiclient_16.pdf"
+set yrange [0:1200]
+plot    "putKey/dram_16" using 3:2 title "DRAM", \
+        "putKey/optane_16" using 3:2 title "Optane", \
+        "putKey/samsung_16" using 3:2 title "Flash"
+
+
+
+
+
+################################################################################
+
+set term pdf truecolor size 5.5,5.0 font "Times-Roman, 16"
+set output "multiclient_multipicture.pdf"
+set tmargin 0
+set multiplot layout 2,2
+
+set rmargin 2
+set tmargin 0
+set bmargin 1
+
+set style line 1 lc rgb "#4dafa4" lw 4
+set style line 2 lc rgb "#ff7f00" lw 4
+set style line 3 lc rgb "#e41a1c" lw 4
+set style line 4 lc rgb "#377eb8" lw 4
+set style line 5 lc rgb "#377eb8" lw 4
+set style line 6 lc rgb "#377eb8" lw 4
+set style line 7 lc rgb "#377e00" lw 4
+
+
+set key at screen 0.07, 0.05 maxrows 1 width 5
+
+
+set size 0.52, 0.35
+set yrange [0:100]
+#set output "PUT_multiclient_1.pdf"
+unset xlabel
+set xtics format ""
+set ytics format "%g"
+set ylabel "Latency [us]"
+
+plot    "putKey/dram_1" using 3:2 title "DRAM", \
+        "putKey/optane_1" using 3:2 title "Optane", \
+        "putKey/samsung_1" using 3:2 title "Flash"
+
+set nokey
+
+
+set size 0.45, 0.35
+set logscale x
+set xrange [10000:10000000]
+set yrange [0:100]
+set style data linespoints
+
+#set output "GET_multiclient_1.pdf"
+
+unset ylabel
+set ytics format ""
+
+plot    "getKey/dram_1" using 3:2 title "DRAM", \
+        "getKey/optane_1" using 3:2 title "Optane", \
+        "getKey/samsung_1" using 3:2 title "Flash"
+
+
+
+
+set bmargin 6
+#set output "PUT_multiclient_4.pdf"
+
+set yrange [0:300]
+set xtics format "10^{%L}"
+set ytics format "%g"
+set ylabel "Latency [us]"
+set xlabel "IOPS"
+set size 0.52, 0.5
+
+
+plot    "putKey/dram_4" using 3:2 title "DRAM", \
+        "putKey/optane_4" using 3:2 title "Optane", \
+        "putKey/samsung_4" using 3:2 title "Flash"
+
+
+
+#set output "GET_multiclient_4.pdf"
+
+set yrange [0:300]
+unset ylabel
+set ytics format ""
+set size 0.45, 0.5
+
+plot    "getKey/dram_4" using 3:2 title "DRAM", \
+        "getKey/optane_4" using 3:2 title "Optane", \
+        "getKey/samsung_4" using 3:2 title "Flash"

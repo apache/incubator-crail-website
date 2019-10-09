@@ -1,0 +1,63 @@
+#set terminal pdf monochrome size 3.15,2.5
+set term pdf truecolor size 4.0,2.0 font "Times-Roman, 12"
+#set term svg size 640,300 font "Times-Roman, 12"
+
+set output "workloadb_multi.pdf"
+
+set multiplot layout 1,2
+
+set xrange [0:200]
+set yrange [1:5000]
+#set ytics add ("1us" 1, "10us" 10, "100us" 100, "1ms" 1000, "10ms" 10000, "" 100000, "" 1000000, "10s" 10000000, "100s" 100000000, "" 1000000000, "" 1e10)
+set xlabel "latency [us]" offset 12,0.2
+set ylabel "#operations"
+
+set key at screen 0.93,screen 1 maxrows 2
+
+set logscale y
+
+set style line 1 lc rgb "#4dafa4" lw 2
+set style line 2 lc rgb "#ff7f00" lw 2
+set style line 3 lc rgb "#e41a1c" lw 2
+set style line 4 lc rgb "#377eb8" lw 2
+set style line 5 lc rgb "#377eb8" lw 2
+set style line 6 lc rgb "#377eb8" lw 2
+set style line 7 lc rgb "#377e00" lw 2
+#set style line 2 lc rgb "#e41a1c" lw 4
+#set style line 4 lc rgb "#4dafa4" lw 4
+#set style line 5 lc rgb "#984ea3" lw 4
+#set style line 6 lc rgb "#ff7f00" lw 4
+#set style line 7 lc rgb "#ffff33" lw 4
+set style line 1 lc rgb "#000000" pt 6 dt 1 lw 2 ps 0
+set style line 2 lc rgb "#000000" pt 6 dt '.' lw 2 ps 0
+set style line 3 lc rgb "#000000" pt 6 dt 4 lw 2 ps 0
+set style line 4 lc rgb "#000000"  pt 6 dt 5 lw 2 ps 0
+
+
+set style increment user
+set style data lines
+set bmargin 3.2
+
+set size 0.6,0.9
+
+
+plot "<(sed -n '21,277p' Crail.050218.workloadb.flex23.ram.1.10000.-1.0)" using 2:3 smooth bezier ti "Crail - DRAM", \
+ "<(sed -n '26,292p' Crail.060218.workloadb.flex21.optane.1.12530.-1.0)" using 2:3 smooth bezier ti "Crail - Optane", \
+ "<(sed -n '19,497p' AS.050218.workloadb.flex23.optane.1.10000.-1.0)" using 2:3 smooth bezier ti "Aerospike - Optane", \
+ "<(sed -n '19,226p' RAMCloud.10k.workloadb2.dat)" using 2:3 smooth bezier ti "RAMCloud"
+
+# "<(sed -n '26,283p' Crail.050218.workloadb.flex21.samsung960pro.1.114.-1.0)" using 2:3 smooth bezier ti "Crail - Flash", \
+# "<(sed -n '19,318p' AS.010218.workloadb.flex23.samsung960pro.1.2)" using 2:3 smooth bezier ti "Aerospike - Flash", \
+
+
+set lmargin 6.5
+set key off
+set ytics format ""
+set size 0.52,0.9
+unset ylabel
+unset xlabel
+
+plot "<(sed -n '292,459p' Crail.050218.workloadb.flex23.ram.1.10000.-1.0)" using 2:3 smooth bezier ti "Crail - DRAM", \
+ "<(sed -n '307,452p' Crail.060218.workloadb.flex21.optane.1.12530.-1.0)" using 2:3 smooth bezier ti "Crail - Optane", \
+ "<(sed -n '512,704p' AS.050218.workloadb.flex23.optane.1.10000.-1.0)" using 2:3 smooth bezier ti "Aerospike - Optane", \
+ "<(sed -n '241,436p' RAMCloud.10k.workloadb2.dat)" using 2:3 smooth bezier ti "RAMCloud"

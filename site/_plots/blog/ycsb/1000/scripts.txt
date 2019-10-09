@@ -1,0 +1,3 @@
+sed -n '21,254p' Crail.050218.workloadb.flex23.ram2.1.100.-1.0 | awk '{s+=$3 ; print $1,$2,s}' > crail_get.dat
+sed -n '269,411p' Crail.050218.workloadb.flex23.ram2.1.100.-1.0 | awk '{s+=$3 ; print $1,$2,s}' > crail_put.dat
+
