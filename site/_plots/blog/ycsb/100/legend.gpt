@@ -25,6 +25,6 @@ set key right outside
 plot "crail_dram_get.dat" using 2:($3/47523) smooth bezier ti "Crail - DRAM", \
  "crail_optane_get.dat" using 2:($3/47687) smooth bezier ti "Crail - Optane",\
  "ramcloud_dram_get.dat" using 2:($3/95014) smooth bezier ti "Ramcloud",\
- "as_optane_get.dat" using 2:($3/94987) smooth bezier ti "Airospike - Optane"
+ "as_optane_get.dat" using 2:($3/94987) smooth bezier ti "Aerospike - Optane"
 
 
