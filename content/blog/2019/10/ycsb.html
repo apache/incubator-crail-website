@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>The Apache Crail (Incubating) Project: YCSB Benchmark with Crail on DRAM, Flash and Optane over RDMA and NVMe-over-Fabrics</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/group.css" rel="stylesheet">
         <link rel="alternate" type="application/atom+xml" title="Atom"
-            href="//crail.incubator.apache.org/blog/blog.xml">
+            href="https://crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/ycsb-summary.png" />
-        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/ycsb-summary.png" />
+        <meta property="og:image" content="https://crail.incubator.apache.org/img/blog/preview/ycsb-summary.png" />
+        <meta property="og:image:secure_url" content="https://crail.incubator.apache.org/img/blog/preview/ycsb-summary.png" />
     </head>
 
     <body>
@@ -21,50 +21,50 @@
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/">
+                  <a href="https://crail.incubator.apache.org/">
                     Home
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/overview/">
+                  <a href="https://crail.incubator.apache.org/overview/">
                     Overview
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/download/">
+                  <a href="https://crail.incubator.apache.org/download/">
                     Downloads
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/blog/">
+                  <a href="https://crail.incubator.apache.org/blog/">
                     Blog
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/community/">
+                  <a href="https://crail.incubator.apache.org/community/">
                     Community
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/documentation/">
+                  <a href="https://crail.incubator.apache.org/documentation/">
                     Documentation
                   </a>
                 </li>
               
             </ul>
-            <a href="//crail.incubator.apache.org/">
-                <img src="//crail.incubator.apache.org/img/crail_logo.png"
-                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
+            <a href="https://crail.incubator.apache.org/">
+                <img src="https://crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="https://crail.incubator.apache.org/img/crail_logo.png"
                     alt="Crail" id="logo">
             </a>
           </div>
@@ -92,7 +92,7 @@ Remember that Crail exports a hierarchical storage namespace where individual no
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/storage_namespace.svg" width="400" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/ycsb/storage_namespace.svg" width="400" /></div>
 <p><br /> 
 <br /></p>
 
@@ -102,7 +102,7 @@ In this blog we focus on Crail's KeyValue API available to users through the Tab
  </p>
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailStore crail = CrailStore.newInstance();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailStore crail = CrailStore.newInstance();
 CrailTable table = fs.create("/tab1", CrailNodeType.TABLE, ..., ...).get();
 CrailKeyValue kv = fs.create("/tab1/key1", CrailNodeType.KEYVALUE, ..., ...).get();
 </code></pre></div></div>
@@ -113,7 +113,7 @@ Here the table's name is "/tab1" and the key of the key-value pair is "key1". Un
  </p>
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailOutputStream stream = kv.getOutputStream();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailOutputStream stream = kv.getOutputStream();
 CrailBuffer buf = CrailBuffer.wrap("data".bytes());
 stream.append(buf);
 </code></pre></div></div>
@@ -123,7 +123,7 @@ Lookup and reading of a key-value pair is done in a similar fashion.
  </p>
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailStore crail = CrailStore.newInstance();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailStore crail = CrailStore.newInstance();
 CrailKeyValue kv = fs.lookup("/tab1/key1").get().asKeyValue();
 CrailInputStream stream = kv.getInputStream();
 CrailBuffer buf = crail.createBuffer();
@@ -150,7 +150,7 @@ In order to run the benchmark simply clone the YCSB repository and build the Cra
 </p> 
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ git clone http://github.com/brianfrankcooper/YCSB.git
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ git clone http://github.com/brianfrankcooper/YCSB.git
 crail@clustermaster:~$ cd YCSB
 crail@clustermaster:~$ mvn -pl com.yahoo.ycsb:crail-binding -am clean package
 </code></pre></div></div>
@@ -161,7 +161,7 @@ You need to have a Crail deployment up and running to run the YCSB benchmark. Fo
 </p> 
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ ./bin/ycsb load crail -s -P workloads/workloada -P large.dat -p crail.enumeratekeys=true &gt;outputLoad.txt
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ ./bin/ycsb load crail -s -P workloads/workloada -P large.dat -p crail.enumeratekeys=true &gt;outputLoad.txt
 </code></pre></div></div>
 
 <div style="text-align: justify"> 
@@ -176,7 +176,7 @@ So far we have just loaded the data. Let's now run the actual benchmark which co
 </p> 
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ ./bin/ycsb run crail -s -P workloads/workloada
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ ./bin/ycsb run crail -s -P workloads/workloada
 </code></pre></div></div>
 
 <h3 id="ycsb-benchmark-performance-for-dram--intel-optane">YCSB Benchmark Performance for DRAM &amp; Intel Optane</h3>
@@ -191,7 +191,7 @@ Looking at small KV pairs first (left figure below), we can see that Crail's DRA
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/ycsb_put.svg" width="700" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/ycsb/ycsb_put.svg" width="700" /></div>
 <p><br /> 
 <br /></p>
 
@@ -202,7 +202,7 @@ The reason Crail trails RAMCloud for small KV pairs is because Crail's internal 
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/crail_put_anatomy.svg" width="550" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/ycsb/crail_put_anatomy.svg" width="550" /></div>
 <p><br /> 
 <br /></p>
 
@@ -219,7 +219,7 @@ Besides update latency, we are also showing read latency in the CDF figure below
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/ycsb_get.svg" width="700" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/ycsb/ycsb_get.svg" width="700" /></div>
 <p><br /> 
 <br /></p>
 
@@ -235,7 +235,7 @@ We used Crail's asynchronous API to benchmark Crail's key-value performance unde
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/iops_qd1.svg" width="650" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/ycsb/iops_qd1.svg" width="650" /></div>
 <p><br /> 
 <br /></p>
 
@@ -246,7 +246,7 @@ In order to generate a higher load, we measured throughput and latencies for the
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/ycsb/iops_qd4.svg" width="650" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/ycsb/iops_qd4.svg" width="650" /></div>
 <p><br /> 
 <br /></p>
 
@@ -298,6 +298,6 @@ s.setAttribute('data-timestamp', +new Date());
 
         <!-- Support retina images. -->
         <script type="text/javascript"
-            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+            src="https://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
     </body>
 </html>

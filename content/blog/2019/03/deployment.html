@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>The Apache Crail (Incubating) Project: Deployment Options for Tiered Storage Disaggregation</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/group.css" rel="stylesheet">
         <link rel="alternate" type="application/atom+xml" title="Atom"
-            href="//crail.incubator.apache.org/blog/blog.xml">
+            href="https://crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/deployment-summary.png" />
-        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/deployment-summary.png" />
+        <meta property="og:image" content="https://crail.incubator.apache.org/img/blog/preview/deployment-summary.png" />
+        <meta property="og:image:secure_url" content="https://crail.incubator.apache.org/img/blog/preview/deployment-summary.png" />
     </head>
 
     <body>
@@ -21,50 +21,50 @@
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/">
+                  <a href="https://crail.incubator.apache.org/">
                     Home
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/overview/">
+                  <a href="https://crail.incubator.apache.org/overview/">
                     Overview
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/download/">
+                  <a href="https://crail.incubator.apache.org/download/">
                     Downloads
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/blog/">
+                  <a href="https://crail.incubator.apache.org/blog/">
                     Blog
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/community/">
+                  <a href="https://crail.incubator.apache.org/community/">
                     Community
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/documentation/">
+                  <a href="https://crail.incubator.apache.org/documentation/">
                     Documentation
                   </a>
                 </li>
               
             </ul>
-            <a href="//crail.incubator.apache.org/">
-                <img src="//crail.incubator.apache.org/img/crail_logo.png"
-                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
+            <a href="https://crail.incubator.apache.org/">
+                <img src="https://crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="https://crail.incubator.apache.org/img/crail_logo.png"
                     alt="Crail" id="logo">
             </a>
           </div>
@@ -98,7 +98,7 @@ Remember that Crail is a tiered storage system where each storage tier consists 
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/deployment/three_options.svg" width="580" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/deployment/three_options.svg" width="580" /></div>
 <p><br /> 
 <br /></p>
 
@@ -123,7 +123,7 @@ In all of the previously discussed configurations there is a one-to-one mapping 
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/deployment/storage_class.svg" width="400" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/deployment/storage_class.svg" width="400" /></div>
 <p><br /> 
 <br /></p>
 
@@ -133,7 +133,7 @@ Storage classes can easily be defined in the slaves file as follows (see the <a 
 </p> 
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ cat $CRAIL_HOME/conf/slaves
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clustermaster:~$ cat $CRAIL_HOME/conf/slaves
 clusternode1 -t org.apache.crail.storage.rdma.RdmaStorageTier -c 0
 clusternode2 -t org.apache.crail.storage.rdma.RdmaStorageTier -c 0
 clusternode1 -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 1
@@ -147,7 +147,7 @@ One can also manually attach a storage server to a particular storage class:
  </p>
  </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clusternode2:~$ $CRAIL_HOME/bin/crail datanode -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 2
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail@clusternode2:~$ $CRAIL_HOME/bin/crail datanode -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 2
 </code></pre></div></div>
 
 <div style="text-align: justify"> 
@@ -157,7 +157,7 @@ Remember that the storage class ID is implicitly ordering the storage tiers. Dur
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/deployment/timeline.svg" width="300" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/deployment/timeline.svg" width="300" /></div>
 <p><br /> 
 <br /></p>
 
@@ -167,7 +167,7 @@ If applications want to further prioritize the specific local resource of a mach
 </p>
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailLocationClass local = fs.getLocationClass();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailLocationClass local = fs.getLocationClass();
 CrailFile file = fs.create("/tmp.dat", CrailNodeType.DATAFILE, CrailStorageClass.DEFAULT, local).get().asFile();
 </code></pre></div></div>
 <div style="text-align: justify"> 
@@ -185,7 +185,7 @@ During the deployment of Crail, one has to decide on the storage capacity of eac
 </div>
 
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/deployment/resource_provisioning.svg" width="400" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/deployment/resource_provisioning.svg" width="400" /></div>
 <p><br /> 
 <br /></p>
 
@@ -243,6 +243,6 @@ s.setAttribute('data-timestamp', +new Date());
 
         <!-- Support retina images. -->
         <script type="text/javascript"
-            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+            src="https://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
     </body>
 </html>

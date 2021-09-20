@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2020-01-14T11:20:49+01:00</updated><id>http://crail.incubator.apache.org//feed.xml</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Release_v1.2</title><link href="http://crail.incubator.apache.org//blog/2020/01/release_v1.2.html" rel="alternate" type="text/html" title="Release_v1.2" /><published>2020-01-14T00:00:00+01:00</published><updated>2020-01-14T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2020/01/release_v1.2</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2020/01/release_v1.2.html">&lt;p&gt;New release v1.2 of Apache Crail available for &lt;a href=&quot;../download&quot;&gt;download&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New release v1.2 of Apache Crail available for download</summary></entry><entry><title type="html">YCSB Benchmark with Crail on DRAM, Flash and Optane over RDMA and NVMe-over-Fabrics</title><link href="http://crail.incubator.apache.org//blog/2019/10/ycsb.html" rel="alternate" type="text/html" title="YCSB Benchmark with Crail on DRAM, Flash and Optane over RDMA and NVMe-over-Fabrics" /><published>2019-10-09T00:00:00+02:00</published><updated>2019-10-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2019/10/ycsb</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/10/ycsb.html">&lt;div style=&quot;text-align: justify&quot;&gt; 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="http://crail.incubator.apache.org//feed.xml" rel="self" type="application/atom+xml" /><link href="http://crail.incubator.apache.org//" rel="alternate" type="text/html" /><updated>2021-09-20T15:36:37+02:00</updated><id>http://crail.incubator.apache.org//feed.xml</id><title type="html">The Apache Crail (Incubating) Project</title><entry><title type="html">Release_v1.2</title><link href="http://crail.incubator.apache.org//blog/2020/01/release_v1.2.html" rel="alternate" type="text/html" title="Release_v1.2" /><published>2020-01-14T00:00:00+01:00</published><updated>2020-01-14T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2020/01/release_v1.2</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2020/01/release_v1.2.html">&lt;p&gt;New release v1.2 of Apache Crail available for &lt;a href=&quot;../download&quot;&gt;download&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">New release v1.2 of Apache Crail available for download</summary></entry><entry><title type="html">YCSB Benchmark with Crail on DRAM, Flash and Optane over RDMA and NVMe-over-Fabrics</title><link href="http://crail.incubator.apache.org//blog/2019/10/ycsb.html" rel="alternate" type="text/html" title="YCSB Benchmark with Crail on DRAM, Flash and Optane over RDMA and NVMe-over-Fabrics" /><published>2019-10-09T00:00:00+02:00</published><updated>2019-10-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2019/10/ycsb</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/10/ycsb.html">&lt;div style=&quot;text-align: justify&quot;&gt; 
 &lt;p&gt;
 Recently, suppport for Crail has been added to the &lt;a href=&quot;https://github.com/brianfrankcooper/YCSB&quot;&gt;YCSB&lt;/a&gt; benchmark suite. In this blog we describe how to run the benchmark and briefly show some performance comparisons between Crail and other key-value stores running on DRAM, Flash and Optane such as &lt;a href=&quot;https://www.aerospike.com&quot;&gt;Aerospike&lt;/a&gt; or &lt;a href=&quot;https://ramcloud.atlassian.net/wiki/spaces/RAM/overview&quot;&gt;RAMCloud&lt;/a&gt;. 
 &lt;/p&gt;
@@ -13,7 +13,7 @@ Remember that Crail exports a hierarchical storage namespace where individual no
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/ycsb/storage_namespace.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/ycsb/storage_namespace.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -23,7 +23,7 @@ In this blog we focus on Crail's KeyValue API available to users through the Tab
  &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailStore crail = CrailStore.newInstance();
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailStore crail = CrailStore.newInstance();
 CrailTable table = fs.create(&quot;/tab1&quot;, CrailNodeType.TABLE, ..., ...).get();
 CrailKeyValue kv = fs.create(&quot;/tab1/key1&quot;, CrailNodeType.KEYVALUE, ..., ...).get();
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -34,7 +34,7 @@ Here the table's name is &quot;/tab1&quot; and the key of the key-value pair is 
  &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailOutputStream stream = kv.getOutputStream();
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailOutputStream stream = kv.getOutputStream();
 CrailBuffer buf = CrailBuffer.wrap(&quot;data&quot;.bytes());
 stream.append(buf);
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -44,7 +44,7 @@ Lookup and reading of a key-value pair is done in a similar fashion.
  &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailStore crail = CrailStore.newInstance();
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailStore crail = CrailStore.newInstance();
 CrailKeyValue kv = fs.lookup(&quot;/tab1/key1&quot;).get().asKeyValue();
 CrailInputStream stream = kv.getInputStream();
 CrailBuffer buf = crail.createBuffer();
@@ -71,7 +71,7 @@ In order to run the benchmark simply clone the YCSB repository and build the Cra
 &lt;/p&gt; 
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ git clone http://github.com/brianfrankcooper/YCSB.git
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ git clone http://github.com/brianfrankcooper/YCSB.git
 crail@clustermaster:~$ cd YCSB
 crail@clustermaster:~$ mvn -pl com.yahoo.ycsb:crail-binding -am clean package
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -82,7 +82,7 @@ You need to have a Crail deployment up and running to run the YCSB benchmark. Fo
 &lt;/p&gt; 
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ ./bin/ycsb load crail -s -P workloads/workloada -P large.dat -p crail.enumeratekeys=true &amp;gt;outputLoad.txt
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ ./bin/ycsb load crail -s -P workloads/workloada -P large.dat -p crail.enumeratekeys=true &amp;gt;outputLoad.txt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -97,7 +97,7 @@ So far we have just loaded the data. Let's now run the actual benchmark which co
 &lt;/p&gt; 
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ ./bin/ycsb run crail -s -P workloads/workloada
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ ./bin/ycsb run crail -s -P workloads/workloada
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;ycsb-benchmark-performance-for-dram--intel-optane&quot;&gt;YCSB Benchmark Performance for DRAM &amp;amp; Intel Optane&lt;/h3&gt;
@@ -112,7 +112,7 @@ Looking at small KV pairs first (left figure below), we can see that Crail's DRA
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/ycsb/ycsb_put.svg&quot; width=&quot;700&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/ycsb/ycsb_put.svg&quot; width=&quot;700&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -123,7 +123,7 @@ The reason Crail trails RAMCloud for small KV pairs is because Crail's internal 
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/ycsb/crail_put_anatomy.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/ycsb/crail_put_anatomy.svg&quot; width=&quot;550&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -140,7 +140,7 @@ Besides update latency, we are also showing read latency in the CDF figure below
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/ycsb/ycsb_get.svg&quot; width=&quot;700&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/ycsb/ycsb_get.svg&quot; width=&quot;700&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -156,7 +156,7 @@ We used Crail's asynchronous API to benchmark Crail's key-value performance unde
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/ycsb/iops_qd1.svg&quot; width=&quot;650&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/ycsb/iops_qd1.svg&quot; width=&quot;650&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -167,7 +167,7 @@ In order to generate a higher load, we measured throughput and latencies for the
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/ycsb/iops_qd4.svg&quot; width=&quot;650&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/ycsb/iops_qd4.svg&quot; width=&quot;650&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -198,7 +198,7 @@ Remember that Crail is a tiered storage system where each storage tier consists 
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/three_options.svg&quot; width=&quot;580&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/deployment/three_options.svg&quot; width=&quot;580&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -223,7 +223,7 @@ In all of the previously discussed configurations there is a one-to-one mapping 
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/storage_class.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/deployment/storage_class.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -233,7 +233,7 @@ Storage classes can easily be defined in the slaves file as follows (see the &lt
 &lt;/p&gt; 
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ cat $CRAIL_HOME/conf/slaves
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clustermaster:~$ cat $CRAIL_HOME/conf/slaves
 clusternode1 -t org.apache.crail.storage.rdma.RdmaStorageTier -c 0
 clusternode2 -t org.apache.crail.storage.rdma.RdmaStorageTier -c 0
 clusternode1 -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 1
@@ -247,7 +247,7 @@ One can also manually attach a storage server to a particular storage class:
  &lt;/p&gt;
  &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clusternode2:~$ $CRAIL_HOME/bin/crail datanode -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 2
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;crail@clusternode2:~$ $CRAIL_HOME/bin/crail datanode -t org.apache.crail.storage.nvmf.NvmfStorageTier -c 2
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -257,7 +257,7 @@ Remember that the storage class ID is implicitly ordering the storage tiers. Dur
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/timeline.svg&quot; width=&quot;300&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/deployment/timeline.svg&quot; width=&quot;300&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -267,7 +267,7 @@ If applications want to further prioritize the specific local resource of a mach
 &lt;/p&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailLocationClass local = fs.getLocationClass();
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailLocationClass local = fs.getLocationClass();
 CrailFile file = fs.create(&quot;/tmp.dat&quot;, CrailNodeType.DATAFILE, CrailStorageClass.DEFAULT, local).get().asFile();
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -285,7 +285,7 @@ During the deployment of Crail, one has to decide on the storage capacity of eac
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/deployment/resource_provisioning.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/deployment/resource_provisioning.svg&quot; width=&quot;400&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt; 
 &lt;br /&gt;&lt;/p&gt;
 
@@ -310,7 +310,7 @@ Today, data processing applications running in the cloud may implicitly use disa
 &lt;/p&gt;
  
 &lt;br /&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/spark_disagg.svg&quot; width=&quot;580&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/spark_disagg.svg&quot; width=&quot;580&quot; /&gt;&lt;/div&gt;
 &lt;br /&gt; 
 &lt;br /&gt;
  
@@ -332,7 +332,7 @@ In a traditional shuffle operation, data is exchanged between map and reduce tas
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/overview.svg&quot; width=&quot;350&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/overview.svg&quot; width=&quot;350&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;challenge-large-number-of-small-files&quot;&gt;Challenge: Large Number of Small Files&lt;/h3&gt;
@@ -349,7 +349,7 @@ performed a simple experiment where we measured the size distribution of Spark s
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/cdf-plot.svg&quot; width=&quot;480&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/cdf-plot.svg&quot; width=&quot;480&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -367,7 +367,7 @@ To mitigate the overheads of writing and reading large numbers of small data set
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/optimization_tasks.svg&quot; width=&quot;380&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/optimization_tasks.svg&quot; width=&quot;380&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -378,7 +378,7 @@ The second optimization we use in our disaggregated Crail shuffler is efficient 
 Crail Multifiles offer zero-copy parallel reading of large numbers of files in a sequential manner. From the prespective of a map task MultiFiles are flat directories consisting of files belonging to different per-core file sets. From a reducer perspective, a MultFile looks like a large file that can be read sequentially using many in-flight operations. For instance, the following code shows how a reduce task during a Crail shuffle operation reads a partition from remote storage. 
 &lt;/p&gt;
 &lt;/div&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailStore fs = CrailStore.newInstance();
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;CrailStore fs = CrailStore.newInstance();
 CrailMultiFile multiFile = fs.lookup(&quot;/shuffle/partition1&quot;).get().asMultiFile();
 ByteBuffer buffer = Buffer.allocateDirect(multiFile.size());
 int batchSize = 16;
@@ -406,7 +406,7 @@ Shuffle operations, being essentially barriers between compute stages, are highl
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/machine_skew.svg&quot; width=&quot;520&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/machine_skew.svg&quot; width=&quot;520&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -416,7 +416,7 @@ One way to deal with this problem is through weighted fair scheduling of network
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/machine_skew_crail.svg&quot; width=&quot;520&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/machine_skew_crail.svg&quot; width=&quot;520&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -432,7 +432,7 @@ One may argue that chopping shuffle data up into blocks and transferring them ov
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/loadbalancing.svg&quot; width=&quot;520&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/loadbalancing.svg&quot; width=&quot;520&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -450,7 +450,7 @@ Note that Crail disaggregated storage may be provided by a few highly dense stor
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/terasort.svg&quot; width=&quot;450&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/terasort.svg&quot; width=&quot;450&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -468,7 +468,7 @@ Next we look at Spark SQL performance in a disaggregated configuration. Again we
 &lt;/div&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/disaggregation/sql.svg&quot; width=&quot;420&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/disaggregation/sql.svg&quot; width=&quot;420&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;div style=&quot;text-align: justify&quot;&gt; 
@@ -482,7 +482,7 @@ Often, high network bandwidth is assumed to be the key enabling factor for stora
 
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 
-&lt;p&gt;Efficient disaggregation of shuffle data is challenging, requiring shuffle managers and storage systems to be co-designed in order to effectively handle large numbers of small files, machine skew and loadbalancing issues. In this blog post we discussed the basic architecture of the Crail disaggregated shuffle engine and showed that by using Crail we can effectively disaggregate shuffle data in both bandwidth intensive map-reduce jobs as well as in more latency sensitive SQL workloads. In the next blog post we will discuss several deployment options of disaggregated storage in a tiered storage environment.&lt;/p&gt;</content><author><name>Patrick Stuedi</name></author><category term="blog" /><summary type="html">One of the goals of Crail has always been to enable efficient storage disaggregation for distributed data processing workloads. Separating storage from compute resources in a cluster is known to have several interesting benefits. For instance, it allows storage resources to scale independently from compute resources, or to run storage systems on specialized hardware (e.g., storage servers with a weak CPU attached to a fast network) for better performance and reduced cost. Storage disaggregation also simplifies system maintenance as one can uprade compute and storage resources at different cycles. Today, data processing applications running in the cloud may implicitly use disaggregated storage through cloud storage services like S3. For instance, it is not uncommon for map-reduce workloads in the cloud to use S3 instead of HDFS for storing input and output data. While Crail can offer high-performance disaggregated storage for input/output data as well, in this blog we specifically look at how to use Crail for efficient disaggregation of shuffle data. Generally, the arguments for disaggregation hold for any type of data including input, output and shuffle data. One aspect that makes disaggregation of shuffle data particularly interesting is that compute nodes generating shuffle data now have access to ''infinitely'' large pools or storage resources, whereas in traditional ''non-disaggregated'' deployments the amount of shuffle data per compute node is bound by local resources.</summary></entry><entry><title type="html">Crail Python API: Python -&amp;gt; C/C++ call overhead</title><link href="http://crail.incubator.apache.org//blog/2019/01/python.html" rel="alternate" type="text/html" title="Crail Python API: Python -&gt; C/C++ call overhead" /><published>2019-01-22T00:00:00+01:00</published><updated>2019-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2019/01/python</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/01/python.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;Efficient disaggregation of shuffle data is challenging, requiring shuffle managers and storage systems to be co-designed in order to effectively handle large numbers of small files, machine skew and loadbalancing issues. In this blog post we discussed the basic architecture of the Crail disaggregated shuffle engine and showed that by using Crail we can effectively disaggregate shuffle data in both bandwidth intensive map-reduce jobs as well as in more latency sensitive SQL workloads. In the next blog post we will discuss several deployment options of disaggregated storage in a tiered storage environment.&lt;/p&gt;</content><author><name>Patrick Stuedi</name></author><category term="blog" /><summary type="html">One of the goals of Crail has always been to enable efficient storage disaggregation for distributed data processing workloads. Separating storage from compute resources in a cluster is known to have several interesting benefits. For instance, it allows storage resources to scale independently from compute resources, or to run storage systems on specialized hardware (e.g., storage servers with a weak CPU attached to a fast network) for better performance and reduced cost. Storage disaggregation also simplifies system maintenance as one can uprade compute and storage resources at different cycles. Today, data processing applications running in the cloud may implicitly use disaggregated storage through cloud storage services like S3. For instance, it is not uncommon for map-reduce workloads in the cloud to use S3 instead of HDFS for storing input and output data. While Crail can offer high-performance disaggregated storage for input/output data as well, in this blog we specifically look at how to use Crail for efficient disaggregation of shuffle data. Generally, the arguments for disaggregation hold for any type of data including input, output and shuffle data. One aspect that makes disaggregation of shuffle data particularly interesting is that compute nodes generating shuffle data now have access to ''infinitely'' large pools or storage resources, whereas in traditional ''non-disaggregated'' deployments the amount of shuffle data per compute node is bound by local resources.</summary></entry><entry><title type="html">Crail Python API: Python -&amp;gt; C/C++ call overhead</title><link href="http://crail.incubator.apache.org//blog/2019/01/python.html" rel="alternate" type="text/html" title="Crail Python API: Python -&amp;gt; C/C++ call overhead" /><published>2019-01-22T00:00:00+01:00</published><updated>2019-01-22T00:00:00+01:00</updated><id>http://crail.incubator.apache.org//blog/2019/01/python</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2019/01/python.html">&lt;div style=&quot;text-align: justify&quot;&gt;
 &lt;p&gt;
 With python being used in many machine learning applications, serverless frameworks, etc.
 as the go-to language, we believe a Crail client Python API would be a useful tool to
@@ -558,14 +558,14 @@ and does not interface with the CPython C-API directly.&lt;/li&gt;
 &lt;p&gt;In this blog post we focus on the overhead of calling a C/C++ function from Python.
 We vary the number of arguments, argument types and the return types. We also
 test passing strings to C/C++ since it is part of the Crail API e.g. when
-opening or creating a file. Some frameworks expect &lt;code class=&quot;highlighter-rouge&quot;&gt;bytes&lt;/code&gt; when passing a string
-to a underlying &lt;code class=&quot;highlighter-rouge&quot;&gt;const char *&lt;/code&gt;, some allow to pass a &lt;code class=&quot;highlighter-rouge&quot;&gt;str&lt;/code&gt; and others allow both.
-If C++ is supported by the framework we also test passing a &lt;code class=&quot;highlighter-rouge&quot;&gt;std::string&lt;/code&gt; to a
+opening or creating a file. Some frameworks expect &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bytes&lt;/code&gt; when passing a string
+to a underlying &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;const char *&lt;/code&gt;, some allow to pass a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str&lt;/code&gt; and others allow both.
+If C++ is supported by the framework we also test passing a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::string&lt;/code&gt; to a
 C++ function. Note that we perform all benchmarks with CPython version 3.5.2.
 We measure the time it takes to call the Python function until it returns.
-The C/C++ functions are empty, except a &lt;code class=&quot;highlighter-rouge&quot;&gt;return&lt;/code&gt; statement where necessary.&lt;/p&gt;
+The C/C++ functions are empty, except a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;return&lt;/code&gt; statement where necessary.&lt;/p&gt;
 
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/python_c/python_c_foo.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/python_c/python_c_foo.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;The plot shows that adding more arguments to a function increases runtime.
@@ -586,26 +586,26 @@ between Cython and our extension module implementation we found that Cython make
 better use of the C-API.&lt;/p&gt;
 
 &lt;p&gt;Our extension module implementation follows the official tutorial and uses
-&lt;code class=&quot;highlighter-rouge&quot;&gt;PyArg_ParseTuple&lt;/code&gt; to parse the arguments. However as shown below we found that
-manually unpacking the arguments with &lt;code class=&quot;highlighter-rouge&quot;&gt;PyArg_UnpackTuple&lt;/code&gt; already significantly
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PyArg_ParseTuple&lt;/code&gt; to parse the arguments. However as shown below we found that
+manually unpacking the arguments with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PyArg_UnpackTuple&lt;/code&gt; already significantly
 increased the performance. Although these numbers still do not match Cython’s
 performance we did not further investigate possible optimizations
 to our code.&lt;/p&gt;
 
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/python_c/python_c_foo_opt.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/python_c/python_c_foo_opt.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;/p&gt;
 
-&lt;p&gt;Let’s take a look at the string performance. &lt;code class=&quot;highlighter-rouge&quot;&gt;bytes&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;str&lt;/code&gt; is used whereever
+&lt;p&gt;Let’s take a look at the string performance. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bytes&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;str&lt;/code&gt; is used whereever
 applicable. To pass strings as bytes the ‘b’ prefix is used.&lt;/p&gt;
 
-&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/python_c/python_c_foo_str.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
+&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/python_c/python_c_foo_str.svg&quot; width=&quot;725&quot; /&gt;&lt;/div&gt;
 &lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;Again Cython and the extension module implementation with manual unpacking seem to
-deliver the best performance. Passing a 64bit value in form of a &lt;code class=&quot;highlighter-rouge&quot;&gt;const char *&lt;/code&gt;
+deliver the best performance. Passing a 64bit value in form of a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;const char *&lt;/code&gt;
 pointer seems to be slightly faster than passing an integer argument (up to 20%).
-Passing the string to a C++ function which takes a &lt;code class=&quot;highlighter-rouge&quot;&gt;std::string&lt;/code&gt;
-is ~50% slower than passing a &lt;code class=&quot;highlighter-rouge&quot;&gt;const char *&lt;/code&gt;, probably because of the
+Passing the string to a C++ function which takes a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::string&lt;/code&gt;
+is ~50% slower than passing a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;const char *&lt;/code&gt;, probably because of the
 instantiation of the underlying data buffer and copying however we have not
 confirmed this.&lt;/p&gt;
 
@@ -653,7 +653,7 @@ this one requires the most glue code.&lt;/p&gt;
   &lt;li&gt;CPython 3.5.2&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The source code is available on &lt;a href=&quot;https://github.com/zrlio/Python-c-benchmark&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;</content><author><name>Jonas Pfefferle</name></author><category term="blog" /><summary type="html">With python being used in many machine learning applications, serverless frameworks, etc. as the go-to language, we believe a Crail client Python API would be a useful tool to broaden the use-case for Crail. Since the Crail core is written in Java, performance has always been a concern due to just-in-time compilation, garbage collection, etc. However with careful engineering (Off heap buffers, stateful verbs calls, ...) we were able to show that Crail can devliever similar or better performance compared to other statically compiled storage systems. So how can we engineer the Python library to deliver the best possible performance? Python's reference implementation, also the most widely-used, CPython has historically always been an interpreter and not a JIT compiler like PyPy. We will focus on CPython since its alternatives are in general not plug-and-play replacements. Crail is client-driven so most of its logic is implemented in the client library. For this reason we do not want to reimplement the client logic for every new language we want to support as it would result in a maintance nightmare. However interfacing with Java is not feasible since it encurs in to much overhead so we decided to implement a C++ client (more on this in a later blog post). The C++ client allows us to use a foreign function interface in Python to call C++ functions directly from Python.</summary></entry><entry><title type="html">Sql P1 News</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html" rel="alternate" type="text/html" title="Sql P1 News" /><published>2018-08-09T00:00:00+02:00</published><updated>2018-08-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1-news</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html">&lt;p&gt;A new blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2018/08/sql-p1.html&quot;&gt;post&lt;/a&gt; discussing file formats performance is now online&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A new blog post discussing file formats performance is now online</summary></entry><entry><title type="html">SQL Performance: Part 1 - Input File Formats</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html" rel="alternate" type="text/html" title="SQL Performance: Part 1 - Input File Formats" /><published>2018-08-08T00:00:00+02:00</published><updated>2018-08-08T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html">&lt;div style=&quot;text-align: justify&quot;&gt;
+&lt;p&gt;The source code is available on &lt;a href=&quot;https://github.com/zrlio/Python-c-benchmark&quot;&gt;GitHub&lt;/a&gt;&lt;/p&gt;</content><author><name>Jonas Pfefferle</name></author><category term="blog" /><summary type="html">With python being used in many machine learning applications, serverless frameworks, etc. as the go-to language, we believe a Crail client Python API would be a useful tool to broaden the use-case for Crail. Since the Crail core is written in Java, performance has always been a concern due to just-in-time compilation, garbage collection, etc. However with careful engineering (Off heap buffers, stateful verbs calls, ...) we were able to show that Crail can devliever similar or better performance compared to other statically compiled storage systems. So how can we engineer the Python library to deliver the best possible performance? Python's reference implementation, also the most widely-used, CPython has historically always been an interpreter and not a JIT compiler like PyPy. We will focus on CPython since its alternatives are in general not plug-and-play replacements. Crail is client-driven so most of its logic is implemented in the client library. For this reason we do not want to reimplement the client logic for every new language we want to support as it would result in a maintance nightmare. However interfacing with Java is not feasible since it encurs in to much overhead so we decided to implement a C++ client (more on this in a later blog post). The C++ client allows us to use a foreign function interface in Python to call C++ functions directly from Python.</summary></entry><entry><title type="html">Sql P1 News</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html" rel="alternate" type="text/html" title="Sql P1 News" /><published>2018-08-09T00:00:00+02:00</published><updated>2018-08-09T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1-news</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1-news.html">&lt;p&gt;A new blog &lt;a href=&quot;https://crail.incubator.apache.org/blog/2018/08/sql-p1.html&quot;&gt;post&lt;/a&gt; discussing file formats performance is now online&lt;/p&gt;</content><author><name></name></author><category term="news" /><summary type="html">A new blog post discussing file formats performance is now online</summary></entry><entry><title type="html">SQL Performance: Part 1 - Input File Formats</title><link href="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html" rel="alternate" type="text/html" title="SQL Performance: Part 1 - Input File Formats" /><published>2018-08-08T00:00:00+02:00</published><updated>2018-08-08T00:00:00+02:00</updated><id>http://crail.incubator.apache.org//blog/2018/08/sql-p1</id><content type="html" xml:base="http://crail.incubator.apache.org//blog/2018/08/sql-p1.html">&lt;div style=&quot;text-align: justify&quot;&gt;
 &lt;p&gt;
 This is the first user blog post in a multi-part series where we will focus on relational data processing performance (e.g., SQL) in presence of high-performance network and storage devices - the kind of devices that Crail targets. Relational data processing is one of the most popular and versatile workloads people run in the  cloud. The general idea is that data is stored in tables with a schema, and is processed using a domain specific language like SQL. Examples of some popular systems that support such relational data analytics in the cloud are &lt;a href=&quot;https://spark.apache.org/sql/&quot;&gt;Apache Spark/SQL&lt;/a&gt;, &lt;a href=&quot;https://hive.apache.org/&quot;&gt;Apache Hive&lt;/a&gt;, &lt;a href=&quot;https://impala.apache.org/&quot;&gt;Apache Impala&lt;/a&gt;, etc. In this post, we discuss the important first step in relational data processing, which is the reading of input data tables.
 &lt;/p&gt;
@@ -690,11 +690,11 @@ This is the first user blog post in a multi-part series where we will focus on r
 
 &lt;p&gt;In a typical cloud-based relational data processing setup, the input data is stored on an external data storage solution like HDFS or AWS S3. Data tables and their associated schema are converted into a storage-friendly format for optimal performance. Examples of some popular and familiar file formats are &lt;a href=&quot;https://parquet.apache.org/&quot;&gt;Apache Parquet&lt;/a&gt;, &lt;a href=&quot;https://orc.apache.org/&quot;&gt;Apache ORC&lt;/a&gt;, &lt;a href=&quot;https://avro.apache.org/&quot;&gt;Apache Avro&lt;/a&gt;, &lt;a href=&quot;https://en.wikipedia.org/wiki/JSON&quot;&gt;JSON&lt;/a&gt;, etc. More recently, &lt;a href=&quot;https://arrow.apache.org/&quot;&gt;Apache Arrow&lt;/a&gt; has been introduced to standardize the in-memory columnar data representation between multiple frameworks. To be precise, Arrow is not a storage format but it defines an &lt;a href=&quot;https://github.com/apache/arrow/blob/master/format/IPC.md&quot;&gt;interprocess communication (IPC) format&lt;/a&gt; that can be used to store data in a stroage system (our binding for reading Arrow IPC messages from HDFS is available &lt;a href=&quot;https://github.com/zrlio/fileformat-benchmarks/blob/master/src/main/java/com/github/animeshtrivedi/FileBench/HdfsSeekableByteChannel.java&quot;&gt;here&lt;/a&gt;). There is no one size fits all as all these formats have their own strengths, weaknesses, and features. In this blog, we are specifically interested in the performance of these formats on modern high-performance networking and storage devices.&lt;/p&gt;
 
-&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/outline.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 1: The benchmarking setup with HDFS and file formats on a 100 Gbps network with NVMe flash devices. All formats contains routines for compression, encoding, and value materialization with associated I/O buffer management and data copies routines.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/sql-p1/outline.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 1: The benchmarking setup with HDFS and file formats on a 100 Gbps network with NVMe flash devices. All formats contains routines for compression, encoding, and value materialization with associated I/O buffer management and data copies routines.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
 
 &lt;p&gt;To benchmark the performance of file formats, we wrote a set of micro-benchmarks which are available at &lt;a href=&quot;https://github.com/zrlio/fileformat-benchmarks&quot;&gt;https://github.com/zrlio/fileformat-benchmarks&lt;/a&gt;. We cannot use typical SQL micro-benchmarks because every SQL engine has its own favorite file format, on which it performs the best. Hence, in order to ensure parity, we decoupled the performance of reading the input file format from the SQL query processing by writing simple table reading micro-benchmarks. Our benchmark reads in the store_sales table from the TPC-DS dataset (scale factor 100), and calculates a sum of values present in the table. The table contains 23 columns of integers, doubles, and longs.&lt;/p&gt;
 
-&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/performance-all.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 2: Performance of JSON, Avro, Parquet, ORC, and Arrow on NVMe devices over a 100 Gbps network.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/sql-p1/performance-all.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 2: Performance of JSON, Avro, Parquet, ORC, and Arrow on NVMe devices over a 100 Gbps network.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
 
 &lt;p&gt;We evaluate the performance of the benchmark on a 3 node HDFS cluster connected using 100 Gbps RoCE. One datanode in HDFS contains 4 NVMe devices with a collective aggregate bandwidth of 12.5 GB/sec (equals to 100 Gbps, hence, we have a balanced network and storage performance). Figure 2 shows our results where none of the file formats is able to deliver the full hardware performance for reading input files. One third of the performance is already lost in HDFS (maximum throughput 74.9 Gbps out of possible 100 Gbps). The rest of the performance is lost inside the file format implementation, which needs to deal with encoding, buffer and I/O management, compression, etc. The best performer is Apache Arrow which is designed for in-memory columnar datasets. The performance of these file formats are bounded by the performance of the CPU, which is 100% loaded during the experiment. For a detailed analysis of the file formats, please refer to our paper - &lt;a href=&quot;https://www.usenix.org/conference/atc18/presentation/trivedi&quot;&gt;Albis: High-Performance File Format for Big Data Systems (USENIX, ATC’18)&lt;/a&gt;. As a side-note on the Arrow performance - we have evaluated the performance of &lt;em&gt;implementation of Arrow’s Java library&lt;/em&gt;. As this library has been focused on interactions with off-heap memory, there is a head room for optimizing the HDFS/on-heap reading path of Arrow’s Java library.&lt;/p&gt;
 
@@ -708,7 +708,7 @@ This is the first user blog post in a multi-part series where we will focus on r
   &lt;li&gt;Careful object materialization using a binary API: To optimize the runtime representation in managed runtimes like the JVM, only objects which are necessary for SQL processing are materialized. Otherwise, a 4 byte integer can be passed around as a byte array (using the binary API of Albis).&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/core-scalability.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 3: Core scalability of JSON, Avro, Parquet, ORC, Arrow, and Albis on HDFS/NVMe.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/sql-p1/core-scalability.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 3: Core scalability of JSON, Avro, Parquet, ORC, Arrow, and Albis on HDFS/NVMe.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
 
 &lt;p&gt;Using the Albis format, we revise our previous experiment where we read the input store_sales table from HDFS. In the figure above, we show the performance of Albis and other file formats with number of CPU cores involved. At the right hand of the x-axis, we have performance with all 16 cores engaged, hence, representing the peak possible performance. As evident, Albis delivers 59.9 Gbps out of 74.9 Gbps possible bandwidth with HDFS over NVMe. Albis performance is 1.9 - 21.4x better than other file formats. To give an impression where the performance is coming from, in the table below we show some micro-architectural features for Parquet, ORC, Arrow, and Albis. Our previously discussed design ideas in Albis result in a shorter code path (shown as less instructions required for each row), better cache performance (shows as lower cache misses per row), and clearly better performance (shown as nanoseconds required per row for processing). For a detailed evaluation of Albis please refer to our paper.&lt;/p&gt;
 
@@ -747,9 +747,9 @@ This is the first user blog post in a multi-part series where we will focus on r
 
 &lt;h3 id=&quot;apache-crail-incubating-with-albis&quot;&gt;Apache Crail (Incubating) with Albis&lt;/h3&gt;
 
-&lt;p&gt;For our final experiment, we try to answer the question what it would take to deliver the full 100 Gbps bandwidth for Albis. Certainly, the first bottleneck is to improve the base storage layer performance. Here we use Apache Crail (Incubating) with its &lt;a href=&quot;https://en.wikipedia.org/wiki/NVM_Express#NVMeOF&quot;&gt;NVMeF&lt;/a&gt; storage tier. This tier uses &lt;a href=&quot;https://github.com/zrlio/jNVMf&quot;&gt;jNVMf library&lt;/a&gt; to implement NVMeF stack in Java. As we have shown in a previous blog &lt;a href=&quot;//crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html&quot;&gt;post&lt;/a&gt; that Crail’s NVMeF tier can deliver performance (97.8 Gbps) very close to the hardware limits. Hence, Albis with Crail is a perfect setup to evaluate on high-performance NVMe and RDMA devices. Before we get there, let’s get some calculations right. The store_sales table in the TPC-DS dataset has a data density of 93.9% (out of 100 bytes, only 93.9 is data, others are null values). As we measure the goodput, the expected performance of Albis on Crail is 93.9% of 97.8 Gbps, which calculates to 91.8 Gbps. In our experiments, Albis on Crail delivers 85.5 Gbps. Figure 4 shows more detailed results.&lt;/p&gt;
+&lt;p&gt;For our final experiment, we try to answer the question what it would take to deliver the full 100 Gbps bandwidth for Albis. Certainly, the first bottleneck is to improve the base storage layer performance. Here we use Apache Crail (Incubating) with its &lt;a href=&quot;https://en.wikipedia.org/wiki/NVM_Express#NVMeOF&quot;&gt;NVMeF&lt;/a&gt; storage tier. This tier uses &lt;a href=&quot;https://github.com/zrlio/jNVMf&quot;&gt;jNVMf library&lt;/a&gt; to implement NVMeF stack in Java. As we have shown in a previous blog &lt;a href=&quot;https://crail.incubator.apache.org/blog/2017/08/crail-nvme-fabrics-v1.html&quot;&gt;post&lt;/a&gt; that Crail’s NVMeF tier can deliver performance (97.8 Gbps) very close to the hardware limits. Hence, Albis with Crail is a perfect setup to evaluate on high-performance NVMe and RDMA devices. Before we get there, let’s get some calculations right. The store_sales table in the TPC-DS dataset has a data density of 93.9% (out of 100 bytes, only 93.9 is data, others are null values). As we measure the goodput, the expected performance of Albis on Crail is 93.9% of 97.8 Gbps, which calculates to 91.8 Gbps. In our experiments, Albis on Crail delivers 85.5 Gbps. Figure 4 shows more detailed results.&lt;/p&gt;
 
-&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;//crail.incubator.apache.org/img/blog/sql-p1/albis-crail.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 4: Performance of Albis on Crail.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;figure&gt;&lt;div style=&quot;text-align:center&quot;&gt;&lt;img src=&quot;https://crail.incubator.apache.org/img/blog/sql-p1/albis-crail.svg&quot; width=&quot;550&quot; /&gt;&lt;figcaption&gt;Figure 4: Performance of Albis on Crail.&lt;p&gt;&lt;/p&gt;&lt;/figcaption&gt;&lt;/div&gt;&lt;/figure&gt;
 
 &lt;p&gt;The left half of the figure shows the performance scalability of Albis on Crail in a setup with 1 core (8.9 Gbps) to 16 cores (85.5 Gbps). In comparison, the right half of the figure shows the performance of Crail on HDFS/NVMe at 59.9 Gbps, and on Crail/NVMe at 85.5 Gbps. The last bar shows the performance of Albis if the benchmark does not materialize Java object values. In this configuration, Albis on Crail delivers 91.3 Gbps, which is very close to the expected peak of 91.8 Gbps.&lt;/p&gt;
 

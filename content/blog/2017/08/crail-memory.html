@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>The Apache Crail (Incubating) Project: Crail Storage Performance -- Part I: DRAM</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/group.css" rel="stylesheet">
         <link rel="alternate" type="application/atom+xml" title="Atom"
-            href="//crail.incubator.apache.org/blog/blog.xml">
+            href="https://crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/crail-memory-summary.png" />
-        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/crail-memory-summary.png" />
+        <meta property="og:image" content="https://crail.incubator.apache.org/img/blog/preview/crail-memory-summary.png" />
+        <meta property="og:image:secure_url" content="https://crail.incubator.apache.org/img/blog/preview/crail-memory-summary.png" />
     </head>
 
     <body>
@@ -21,50 +21,50 @@
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/">
+                  <a href="https://crail.incubator.apache.org/">
                     Home
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/overview/">
+                  <a href="https://crail.incubator.apache.org/overview/">
                     Overview
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/download/">
+                  <a href="https://crail.incubator.apache.org/download/">
                     Downloads
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/blog/">
+                  <a href="https://crail.incubator.apache.org/blog/">
                     Blog
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/community/">
+                  <a href="https://crail.incubator.apache.org/community/">
                     Community
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/documentation/">
+                  <a href="https://crail.incubator.apache.org/documentation/">
                     Documentation
                   </a>
                 </li>
               
             </ul>
-            <a href="//crail.incubator.apache.org/">
-                <img src="//crail.incubator.apache.org/img/crail_logo.png"
-                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
+            <a href="https://crail.incubator.apache.org/">
+                <img src="https://crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="https://crail.incubator.apache.org/img/crail_logo.png"
                     alt="Crail" id="logo">
             </a>
           </div>
@@ -126,7 +126,7 @@ I recently read the <a href="https://www.usenix.org/conference/atc17/technical-s
 Data operations in Crail -- such as the reading or writing of files -- are internally composed of metadata operations and actual data transfers. Let's look at a simple Crail application that opens a file and reads the file sequentially:
 </p>
 </div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailConfiguration conf = new CrailConfiguration();
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CrailConfiguration conf = new CrailConfiguration();
 CrailFS fs = CrailFS.newInstance(conf);
 CrailFile file = fs.lookup(filename).get().asFile();
 CrailInputStream stream = file.getDirectInputStream();
@@ -144,7 +144,7 @@ One challenge with file read/write operations is to avoid blocking in case block
 </p>
 </div>
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-memory/anatomy.png" width="420" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/crail-memory/anatomy.png" width="420" /></div>
 <p><br /></p>
 <div style="text-align: justify"> 
 <p>
@@ -162,7 +162,7 @@ The basic read/write logic shown in the figure above is common to all storage ti
 Let's start by looking at sequential read/write performance. These benchmarks can be run easily from the command line. Below  is an example for a sequential write experiment issuing 100M write operations of size 1K to produce a file of roughly 100GB size. The -w switch indicates that we are using 32 warmup operations. 
 </p>
 </div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t write -s 1024 -k 100000000 -w 32 -f /tmp.dat
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t write -s 1024 -k 100000000 -w 32 -f /tmp.dat
 </code></pre></div></div>
 <div style="text-align: justify"> 
 <p>
@@ -170,7 +170,7 @@ Crail offers direct I/O streams as well as buffered streams. For sequential oper
 </p>
 </div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.buffersize     1048576
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crail.buffersize     1048576
 crail.slicesize      524288
 </code></pre></div></div>
 
@@ -180,8 +180,8 @@ The figure below illustrates the sequential write (top) and read (bottom) perfor
 </p>
 </div>
 <p><br /></p>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-memory/write.svg" width="550" /></div>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-memory/read.svg" width="550" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/crail-memory/write.svg" width="550" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/crail-memory/read.svg" width="550" /></div>
 <p><br /><br /></p>
 <div style="text-align: justify"> 
 <p>
@@ -192,8 +192,8 @@ Note that both figures show single-client performance numbers. With Crail being 
 </p>
 </div>
 
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-memory/crail-groupby.svg" width="550" /></div>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-memory/spark-groupby.svg" width="550" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/crail-memory/crail-groupby.svg" width="550" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/crail-memory/spark-groupby.svg" width="550" /></div>
 
 <h3 id="random-read-latency">Random Read Latency</h3>
 
@@ -202,14 +202,14 @@ Note that both figures show single-client performance numbers. With Crail being 
 Typically, distributed storage systems are either built for sequential access to large data sets (e.g., HDFS) or they are optimized for random access to small data sets (e.g., key/value stores). We have already shown that Crail performs well for large sequentially accessed data sets, let's now look at the latencies of small random read operations. For this, we mimic the behavior of a key/value store by storing key/value pairs in Crail files with the key being the filename. We then measure the time it takes to open the file and read its content. Again, the benchmark can easily be executed from the command line. The following example issues 1M get() operations on a small file filled with a 4 byte value. 
 </p>
 </div>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t getkey -s 4 -k 1000000 -f /tmp.dat -w 32
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./bin/crail iobench -t getkey -s 4 -k 1000000 -f /tmp.dat -w 32
 </code></pre></div></div>
 <div style="text-align: justify"> 
 <p>
 The figure below illustrates the latencies of get() operations for different key/value sizes and compares them to the latencies we obtained with RAMCloud for the same type of operations (measured using RAMClouds C and Java APIs). RAMCloud is a low-latency key/value store implemented using RDMA. RAMCloud actually provides durable storage by asynchronously replicating data onto backup devices. However, at any point in time all the data is held in DRAM and read requests will be served from DRAM directly. Up to our knowledge, RAMCloud is the fastest key/value store that is (a) available open source and (b) can be deployed in practice as a storage platform for applications. Other similar RDMA-based storage systems we looked at, like FaRM or HERD, are either not open source or they do not provide a clean separation between storage system, API and clients. 
 </p>
 </div>
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-memory/latency.svg" width="550" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/crail-memory/latency.svg" width="550" /></div>
 
 <div style="text-align: justify"> 
 <p>
@@ -223,7 +223,7 @@ The latency advantages of Crail are beneficial also at the application level. Th
 </p>
 </div>
 
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/crail-memory/cdf-broadcast-128-read.svg" width="550" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/crail-memory/cdf-broadcast-128-read.svg" width="550" /></div>
 
 <div style="text-align: justify"> 
 <p>
@@ -271,6 +271,6 @@ s.setAttribute('data-timestamp', +new Date());
 
         <!-- Support retina images. -->
         <script type="text/javascript"
-            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+            src="https://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
     </body>
 </html>

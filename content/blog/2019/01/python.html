@@ -4,13 +4,13 @@
         <meta charset="utf-8">
         <title>The Apache Crail (Incubating) Project: Crail Python API: Python -> C/C++ call overhead</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="//crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//crail.incubator.apache.org/css/group.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://crail.incubator.apache.org/css/group.css" rel="stylesheet">
         <link rel="alternate" type="application/atom+xml" title="Atom"
-            href="//crail.incubator.apache.org/blog/blog.xml">
+            href="https://crail.incubator.apache.org/blog/blog.xml">
         
-        <meta property="og:image" content="//crail.incubator.apache.org/img/blog/preview/python-summary.png" />
-        <meta property="og:image:secure_url" content="//crail.incubator.apache.org/img/blog/preview/python-summary.png" />
+        <meta property="og:image" content="https://crail.incubator.apache.org/img/blog/preview/python-summary.png" />
+        <meta property="og:image:secure_url" content="https://crail.incubator.apache.org/img/blog/preview/python-summary.png" />
     </head>
 
     <body>
@@ -21,50 +21,50 @@
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/">
+                  <a href="https://crail.incubator.apache.org/">
                     Home
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/overview/">
+                  <a href="https://crail.incubator.apache.org/overview/">
                     Overview
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/download/">
+                  <a href="https://crail.incubator.apache.org/download/">
                     Downloads
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/blog/">
+                  <a href="https://crail.incubator.apache.org/blog/">
                     Blog
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/community/">
+                  <a href="https://crail.incubator.apache.org/community/">
                     Community
                   </a>
                 </li>
               
                 
                 <li >
-                  <a href="//crail.incubator.apache.org/documentation/">
+                  <a href="https://crail.incubator.apache.org/documentation/">
                     Documentation
                   </a>
                 </li>
               
             </ul>
-            <a href="//crail.incubator.apache.org/">
-                <img src="//crail.incubator.apache.org/img/crail_logo.png"
-                    srcset="//crail.incubator.apache.org/img/crail_logo.png"
+            <a href="https://crail.incubator.apache.org/">
+                <img src="https://crail.incubator.apache.org/img/crail_logo.png"
+                    srcset="https://crail.incubator.apache.org/img/crail_logo.png"
                     alt="Crail" id="logo">
             </a>
           </div>
@@ -153,14 +153,14 @@ and does not interface with the CPython C-API directly.</li>
 <p>In this blog post we focus on the overhead of calling a C/C++ function from Python.
 We vary the number of arguments, argument types and the return types. We also
 test passing strings to C/C++ since it is part of the Crail API e.g. when
-opening or creating a file. Some frameworks expect <code class="highlighter-rouge">bytes</code> when passing a string
-to a underlying <code class="highlighter-rouge">const char *</code>, some allow to pass a <code class="highlighter-rouge">str</code> and others allow both.
-If C++ is supported by the framework we also test passing a <code class="highlighter-rouge">std::string</code> to a
+opening or creating a file. Some frameworks expect <code class="language-plaintext highlighter-rouge">bytes</code> when passing a string
+to a underlying <code class="language-plaintext highlighter-rouge">const char *</code>, some allow to pass a <code class="language-plaintext highlighter-rouge">str</code> and others allow both.
+If C++ is supported by the framework we also test passing a <code class="language-plaintext highlighter-rouge">std::string</code> to a
 C++ function. Note that we perform all benchmarks with CPython version 3.5.2.
 We measure the time it takes to call the Python function until it returns.
-The C/C++ functions are empty, except a <code class="highlighter-rouge">return</code> statement where necessary.</p>
+The C/C++ functions are empty, except a <code class="language-plaintext highlighter-rouge">return</code> statement where necessary.</p>
 
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/python_c/python_c_foo.svg" width="725" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/python_c/python_c_foo.svg" width="725" /></div>
 <p></p>
 
 <p>The plot shows that adding more arguments to a function increases runtime.
@@ -181,26 +181,26 @@ between Cython and our extension module implementation we found that Cython make
 better use of the C-API.</p>
 
 <p>Our extension module implementation follows the official tutorial and uses
-<code class="highlighter-rouge">PyArg_ParseTuple</code> to parse the arguments. However as shown below we found that
-manually unpacking the arguments with <code class="highlighter-rouge">PyArg_UnpackTuple</code> already significantly
+<code class="language-plaintext highlighter-rouge">PyArg_ParseTuple</code> to parse the arguments. However as shown below we found that
+manually unpacking the arguments with <code class="language-plaintext highlighter-rouge">PyArg_UnpackTuple</code> already significantly
 increased the performance. Although these numbers still do not match Cython’s
 performance we did not further investigate possible optimizations
 to our code.</p>
 
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/python_c/python_c_foo_opt.svg" width="725" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/python_c/python_c_foo_opt.svg" width="725" /></div>
 <p></p>
 
-<p>Let’s take a look at the string performance. <code class="highlighter-rouge">bytes</code> and <code class="highlighter-rouge">str</code> is used whereever
+<p>Let’s take a look at the string performance. <code class="language-plaintext highlighter-rouge">bytes</code> and <code class="language-plaintext highlighter-rouge">str</code> is used whereever
 applicable. To pass strings as bytes the ‘b’ prefix is used.</p>
 
-<div style="text-align:center"><img src="//crail.incubator.apache.org/img/blog/python_c/python_c_foo_str.svg" width="725" /></div>
+<div style="text-align:center"><img src="https://crail.incubator.apache.org/img/blog/python_c/python_c_foo_str.svg" width="725" /></div>
 <p></p>
 
 <p>Again Cython and the extension module implementation with manual unpacking seem to
-deliver the best performance. Passing a 64bit value in form of a <code class="highlighter-rouge">const char *</code>
+deliver the best performance. Passing a 64bit value in form of a <code class="language-plaintext highlighter-rouge">const char *</code>
 pointer seems to be slightly faster than passing an integer argument (up to 20%).
-Passing the string to a C++ function which takes a <code class="highlighter-rouge">std::string</code>
-is ~50% slower than passing a <code class="highlighter-rouge">const char *</code>, probably because of the
+Passing the string to a C++ function which takes a <code class="language-plaintext highlighter-rouge">std::string</code>
+is ~50% slower than passing a <code class="language-plaintext highlighter-rouge">const char *</code>, probably because of the
 instantiation of the underlying data buffer and copying however we have not
 confirmed this.</p>
 
@@ -290,6 +290,6 @@ s.setAttribute('data-timestamp', +new Date());
 
         <!-- Support retina images. -->
         <script type="text/javascript"
-            src="//crail.incubator.apache.org/js/srcset-polyfill.js"></script>
+            src="https://crail.incubator.apache.org/js/srcset-polyfill.js"></script>
     </body>
 </html>
