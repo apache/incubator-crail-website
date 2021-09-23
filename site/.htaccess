@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -14,28 +12,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# copied from: https://github.com/apache/bahir-website/blob/master/publish.sh
 
-set -e
-cd site
-bundle exec jekyll clean
-bundle exec jekyll build -d _site
-COMMIT_HASH=`git rev-parse HEAD`
-cd ..
-git checkout asf-site
-git branch --set-upstream-to=origin/asf-site asf-site
-git pull --rebase
-rm -rf content
-mkdir content
-mv site/_site/* site/_site/.htaccess content
-git add content
-echo "Publishing changes from master branch $COMMIT_HASH"
-git commit -a -m "Publishing from $COMMIT_HASH"
-echo "> > >"
-echo " "
-echo "You are now on the asf-site branch"
-echo "Run git push origin asf-site to update the live site."
-echo " "
-echo " "
-set +e
+RewriteEngine On
+
+# This is a 301 (permanent) redirect from HTTP to HTTPS.
+
+# The next rule applies conditionally:
+# * the host is "crail.apache.org",
+# * the host comparison is case insensitive (NC),
+# * HTTPS is not used.
+RewriteCond %{HTTP_HOST} ^crail\.apache\.org [NC]
+RewriteCond %{HTTPS} !on
+
+# Rewrite the URL as follows:
+# * Redirect (R) permanently (301) to https://crail.apache.org/,
+# * Stop processing more rules (L).
+RewriteRule ^(.*)$ https://crail.apache.org/$1 [L,R=301]
+
+# End .htaccess
