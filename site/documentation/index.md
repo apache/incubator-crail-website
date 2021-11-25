@@ -7,7 +7,7 @@ Read the docs (rtd) build is available at: [https://incubator-crail.readthedocs.
 
 ## Presentations
   * [Unification of Temporary Storage in the NodeKernel Architecture](https://www.usenix.org/conference/atc19/presentation/stuedi), USENIX ATC'19
-  * [Data processing at the Speed of 100 Gbps using Apache Crail](https://conferences.oreilly.com/strata/strata-ca/public/schedule/detail/71902), Oreilly Strata, 2019.
+  * [Data processing at the Speed of 100 Gbps using Apache Crail](https://conferences.oreilly.com/strata/strata-ca-2019/public/schedule/detail/71902), Oreilly Strata, 2019.
   * <a href="{{ site.base }}/files/crail-project-web.pdf">Data Processing at the Speed of 100 Gbps using Apache Crail (Incubating)</a>, ETH Zurich, September, 2018.
   * [Serverless Machine Learning on Modern Hardware Using Apache Spark](https://databricks.com/session/serverless-machine-learning-on-modern-hardware-using-apache-spark), Spark AI Summit, 2018.
   * [Data processing at the speed of 100 Gbps@Apache Crail (Incubating)](https://dataworkssummit.com/san-jose-2018/session/data-processing-at-the-speed-of-100-gbpsapache-crail-incubating/), DataWorks Summit, 2018.
